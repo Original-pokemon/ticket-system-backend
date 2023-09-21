@@ -19,7 +19,7 @@ model Group {
 model Bush {
   id String @id
   managers Manager[]
-  petrol_stations PertrolStation[]
+  petrol_stations PetrolStation[]
   task_performers  TaskPerformer[]
 
   @@map("bushes")
@@ -35,7 +35,7 @@ model User {
   tickets    Ticket[]
   task_performer  TaskPerformer?
   manager   Manager?
-  petrol_station PertrolStation?
+  petrol_station PetrolStation?
   comments Comment[]
   status_histories StatusHistory[]
   created_at DateTime @default(now())
@@ -49,10 +49,12 @@ model Manager {
   user User @relation(fields:user_id, references: [id])
   bush_id String
   bush Bush @relation(fields: [bush_id], references: [id])
-  petrol_stations PertrolStation[]
+  petrol_stations PetrolStation[]
+
+  @@map("managers")
 }
 
-model PertrolStation {
+model PetrolStation {
   id String @id
   user_id String @unique
   user User @relation(fields:user_id, references: id)
@@ -60,6 +62,8 @@ model PertrolStation {
   managers Manager[]
   bush_id String
   bush Bush @relation(fields: [bush_id], references: [id])
+
+	@@map("petrol_stations")
 }
 
 model Category {
@@ -68,6 +72,8 @@ model Category {
   tickets Ticket[]
   words TagWords[]
   task_performers  TaskPerformer[]
+
+  @@map("categores")
 }
 
 model TaskPerformer {
@@ -85,12 +91,16 @@ model Priority {
   id Int @id @default(autoincrement())
   description String?
   tickets Ticket[]
+
+  @@map("priorites")
 }
 
 model Status {
   id Int @id @default(autoincrement())
   description String?
   status_histories StatusHistory[]
+
+  @@map("statuses")
 }
 
 model Ticket {
@@ -104,6 +114,7 @@ model Ticket {
   priority Priority @relation(fields: [ticket_priority], references: [id])
   status_history StatusHistory?
   commnets Comment[]
+
   @@map("tickets")
 }
 
@@ -115,6 +126,8 @@ model StatusHistory {
   ticket_status Int
   status Status @relation(fields: [ticket_status], references: [id])
   updated_at DateTime @updatedAt
+
+  @@map("status_histories")
 }
 
 model Comment {
@@ -126,6 +139,8 @@ model Comment {
   text String
   attachments Attachment []
   created_at DateTime @default(now())
+
+  @@map("comments")
 }
 
 model Attachment {
@@ -133,6 +148,8 @@ model Attachment {
   comment_id String
   comment Comment @relation(fields: [comment_id], references: [id])
   path String
+
+  @@map("attachments")
 }
 
 model TagWords {
