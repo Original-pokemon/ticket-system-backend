@@ -1,7 +1,7 @@
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath } from "node:url";
 
-import { config } from '#root/config.js';
-import { pino } from 'pino';
+import { config } from "#root/config.js";
+import { pino } from "pino";
 
 export const logger = pino({
   level: config.LOG_LEVEL,
@@ -24,7 +24,7 @@ export const logger = pino({
             target: "pino/file",
             level: config.LOG_LEVEL,
             options: {
-              destination: fileURLToPath(new URL('app.log', import.meta.url)),
+              destination: fileURLToPath(new URL("app.log", import.meta.url)),
             },
           },
         ]),

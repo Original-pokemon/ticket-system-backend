@@ -1,18 +1,18 @@
-import { logger } from '#root/logger.js';
-import fastify from 'fastify';
+import { logger } from "#root/logger.js";
+import fastify from "fastify";
 
 export const createServer = async () => {
-    const server = fastify({
-        logger,
-    });
+  const server = fastify({
+    logger,
+  });
 
-    server.setErrorHandler(async (error, request, response) => {
-        logger.error(error);
+  server.setErrorHandler(async (error, request, response) => {
+    logger.error(error);
 
-        await response.status(500).send({ error: "Oops! Something went wrong." });
-    });
+    await response.status(500).send({ error: "Oops! Something went wrong." });
+  });
 
-    server.get("/", () => ({ status: true }));
+  server.get("/", () => ({ status: true }));
 
-    return server;
+  return server;
 };

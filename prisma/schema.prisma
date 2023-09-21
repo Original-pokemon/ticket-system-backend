@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Group {
+  id String @id
+  description String?
+  users User[]
+}
+
+model Bush {
+  id String @id
+  managers Manager[]
+  petrol_stations PertrolStation[]
+  task_performers  TaskPerformer[]
+
+  @@map("bushes")
+}
+
+model User {
+  id         String   @id
+  user_name  String
+  first_name String
+  last_name  String?
+  user_group String
+  group      Group    @relation(fields: [user_group], references: [id])
+  tickets    Ticket[]
+  task_performer  TaskPerformer?
+  manager   Manager?
+  petrol_station PertrolStation?
+  comments Comment[]
+  status_histories StatusHistory[]
+  created_at DateTime @default(now())
+
+  @@map("users")
+}
+
+model Manager {
+  id Int @id @default(autoincrement())
+  user_id String @unique
+  user User @relation(fields:user_id, references: [id])
+  bush_id String
+  bush Bush @relation(fields: [bush_id], references: [id])
+  petrol_stations PertrolStation[]
+}
+
+model PertrolStation {
+  id String @id
+  user_id String @unique
+  user User @relation(fields:user_id, references: id)
+  manager_id String
+  managers Manager[]
+  bush_id String
+  bush Bush @relation(fields: [bush_id], references: [id])
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  description String?
+  tickets Ticket[]
+  words TagWords[]
+  task_performers  TaskPerformer[]
+}
+
+model TaskPerformer {
+  user_id String @id
+  id User @relation(fields: [user_id], references: [id])
+  bush_id String
+  bush Bush @relation(fields: [bush_id], references: [id])
+  category_id Int
+  category Category @relation(fields: [category_id], references: [id])
+
+  @@map("task_performers")
+}
+
+model Priority {
+  id Int @id @default(autoincrement())
+  description String?
+  tickets Ticket[]
+}
+
+model Status {
+  id Int @id @default(autoincrement())
+  description String?
+  status_histories StatusHistory[]
+}
+
+model Ticket {
+  id         String   @id @default(uuid())
+  title      String
+  author_id  String
+  author     User     @relation(fields: [author_id], references: [id])
+  ticket_category Int
+  category Category @relation(fields: [ticket_category], references: [id])
+  ticket_priority Int
+  priority Priority @relation(fields: [ticket_priority], references: [id])
+  status_history StatusHistory?
+  commnets Comment[]
+  @@map("tickets")
+}
+
+model StatusHistory {
+  ticket_id String @id
+  ticket Ticket @relation(fields: [ticket_id], references: [id])
+  user_id String
+  user User @relation(fields: [user_id], references: [id])
+  ticket_status Int
+  status Status @relation(fields: [ticket_status], references: [id])
+  updated_at DateTime @updatedAt
+}
+
+model Comment {
+  id String @id @default(uuid())
+  ticket_id String 
+  ticket Ticket @relation(fields: [ticket_id], references: [id])
+  user_id String 
+  user User @relation(fields: [user_id], references: [id])
+  text String
+  attachments Attachment []
+  created_at DateTime @default(now())
+}
+
+model Attachment {
+  id String @id @default(uuid())
+  comment_id String
+  comment Comment @relation(fields: [comment_id], references: [id])
+  path String
+}
+
+model TagWords {
+  id String @id
+  category_id Int
+  category Category @relation(fields: [category_id], references: [id])
+
+  @@map("tag_words")
+}
