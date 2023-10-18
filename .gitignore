@@ -140,3 +140,6 @@ data/
 # Ignore SQLite database
 *.db
 *.db-journal
+
+# prisma migrations
+migrations/
