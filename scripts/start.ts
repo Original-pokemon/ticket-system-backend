@@ -2,15 +2,13 @@
 
 import { config } from "#root/config.js";
 import { logger } from "#root/logger.js";
-import DataBase from "#root/services/database/index.js";
+import database from "#root/services/database/index.js";
 import { createServer } from "#root/services/server/index.js";
 import { onShutdown } from "node-graceful-shutdown";
 
 try {
+  await database.init();
   const server = await createServer();
-  const database = new DataBase();
-
-  database.init();
 
   // Graceful shutdown
   onShutdown(async () => {

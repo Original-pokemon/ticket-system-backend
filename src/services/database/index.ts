@@ -1,28 +1,26 @@
 import { PrismaClient } from "@prisma/client";
 
 class DataBase {
-  prisma?: PrismaClient;
+  private database: PrismaClient = new PrismaClient();
 
   get client() {
-    if (this.prisma) {
-      return this.prisma;
-    }
-    throw new Error("client is not initialized");
+    return this.database;
   }
 
-  init() {
-    if (process.env.NODE_ENV === "production") {
-      this.prisma = new PrismaClient();
-    } else if (!this.prisma) {
-      this.prisma = new PrismaClient();
+  async init() {
+    try {
+      await this.database.$connect();
+
+      return this.database;
+    } catch {
+      throw new Error(`Error initializing database`);
     }
-    return true;
   }
 
   async disconnect() {
-    if (this.prisma) {
+    if (this.database) {
       try {
-        await this.prisma.$disconnect();
+        await this.database.$disconnect();
         return true;
       } catch {
         throw new Error("Error disconnecting client");
@@ -31,4 +29,4 @@ class DataBase {
   }
 }
 
-export default DataBase;
+export default new DataBase();
