@@ -1,4 +1,4 @@
-const User = {
+export const User = {
   id: { type: "string" },
   user_name: { type: "string" },
   first_name: { type: "string" },
@@ -16,6 +16,7 @@ const NewUser = {
 };
 
 const getUsersSchema = {
+  tags: ["user"],
   response: {
     200: {
       type: "array",
@@ -28,6 +29,7 @@ const getUsersSchema = {
 };
 
 const getUserSchema = {
+  tags: ["user"],
   params: {
     id: { type: "string" },
   },
@@ -40,6 +42,7 @@ const getUserSchema = {
 };
 
 const createUserSchema = {
+  tags: ["user"],
   body: {
     type: "object",
     required: ["id", "user_name", "first_name", "user_group"],
@@ -54,6 +57,7 @@ const createUserSchema = {
 };
 
 const updateUserSchema = {
+  tags: ["user"],
   params: {
     id: { type: "string" },
   },
@@ -70,6 +74,7 @@ const updateUserSchema = {
 };
 
 const deleteUserSchema = {
+  tags: ["user"],
   params: {
     id: { type: "string" },
   },

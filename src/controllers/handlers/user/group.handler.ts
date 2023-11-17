@@ -1,62 +1,28 @@
-import groupRepository from '#root/repositories/user/group.repository.js';
-import { GroupType } from '#root/types/user.js';
-import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
+import groupRepository from "#root/repositories/user/group.repository.js";
+import { Group } from "@prisma/client";
+import {
+  createResourceHandler,
+  deleteResourceHandler,
+  getResourceHandler,
+  updateResourceHandler,
+  getResourcesHandler,
+} from "../common-resource-handler.js";
 
-const getGroupsHandler: RouteHandlerMethod = async (_request, reply) => {
-  const groups = await groupRepository.getAll();
-
-  reply.send(groups);
+const groupResource = {
+  getAll: groupRepository.getAll,
+  getUnique: groupRepository.getUnique,
+  create: groupRepository.create,
+  update: groupRepository.update,
+  delete: groupRepository.delete,
+  name: "group",
 };
 
-const getGroupHandler = async (
-  request: FastifyRequest<{
-    Params: { id: string };
-  }>,
-  reply: FastifyReply,
-) => {
-  const { id } = request.params;
-  const group = await groupRepository.getUnique(id);
-
-  reply.send(group);
-};
-
-const createGroupHandler = async (
-  request: FastifyRequest<{ Body: GroupType }>,
-  reply: FastifyReply,
-) => {
-  const { body } = request;
-  const group = await groupRepository.create(body);
-
-  reply.send(group);
-};
-
-const updateGroupHandler = async (
-  request: FastifyRequest<{
-    Body: GroupType;
-  }>,
-  reply: FastifyReply,
-) => {
-  const group = await groupRepository.update(request.body);
-
-  reply.send(group);
-};
-
-const deleteGroupHandler = async (
-  request: FastifyRequest<{
-    Params: { id: string };
-  }>,
-  reply: FastifyReply,
-) => {
-  const { id } = request.params;
-  const group = await groupRepository.delete(id);
-
-  reply.send(group);
-};
-
-export {
-  createGroupHandler,
-  deleteGroupHandler,
-  getGroupHandler,
-  getGroupsHandler,
-  updateGroupHandler,
-};
+export const getGroupsHandler = getResourcesHandler<string>(groupResource);
+export const getGroupHandler = getResourceHandler<string>(groupResource);
+export const createGroupHandler = createResourceHandler<string, Group>(
+  groupResource,
+);
+export const updateGroupHandler = updateResourceHandler<string, Group>(
+  groupResource,
+);
+export const deleteGroupHandler = deleteResourceHandler<string>(groupResource);

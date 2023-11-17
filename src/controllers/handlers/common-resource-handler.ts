@@ -1,0 +1,98 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FastifyReply, FastifyRequest, RouteHandlerMethod } from "fastify";
+import { handleErrors } from "#root/helpers/handle-error.js";
+
+type Resource<Id> = {
+  getAll: () => Promise<any[]>;
+  getUnique: (id: Id) => Promise<any>;
+  create: (data: any) => Promise<any>;
+  update: (data: any) => Promise<any>;
+  delete: (id: Id) => Promise<any>;
+  name: string;
+};
+
+function getResourcesHandler<Id>(resource: Resource<Id>): RouteHandlerMethod {
+  return async (_request, reply) => {
+    try {
+      const data = await resource.getAll();
+      reply.send(data);
+    } catch (error) {
+      handleErrors(reply, error, `Error fetching ${resource.name}s`);
+    }
+  };
+}
+
+function getResourceHandler<Id>(resource: Resource<Id>) {
+  return async (
+    request: FastifyRequest<{
+      Params: { id: Id };
+    }>,
+    reply: FastifyReply,
+  ) => {
+    const { id } = request.params;
+    try {
+      const data = await resource.getUnique(id);
+      reply.send(data);
+    } catch (error) {
+      handleErrors(reply, error, `Error fetching ${resource.name}`);
+    }
+  };
+}
+
+function createResourceHandler<Id, Data>(resource: Resource<Id>) {
+  return async (
+    request: FastifyRequest<{
+      Body: Data;
+    }>,
+    reply: FastifyReply,
+  ) => {
+    try {
+      const { body } = request;
+      const data = await resource.create(body);
+      reply.send(data);
+    } catch (error) {
+      handleErrors(reply, error, `Error creating ${resource.name}`);
+    }
+  };
+}
+
+function updateResourceHandler<Id, Data>(resource: Resource<Id>) {
+  return async (
+    request: FastifyRequest<{
+      Body: Data;
+    }>,
+    reply: FastifyReply,
+  ) => {
+    try {
+      const data = await resource.update(request.body);
+      reply.send(data);
+    } catch (error) {
+      handleErrors(reply, error, `Error updating ${resource.name}`);
+    }
+  };
+}
+
+function deleteResourceHandler<Id>(resource: Resource<Id>) {
+  return async (
+    request: FastifyRequest<{
+      Params: { id: Id };
+    }>,
+    reply: FastifyReply,
+  ) => {
+    const { id } = request.params;
+    try {
+      const data = await resource.delete(id);
+      reply.send(data);
+    } catch (error) {
+      handleErrors(reply, error, `Error deleting ${resource.name}`);
+    }
+  };
+}
+
+export {
+  getResourcesHandler,
+  createResourceHandler,
+  deleteResourceHandler,
+  getResourceHandler,
+  updateResourceHandler,
+};

@@ -1,0 +1,36 @@
+import { RouteHandlerMethod } from "fastify";
+
+import { TagWord } from "@prisma/client";
+import TagWordRepository from "#root/repositories/ticket/tag-word.repository.js";
+import {
+  createResourceHandler,
+  deleteResourceHandler,
+  getResourceHandler,
+  getResourcesHandler,
+  updateResourceHandler,
+} from "../common-resource-handler.js";
+
+const tagWordResource = {
+  getAll: TagWordRepository.getAll,
+  getUnique: TagWordRepository.getUnique,
+  create: TagWordRepository.create,
+  update: TagWordRepository.update,
+  delete: TagWordRepository.delete,
+  name: "tag-word",
+};
+
+export const getTagWordsHandler: RouteHandlerMethod =
+  getResourcesHandler<string>(tagWordResource);
+
+export const getTagWordHandler = getResourceHandler<string>(tagWordResource);
+
+export const createTagWordHandler = createResourceHandler<string, TagWord>(
+  tagWordResource,
+);
+
+export const updateTagWordHandler = updateResourceHandler<string, TagWord>(
+  tagWordResource,
+);
+
+export const deleteTagWordHandler =
+  deleteResourceHandler<string>(tagWordResource);

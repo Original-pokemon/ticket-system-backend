@@ -4,6 +4,7 @@ const Group = {
 };
 
 const getGroupsSchema = {
+  tags: ["group"],
   response: {
     200: {
       type: "array",
@@ -16,6 +17,7 @@ const getGroupsSchema = {
 };
 
 const getGroupSchema = {
+  tags: ["group"],
   params: {
     id: { type: "string" },
   },
@@ -28,6 +30,7 @@ const getGroupSchema = {
 };
 
 const createGroupSchema = {
+  tags: ["group"],
   body: {
     type: "object",
     required: ["id"],
@@ -42,6 +45,7 @@ const createGroupSchema = {
 };
 
 const updateGroupSchema = {
+  tags: ["group"],
   params: {
     id: { type: "string" },
   },
@@ -58,6 +62,7 @@ const updateGroupSchema = {
 };
 
 const deleteGroupSchema = {
+  tags: ["group"],
   params: {
     id: { type: "string" },
   },
