@@ -1,0 +1,72 @@
+const StatusHistory = {
+  type: "object",
+  properties: {
+    ticket_id: { type: "string" },
+    user_id: { type: "string" },
+    ticket_status: { type: "number" },
+    updated_at: { type: "string", format: "date-time" },
+  },
+  required: ["ticket_id", "user_id", "ticket_status", "updated_at"],
+  additionalProperties: false,
+};
+
+const getStatusHistoriesSchema = {
+  tags: ["status-history"],
+  response: {
+    200: {
+      type: "array",
+      items: StatusHistory,
+    },
+  },
+};
+
+const getStatusHistorySchema = {
+  tags: ["status-history"],
+  params: {
+    id: { type: "string" },
+  },
+  response: {
+    200: StatusHistory,
+  },
+};
+
+const createStatusHistorySchema = {
+  tags: ["status-history"],
+  body: {
+    type: "object",
+    required: ["id"],
+    properties: StatusHistory,
+  },
+  response: {
+    200: StatusHistory,
+  },
+};
+
+const updateStatusHistorySchema = {
+  tags: ["status-history"],
+  params: {
+    id: { type: "string" },
+  },
+  body: StatusHistory,
+  response: {
+    200: StatusHistory,
+  },
+};
+
+const deleteStatusHistorySchema = {
+  tags: ["status-history"],
+  params: {
+    id: { type: "string" },
+  },
+  response: {
+    200: StatusHistory,
+  },
+};
+
+export {
+  createStatusHistorySchema,
+  deleteStatusHistorySchema,
+  getStatusHistorySchema,
+  getStatusHistoriesSchema,
+  updateStatusHistorySchema,
+};
