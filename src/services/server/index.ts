@@ -1,6 +1,4 @@
 import { logger } from "#root/logger.js";
-import groupRouters from "#root/routes/user/group.router.js";
-import userRouters from "#root/routes/user/user.router.js";
 import fastify from "fastify";
 import {
   taskPerformerRouters,
