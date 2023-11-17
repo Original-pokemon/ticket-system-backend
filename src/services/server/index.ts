@@ -1,5 +1,7 @@
 import { logger } from "#root/logger.js";
 import fastify from "fastify";
+import fastifySwagger from "@fastify/swagger";
+
 import {
   taskPerformerRouters,
   managerRouters,
@@ -16,13 +18,38 @@ import {
   tagWordRouters,
   ticketRouters,
 } from "#root/routes/index.js";
+import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import dataBase from "../database/index.js";
+import { swaggerOptions } from "../swagger/options.js";
 
 export const createServer = async () => {
   const server = fastify({
     logger,
   });
 
+  server.register(fastifySwagger, swaggerOptions);
+  server.register(fastifySwaggerUi, {
+    routePrefix: "/docs",
+    uiConfig: {
+      docExpansion: "none",
+      deepLinking: false,
+      filter: true,
+    },
+    uiHooks: {
+      onRequest(_request, _reply, next) {
+        next();
+      },
+      preHandler(_request, _reply, next) {
+        next();
+      },
+    },
+    staticCSP: true,
+    transformStaticCSP: (header) => header,
+    transformSpecification: (swaggerObject, _request, _reply) => {
+      return swaggerObject;
+    },
+    transformSpecificationClone: true,
+  });
   server.register(userRouters);
   server.register(groupRouters);
   server.register(taskPerformerRouters);
@@ -42,7 +69,7 @@ export const createServer = async () => {
     await dataBase.disconnect();
   });
 
-  server.setErrorHandler(async (error, request, response) => {
+  server.setErrorHandler(async (error, _request, response) => {
     logger.error(error);
 
     await response.status(500).send({ error: "Oops! Something went wrong." });
