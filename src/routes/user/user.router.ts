@@ -4,16 +4,19 @@ import {
   getUserHandler,
   getUsersHandler,
   updateUserHandler,
-} from '#root/controllers/handlers/user/user.handler.js';
+} from "#root/controllers/handlers/user/user.handler.js";
 import {
   createUserSchema,
   deleteUserSchema,
   getUserSchema,
   getUsersSchema,
   updateUserSchema,
-} from '#root/controllers/schemas/user/user.schema.js';
-import { UserType } from '#root/types/user.js';
-import { FastifyPluginCallback } from 'fastify';
+} from "#root/controllers/schemas/user/user.schema.js";
+import { FastifyPluginCallback } from "fastify";
+
+import { User } from "@prisma/client";
+
+import { APIRoute } from "./api-route.js";
 
 const getUsersOptions = {
   schema: getUsersSchema,
@@ -40,28 +43,32 @@ const deleteUserOptions = {
   handler: deleteUserHandler,
 };
 
-const userRouters: FastifyPluginCallback = (instance, _options, done) => {
-  instance.get("/users", getUsersOptions);
+export const userRouters: FastifyPluginCallback = (
+  instance,
+  _options,
+  done,
+) => {
+  instance.get(APIRoute.Users.All, getUsersOptions);
 
   instance.get<{
     Params: {
       id: string;
     };
-  }>("/user/:id", getUserOptions);
+  }>(APIRoute.Users.Info, getUserOptions);
 
   instance.post<{
-    Body: UserType;
-  }>("/user/create", createUserOptions);
+    Body: User;
+  }>(APIRoute.Users.Create, createUserOptions);
 
   instance.put<{
-    Body: UserType;
-  }>("/user/update/:id", updateUserOptions);
+    Body: User;
+  }>(APIRoute.Users.Update, updateUserOptions);
 
   instance.delete<{
-    Body: UserType;
-  }>("/user/delete/:id", deleteUserOptions);
+    Params: {
+      id: string;
+    };
+  }>(APIRoute.Users.Delete, deleteUserOptions);
 
   done();
 };
-
-export default userRouters;

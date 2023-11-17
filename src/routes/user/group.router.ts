@@ -4,16 +4,19 @@ import {
   getGroupHandler,
   getGroupsHandler,
   updateGroupHandler,
-} from '#root/controllers/handlers/user/group.handler.js';
+} from "#root/controllers/handlers/user/group.handler.js";
 import {
   createGroupSchema,
   deleteGroupSchema,
   getGroupSchema,
   getGroupsSchema,
   updateGroupSchema,
-} from '#root/controllers/schemas/user/group.schema.js';
-import { GroupType } from '#root/types/user.js';
-import { FastifyPluginCallback } from 'fastify';
+} from "#root/controllers/schemas/user/group.schema.js";
+import { FastifyPluginCallback } from "fastify/types/plugin.js";
+
+import { Group } from "@prisma/client";
+
+import { APIRoute } from "./api-route.js";
 
 const getGroupsOptions = {
   schema: getGroupsSchema,
@@ -40,30 +43,32 @@ const deleteGroupOptions = {
   handler: deleteGroupHandler,
 };
 
-const groupRouters: FastifyPluginCallback = (instance, _options, done) => {
-  instance.get("/groups", getGroupsOptions);
+export const groupRouters: FastifyPluginCallback = (
+  instance,
+  _options,
+  done,
+) => {
+  instance.get(APIRoute.Groups.All, getGroupsOptions);
 
   instance.get<{
     Params: {
       id: string;
     };
-  }>("/group/:id", getGroupOptions);
+  }>(APIRoute.Groups.Info, getGroupOptions);
 
   instance.post<{
-    Body: GroupType;
-  }>("/group/create", createGroupOptions);
+    Body: Group;
+  }>(APIRoute.Groups.Create, createGroupOptions);
 
   instance.put<{
-    Body: GroupType;
-  }>("/group/update/:id", updateGroupOptions);
+    Body: Group;
+  }>(APIRoute.Groups.Update, updateGroupOptions);
 
   instance.delete<{
     Params: {
       id: string;
     };
-  }>("/group/delete/:id", deleteGroupOptions);
+  }>(APIRoute.Groups.Delete, deleteGroupOptions);
 
   done();
 };
-
-export default groupRouters;

@@ -12,12 +12,15 @@ datasource db {
 
 model Group {
   id String @id
-  description String?
+  description String
   users User[]
+
+  @@map("groups")
 }
 
 model Bush {
-  id String @id
+  id Int @id  @default(autoincrement())
+  description String 
   managers Manager[]
   petrol_stations PetrolStation[]
   task_performers  TaskPerformer[]
@@ -27,7 +30,7 @@ model Bush {
 
 model User {
   id         String   @id
-  user_name  String
+  user_name  String   @unique
   first_name String
   last_name  String?
   user_group String
@@ -44,33 +47,30 @@ model User {
 }
 
 model Manager {
-  id Int @id @default(autoincrement())
-  user_id String @unique
-  user User @relation(fields:user_id, references: [id])
-  bush_id String
-  bush Bush @relation(fields: [bush_id], references: [id])
+  user_id   String  @id
+  user User @relation(fields: [user_id], references: [id])
+  bush_id Int? 
+  bush Bush? @relation(fields: [bush_id], references: [id])
   petrol_stations PetrolStation[]
 
   @@map("managers")
 }
 
 model PetrolStation {
-  id String @id
-  user_id String @unique
+  user_id String @id
   user User @relation(fields:user_id, references: id)
-  manager_id String
   managers Manager[]
-  bush_id String
-  bush Bush @relation(fields: [bush_id], references: [id])
+  bush_id Int?
+  bush Bush? @relation(fields: [bush_id], references: [id])
 
 	@@map("petrol_stations")
 }
 
 model Category {
   id Int @id @default(autoincrement())
-  description String?
+  description String
   tickets Ticket[]
-  words TagWords[]
+  words TagWord[]
   task_performers  TaskPerformer[]
 
   @@map("categores")
@@ -79,8 +79,8 @@ model Category {
 model TaskPerformer {
   user_id String @id
   id User @relation(fields: [user_id], references: [id])
-  bush_id String
-  bush Bush @relation(fields: [bush_id], references: [id])
+  bush_id Int?
+  bush Bush? @relation(fields: [bush_id], references: [id])
   category_id Int
   category Category @relation(fields: [category_id], references: [id])
 
@@ -89,15 +89,16 @@ model TaskPerformer {
 
 model Priority {
   id Int @id @default(autoincrement())
-  description String?
+  description String
   tickets Ticket[]
+  tag_words TagWord[]
 
   @@map("priorites")
 }
 
 model Status {
   id Int @id @default(autoincrement())
-  description String?
+  description String
   status_histories StatusHistory[]
 
   @@map("statuses")
@@ -113,7 +114,7 @@ model Ticket {
   ticket_priority Int
   priority Priority @relation(fields: [ticket_priority], references: [id])
   status_history StatusHistory?
-  commnets Comment[]
+  comments Comment[]
 
   @@map("tickets")
 }
@@ -152,10 +153,11 @@ model Attachment {
   @@map("attachments")
 }
 
-model TagWords {
+model TagWord {
   id String @id
   category_id Int
   category Category @relation(fields: [category_id], references: [id])
-
+  priority_id Int
+  priority Priority @relation(fields: [priority_id], references: [id])
   @@map("tag_words")
 }
