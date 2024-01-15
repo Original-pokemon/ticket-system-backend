@@ -1,4 +1,4 @@
-import ticketRepository from "#root/repositories/ticket/ticket.repository.js";
+import TicketRepository from "#root/repositories/ticket/ticket.repository.js";
 import { Ticket } from "@prisma/client";
 import {
   createResourceHandler,
@@ -6,14 +6,16 @@ import {
   getResourceHandler,
   updateResourceHandler,
   getResourcesHandler,
+  getManyResourcesHandler,
 } from "../common-resource-handler.js";
 
 const ticketResource = {
-  getAll: ticketRepository.getAll,
-  getUnique: ticketRepository.getUnique,
-  create: ticketRepository.create,
-  update: ticketRepository.update,
-  delete: ticketRepository.delete,
+  getAll: TicketRepository.getAll,
+  getUnique: TicketRepository.getUnique,
+  getMany: TicketRepository.getMany,
+  create: TicketRepository.create,
+  update: TicketRepository.update,
+  delete: TicketRepository.delete,
   name: "ticket",
 };
 
@@ -27,3 +29,5 @@ export const updateTicketHandler = updateResourceHandler<string, Ticket>(
 );
 export const deleteTicketHandler =
   deleteResourceHandler<string>(ticketResource);
+export const getSelectTicketsHandler =
+  getManyResourcesHandler<string>(ticketResource);

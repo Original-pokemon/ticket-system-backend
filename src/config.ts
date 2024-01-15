@@ -1,6 +1,6 @@
-import 'dotenv/config';
+import "dotenv/config";
 
-import z from 'zod';
+import z from "zod";
 
 const configSchema = z.object({
   NODE_ENV: z.enum(["development", "production"]),
@@ -8,7 +8,8 @@ const configSchema = z.object({
     .enum(["trace", "debug", "info", "warn", "error", "fatal", "silent"])
     .default("info"),
   LISTEN_SERVER_HOST: z.string().default("0.0.0.0"),
-  LISTEN_SERVER_PORT: z.coerce.number().positive().default(80)
+  LISTEN_SERVER_PORT: z.coerce.number().positive().default(80),
+  PATH_TO_SAVE_FILE: z.string(),
 });
 
 const parseConfig = (environment: NodeJS.ProcessEnv) => {

@@ -18,6 +18,23 @@ const getAttachmentsSchema = {
     },
   },
 };
+const getSelectAttachmentsSchema = {
+  tags: ["attachment"],
+  body: {
+    data: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+  },
+  response: {
+    200: {
+      type: "array",
+      items: Attachment,
+    },
+  },
+};
 
 const getAttachmentSchema = {
   tags: ["attachment"],
@@ -31,13 +48,11 @@ const getAttachmentSchema = {
 
 const createAttachmentSchema = {
   tags: ["attachment"],
-  body: {
-    type: "object",
-    required: ["id"],
-    properties: Attachment,
-  },
+  body: Attachment,
   response: {
-    200: Attachment,
+    200: {
+      type: "string",
+    },
   },
 };
 
@@ -64,6 +79,7 @@ const deleteAttachmentSchema = {
 
 export {
   createAttachmentSchema,
+  getSelectAttachmentsSchema,
   deleteAttachmentSchema,
   getAttachmentSchema,
   getAttachmentsSchema,

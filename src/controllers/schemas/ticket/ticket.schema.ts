@@ -31,15 +31,24 @@ const getTicketsSchema = {
   },
 };
 
-const createTicketSchema = {
+const getSelectTicketsSchema = {
   tags: ["ticket"],
   body: {
-    type: "object",
-    required: ["id"],
-    properties: Ticket,
+    data: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
   },
   response: {
-    200: Ticket,
+    200: {
+      type: "array",
+      items: Ticket,
+    },
+  },
+};
+
   },
 };
 

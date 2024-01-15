@@ -21,6 +21,24 @@ const getCommentsSchema = {
   },
 };
 
+const getSelectCommentsSchema = {
+  tags: ["comment"],
+  body: {
+    data: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+  },
+  response: {
+    200: {
+      type: "array",
+      items: Comment,
+    },
+  },
+};
+
 const getCommentSchema = {
   tags: ["comment"],
   params: {
@@ -33,11 +51,7 @@ const getCommentSchema = {
 
 const createCommentSchema = {
   tags: ["comment"],
-  body: {
-    type: "object",
-    required: ["id"],
-    properties: Comment,
-  },
+  body: Comment,
   response: {
     200: Comment,
   },
@@ -66,6 +80,7 @@ const deleteCommentSchema = {
 
 export {
   createCommentSchema,
+  getSelectCommentsSchema,
   deleteCommentSchema,
   getCommentSchema,
   getCommentsSchema,

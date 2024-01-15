@@ -4,6 +4,7 @@ import { handleErrors } from "#root/helpers/handle-error.js";
 
 type Resource<Id> = {
   getAll: () => Promise<any[]>;
+  getMany?: (data: Id[]) => Promise<any[]>;
   getUnique: (id: Id) => Promise<any>;
   create: (data: any) => Promise<any>;
   update: (data: any) => Promise<any>;
@@ -16,6 +17,28 @@ function getResourcesHandler<Id>(resource: Resource<Id>): RouteHandlerMethod {
     try {
       const data = await resource.getAll();
       reply.send(data);
+    } catch (error) {
+      handleErrors(reply, error, `Error fetching ${resource.name}s`);
+    }
+  };
+}
+
+function getManyResourcesHandler<Id>(resource: Resource<Id>) {
+  return async (
+    request: FastifyRequest<{
+      Body: { data: Id[] };
+    }>,
+    reply: FastifyReply,
+  ) => {
+    try {
+      if (resource.getMany) {
+        const { data } = request.body;
+
+        const items = await resource.getMany(data);
+        reply.send(items);
+      } else {
+        throw new Error("Method don`t implement");
+      }
     } catch (error) {
       handleErrors(reply, error, `Error fetching ${resource.name}s`);
     }
@@ -95,4 +118,5 @@ export {
   deleteResourceHandler,
   getResourceHandler,
   updateResourceHandler,
+  getManyResourcesHandler,
 };

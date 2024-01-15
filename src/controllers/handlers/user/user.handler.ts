@@ -6,11 +6,13 @@ import {
   getResourceHandler,
   updateResourceHandler,
   getResourcesHandler,
+  getManyResourcesHandler,
 } from "../common-resource-handler.js";
 
 const userResource = {
   getAll: userRepository.getAll,
   getUnique: userRepository.getUnique,
+  getMany: userRepository.getMany,
   create: userRepository.create,
   update: userRepository.update,
   delete: userRepository.delete,
@@ -26,3 +28,5 @@ export const updateUserHandler = updateResourceHandler<string, User>(
   userResource,
 );
 export const deleteUserHandler = deleteResourceHandler<string>(userResource);
+export const getSelectUsersHandler =
+  getManyResourcesHandler<string>(userResource);

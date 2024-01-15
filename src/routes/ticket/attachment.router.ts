@@ -5,6 +5,7 @@ import {
   deleteAttachmentSchema,
   getAttachmentSchema,
   getAttachmentsSchema,
+  getSelectAttachmentsSchema,
   updateAttachmentSchema,
 } from "#root/controllers/schemas/ticket/attachment.schema.js";
 import {
@@ -12,6 +13,7 @@ import {
   deleteAttachmentHandler,
   getAttachmentHandler,
   getAttachmentsHandler,
+  getSelectAttachmentsHandler,
   updateAttachmentHandler,
 } from "#root/controllers/handlers/ticket/attachment.handler.js";
 
@@ -20,6 +22,11 @@ import { APIRoute } from "./api-route.js";
 const getAttachmentsOptions = {
   schema: getAttachmentsSchema,
   handler: getAttachmentsHandler,
+};
+
+const getSelectAttachmentsOptions = {
+  schema: getSelectAttachmentsSchema,
+  handler: getSelectAttachmentsHandler,
 };
 
 const getAttachmentOptions = {
@@ -48,6 +55,8 @@ export const attachmentRouters: FastifyPluginCallback = (
   done,
 ) => {
   instance.get(APIRoute.Attachment.All, getAttachmentsOptions);
+
+  instance.post(APIRoute.Attachment.Many, getSelectAttachmentsOptions);
 
   instance.get<{
     Params: {

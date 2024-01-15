@@ -3,6 +3,7 @@ import AttachmentRepository from "#root/repositories/ticket/attachment.repositor
 import {
   createResourceHandler,
   deleteResourceHandler,
+  getManyResourcesHandler,
   getResourceHandler,
   getResourcesHandler,
   updateResourceHandler,
@@ -11,6 +12,7 @@ import {
 const attachmentResource = {
   getAll: AttachmentRepository.getAll,
   getUnique: AttachmentRepository.getUnique,
+  getMany: AttachmentRepository.getMany,
   create: AttachmentRepository.create,
   update: AttachmentRepository.update,
   delete: AttachmentRepository.delete,
@@ -35,3 +37,6 @@ export const updateAttachmentHandler = updateResourceHandler<
 
 export const deleteAttachmentHandler =
   deleteResourceHandler<string>(attachmentResource);
+
+export const getSelectAttachmentsHandler =
+  getManyResourcesHandler<string>(attachmentResource);

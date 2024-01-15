@@ -7,16 +7,29 @@ export const User = {
   created_at: { type: "string" },
 };
 
-const NewUser = {
-  id: { type: "string" },
-  user_name: { type: "string" },
-  first_name: { type: "string" },
-  last_name: { type: "string" },
-  user_group: { type: "string" },
-};
-
 const getUsersSchema = {
   tags: ["user"],
+  response: {
+    200: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: User,
+      },
+    },
+  },
+};
+
+const getSelectUsersSchema = {
+  tags: ["user"],
+  body: {
+    data: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+  },
   response: {
     200: {
       type: "array",
@@ -46,12 +59,11 @@ const createUserSchema = {
   body: {
     type: "object",
     required: ["id", "user_name", "first_name", "user_group"],
-    properties: NewUser,
+    properties: User,
   },
   response: {
     200: {
-      type: "object",
-      properties: User,
+      type: "string",
     },
   },
 };
@@ -63,7 +75,7 @@ const updateUserSchema = {
   },
   body: {
     type: "object",
-    properties: NewUser,
+    properties: User,
   },
   response: {
     200: {
@@ -90,6 +102,7 @@ export {
   createUserSchema,
   deleteUserSchema,
   getUserSchema,
+  getSelectUsersSchema,
   getUsersSchema,
   updateUserSchema,
 };

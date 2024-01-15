@@ -1,6 +1,7 @@
 import {
   createUserHandler,
   deleteUserHandler,
+  getSelectUsersHandler,
   getUserHandler,
   getUsersHandler,
   updateUserHandler,
@@ -8,6 +9,7 @@ import {
 import {
   createUserSchema,
   deleteUserSchema,
+  getSelectUsersSchema,
   getUserSchema,
   getUsersSchema,
   updateUserSchema,
@@ -21,6 +23,11 @@ import { APIRoute } from "./api-route.js";
 const getUsersOptions = {
   schema: getUsersSchema,
   handler: getUsersHandler,
+};
+
+const getSelectUsersOptions = {
+  schema: getSelectUsersSchema,
+  handler: getSelectUsersHandler,
 };
 
 const getUserOptions = {
@@ -49,6 +56,8 @@ export const userRouters: FastifyPluginCallback = (
   done,
 ) => {
   instance.get(APIRoute.Users.All, getUsersOptions);
+
+  instance.post(APIRoute.Users.Many, getSelectUsersOptions);
 
   instance.get<{
     Params: {

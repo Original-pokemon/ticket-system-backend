@@ -12,6 +12,18 @@ class UserRepository extends Repository {
     return users;
   };
 
+  getMany = async (data: string[]): Promise<User[]> => {
+    const users = await this.client.user.findMany({
+      where: {
+        id: {
+          in: data,
+        },
+      },
+    });
+
+    return users;
+  };
+
   getUnique = async (id: string): Promise<User | null> => {
     const user = await this.client.user.findUnique({ where: { id } });
     return user;

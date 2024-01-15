@@ -1,11 +1,4 @@
 export const APIRoute = {
-  Bush: {
-    All: "/bushes",
-    Info: `/bush/:id`,
-    Create: "/bush/create",
-    Update: `/bush/update/:id`,
-    Delete: `/bush/delete/:id`,
-  },
   Category: {
     All: "/categories",
     Info: `/category/:id`,
@@ -29,6 +22,7 @@ export const APIRoute = {
   },
   Ticket: {
     All: "/tickets",
+    Many: "/tickets/select",
     Info: "/ticket/:id",
     Create: "/ticket/create",
     Update: "/ticket/update/:id",
@@ -50,6 +44,7 @@ export const APIRoute = {
   },
   Comment: {
     All: "/comments",
+    Many: "/comments/select",
     Info: "/comment/:id",
     Create: "/comment/create",
     Update: "/comment/update/:id",
@@ -57,6 +52,7 @@ export const APIRoute = {
   },
   Attachment: {
     All: "/attachments",
+    Many: "/attachments/select",
     Info: "/attachment/:id",
     Create: "/attachment/create",
     Update: "/attachment/update/:id",

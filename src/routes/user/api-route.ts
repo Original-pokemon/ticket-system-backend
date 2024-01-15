@@ -6,8 +6,16 @@ export const APIRoute = {
     Update: `/group/update/:id`,
     Delete: `/group/delete/:id`,
   },
+  Bush: {
+    All: "/bushes",
+    Info: `/bush/:id`,
+    Create: "/bush/create",
+    Update: `/bush/update/:id`,
+    Delete: `/bush/delete/:id`,
+  },
   Users: {
     All: "/users",
+    Many: "/users/select",
     Info: `/user/:id`,
     Create: "/user/create",
     Update: `/user/update/:id`,

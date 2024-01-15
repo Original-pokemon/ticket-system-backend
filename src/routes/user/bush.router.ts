@@ -15,7 +15,7 @@ import {
   updateBushSchema,
 } from "#root/controllers/schemas/user/bush.schema.js";
 
-import { APIRoute } from "../ticket/api-route.js";
+import { APIRoute } from "./api-route.js";
 
 const getBushesOptions = {
   schema: getBushesSchema,

@@ -5,6 +5,7 @@ import {
   deleteCommentHandler,
   getCommentHandler,
   getCommentsHandler,
+  getSelectCommentsHandler,
   updateCommentHandler,
 } from "#root/controllers/handlers/ticket/comment.handler.js";
 import {
@@ -12,6 +13,7 @@ import {
   deleteCommentSchema,
   getCommentSchema,
   getCommentsSchema,
+  getSelectCommentsSchema,
   updateCommentSchema,
 } from "#root/controllers/schemas/ticket/comment.schema.js";
 
@@ -20,6 +22,11 @@ import { APIRoute } from "./api-route.js";
 const getCommentsOptions = {
   schema: getCommentsSchema,
   handler: getCommentsHandler,
+};
+
+const getSelectCommentsOptions = {
+  schema: getSelectCommentsSchema,
+  handler: getSelectCommentsHandler,
 };
 
 const getCommentOptions = {
@@ -48,6 +55,10 @@ export const commentRouters: FastifyPluginCallback = (
   done,
 ) => {
   instance.get(APIRoute.Comment.All, getCommentsOptions);
+
+  instance.post<{
+    Body: { data: string[] };
+  }>(APIRoute.Comment.Many, getSelectCommentsOptions);
 
   instance.get<{
     Params: {
