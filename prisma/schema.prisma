@@ -125,13 +125,14 @@ model Ticket {
 }
 
 model StatusHistory {
-  ticket_id String @id
+  id         String   @id @default(uuid())
+  ticket_id String
   ticket Ticket @relation(fields: [ticket_id], references: [id])
   user_id String
   user User @relation(fields: [user_id], references: [id])
   ticket_status Int
   status Status @relation(fields: [ticket_status], references: [id])
-  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
 
   @@map("status_histories")
 }
