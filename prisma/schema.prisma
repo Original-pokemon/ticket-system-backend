@@ -107,13 +107,17 @@ model Status {
 model Ticket {
   id         String   @id @default(uuid())
   title      String
-  author_id  String
-  author     User     @relation(fields: [author_id], references: [id])
-  ticket_category Int
-  category Category @relation(fields: [ticket_category], references: [id])
-  ticket_priority Int
-  priority Priority @relation(fields: [ticket_priority], references: [id])
-  status_history StatusHistory?
+  description String
+  attachments Attachment[]
+  petrol_station_id  String
+  petrol_station   PetrolStation  @relation(fields: [petrol_station_id], references: [user_id])
+  ticket_category Int?
+  category Category? @relation(fields: [ticket_category], references: [id])
+  ticket_priority Int?
+  priority Priority? @relation(fields: [ticket_priority], references: [id])
+  status_id Int
+  status Status @relation(fields: [status_id], references: [id])
+  status_history StatusHistory[]
   comments Comment[]
 
   @@map("tickets")
