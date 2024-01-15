@@ -151,8 +151,10 @@ model Comment {
 
 model Attachment {
   id String @id @default(uuid())
-  comment_id String
-  comment Comment @relation(fields: [comment_id], references: [id])
+  ticket_id String?
+  ticket Ticket? @relation(fields: [ticket_id], references: [id])
+  comment_id String?
+  comment Comment? @relation(fields: [comment_id], references: [id])
   path String
 
   @@map("attachments")

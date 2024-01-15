@@ -2,11 +2,11 @@ import { Attachment } from "@prisma/client";
 import Repository from "../repository.js";
 
 class AttachmentRepository extends Repository {
-  create = async (attachment: Attachment): Promise<Attachment> => {
-    const createdAttachment = await this.client.attachment.create({
+  create = async (attachment: Attachment): Promise<string> => {
+    const { id } = await this.client.attachment.create({
       data: attachment,
     });
-    return createdAttachment;
+    return id;
   };
 
   getAll = async (): Promise<Attachment[]> => {
