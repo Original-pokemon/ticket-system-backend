@@ -25,6 +25,11 @@ class PetrolStationRepository extends Repository {
         user_id: id,
       },
       include: {
+        tickets: {
+          select: {
+            id: true,
+          },
+        },
         managers: {
           select: {
             user_id: true,
@@ -36,7 +41,8 @@ class PetrolStationRepository extends Repository {
 
     if (petrolStation) {
       const managers = petrolStation?.managers.map((item) => item.user_id);
-      return { ...petrolStation, managers };
+      const tickets = petrolStation?.tickets.map((item) => item.id);
+      return { ...petrolStation, managers, tickets };
     }
 
     return petrolStation;

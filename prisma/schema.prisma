@@ -35,7 +35,6 @@ model User {
   last_name  String?
   user_group String
   group      Group    @relation(fields: [user_group], references: [id])
-  tickets    Ticket[]
   task_performer  TaskPerformer?
   manager   Manager?
   petrol_station PetrolStation?
@@ -62,6 +61,7 @@ model PetrolStation {
   managers Manager[]
   bush_id Int?
   bush Bush? @relation(fields: [bush_id], references: [id])
+  tickets Ticket[]
 
 	@@map("petrol_stations")
 }
@@ -100,6 +100,7 @@ model Status {
   id Int @id @default(autoincrement())
   description String
   status_histories StatusHistory[]
+  tickets Ticket[]
 
   @@map("statuses")
 }

@@ -5,21 +5,18 @@ const Manager = {
   bush_id: { type: "number" },
 };
 
-const ManagerWithPetrolStation = {
+const ManagerInfo = {
   ...Manager,
-  petrol_stations: {
+  tickets: {
     type: "array",
-    items: { type: "string" },
+    items: {
+      type: "object",
+      properties: {
+        petrol_station: { type: "string" },
+        tickets: { type: "array", items: { type: "string" } },
+      },
+    },
   },
-};
-
-const ManagerWithUser = {
-  ...Manager,
-  user: { type: "object", properties: User },
-};
-
-const FullManager = {
-  ...Manager,
   petrol_stations: {
     type: "array",
     items: { type: "string" },
@@ -48,7 +45,7 @@ const getManagerSchema = {
   response: {
     200: {
       type: "object",
-      properties: FullManager,
+      properties: ManagerInfo,
     },
   },
 };

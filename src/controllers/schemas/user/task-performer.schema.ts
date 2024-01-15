@@ -1,7 +1,8 @@
 const TaskPerformer = {
   user_id: { type: "string" },
   bush_id: { type: "number" },
-  category_id: { type: "number" },
+  category_id: { type: ["number", "null"] },
+  tickets: { type: "array", items: { type: "string" } },
 };
 
 const getTaskPerformersSchema = {

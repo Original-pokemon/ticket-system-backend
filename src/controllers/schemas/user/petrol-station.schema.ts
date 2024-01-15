@@ -5,26 +5,17 @@ const PetrolStation = {
   bush_id: { type: "number" },
 };
 
-const PetrolStationWithManager = {
-  ...PetrolStation,
-  managers: {
-    type: "array",
-    items: { type: "string" },
-  },
-};
-
-const PetrolStationWithUser = {
-  ...PetrolStation,
-  user: { type: "object", properties: User },
-};
-
-const FullPetrolStation = {
+const PetrolStationInfo = {
   ...PetrolStation,
   managers: {
     type: "array",
     items: {
       type: "string",
     },
+  },
+  tickets: {
+    type: "array",
+    items: { type: "string" },
   },
   user: { type: "object", properties: User },
 };
@@ -50,7 +41,7 @@ const getPetrolStationSchema = {
   response: {
     200: {
       type: "object",
-      properties: FullPetrolStation,
+      properties: PetrolStationInfo,
     },
   },
 };

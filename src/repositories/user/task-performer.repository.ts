@@ -18,7 +18,25 @@ class TaskPerformerRepository extends Repository {
   getUnique = async (user_id: string): Promise<TaskPerformer | null> => {
     const taskPerformer = await this.client.taskPerformer.findUnique({
       where: { user_id },
+      include: {
+        category: {
+          include: {
+            tickets: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
     });
+
+    if (taskPerformer) {
+      return {
+        ...taskPerformer,
+        tickets: taskPerformer.category?.tickets.map((ticket) => ticket.id),
+      };
+    }
     return taskPerformer;
   };
 

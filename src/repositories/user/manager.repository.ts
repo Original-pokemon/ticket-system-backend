@@ -2,6 +2,20 @@
 import { Manager } from "@prisma/client";
 import Repository from "../repository.js";
 
+const convertPetrolStationsToTicket = (
+  petrolStations: {
+    user_id: string;
+    tickets: {
+      id: string;
+    }[];
+  }[],
+) => {
+  return petrolStations.map((station) => ({
+    petrol_station: station.user_id,
+    tickets: station.tickets.map((ticket) => ticket.id),
+  }));
+};
+
 class ManagerRepository extends Repository {
   create = async (manager: Manager): Promise<Manager> => {
     const createdManager = await this.client.manager.create({
@@ -27,6 +41,11 @@ class ManagerRepository extends Repository {
         petrol_stations: {
           select: {
             user_id: true,
+            tickets: {
+              select: {
+                id: true,
+              },
+            },
           },
         },
         user: true,
@@ -34,10 +53,13 @@ class ManagerRepository extends Repository {
     });
 
     if (manager) {
-      const petrolStations = manager?.petrol_stations.map(
-        (item) => item.user_id,
-      );
-      return { ...manager, petrol_stations: petrolStations };
+      return {
+        ...manager,
+        tickets: convertPetrolStationsToTicket(manager.petrol_stations),
+        petrol_stations: manager.petrol_stations.map(
+          (station) => station.user_id,
+        ),
+      };
     }
 
     return manager;
