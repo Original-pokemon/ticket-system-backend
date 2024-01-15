@@ -81,8 +81,8 @@ model TaskPerformer {
   id User @relation(fields: [user_id], references: [id])
   bush_id Int
   bush Bush @relation(fields: [bush_id], references: [id])
-  category_id Int
-  category Category @relation(fields: [category_id], references: [id])
+  category_id Int?
+  category Category? @relation(fields: [category_id], references: [id])
 
   @@map("task_performers")
 }
