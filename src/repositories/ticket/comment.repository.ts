@@ -1,12 +1,24 @@
 import { Comment } from "@prisma/client";
+import { saveAttachments } from "#root/helpers/save-attachments.js";
 import Repository from "../repository.js";
 
 class CommentRepository extends Repository {
-  create = async (comment: Comment): Promise<Comment> => {
-    const createdComment = await this.client.comment.create({
-      data: comment,
+  create = async (
+    comment: Comment & { attachments: string[] },
+  ): Promise<string> => {
+    const attachments = await saveAttachments(comment.attachments);
+
+    const { id } = await this.client.comment.create({
+      data: {
+        ...comment,
+        attachments: {
+          createMany: {
+            data: attachments,
+          },
+        },
+      },
     });
-    return createdComment;
+    return id;
   };
 
   getAll = async (): Promise<Comment[]> => {

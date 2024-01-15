@@ -1,31 +1,36 @@
-import { Attachment, Comment, Ticket } from "@prisma/client";
+import { Comment, Ticket } from "@prisma/client";
+import { saveAttachments } from "#root/helpers/save-attachments.js";
 import Repository from "../repository.js";
 
 class TicketRepository extends Repository {
-  create = async (ticket: Ticket & Comment & Attachment): Promise<Ticket> => {
-    const createdTicket = await this.client.ticket.create({
+  create = async (
+    ticket: Ticket & { user_id: string } & { attachments: string[] } & {
+      comments: Comment[];
+    },
+  ): Promise<string> => {
+    const { user_id, comments, ...ticket_ } = ticket;
+
+    const attachments = await saveAttachments(ticket_.attachments);
+
+    const { id } = await this.client.ticket.create({
       data: {
-        ...ticket,
+        ...ticket_,
+        comments: {
+          createMany: { data: comments },
+        },
         status_history: {
           create: {
-            user_id: ticket.author_id,
-            ticket_status: 1,
+            user_id,
+            ticket_status: ticket_.status_id,
           },
         },
-        comments: {
-          create: {
-            user_id: ticket.user_id,
-            text: ticket.text,
-            attachments: {
-              create: {
-                path: ticket.path,
-              },
-            },
-          },
+        attachments: {
+          createMany: { data: attachments },
         },
       },
     });
-    return createdTicket;
+
+    return id;
   };
 
   getAll = async (): Promise<Ticket[]> => {
