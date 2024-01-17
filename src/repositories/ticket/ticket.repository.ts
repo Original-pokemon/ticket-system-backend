@@ -50,15 +50,33 @@ class TicketRepository extends Repository {
     return tickets;
   };
 
+  getUnique = async (id: string) => {
     const ticket = await this.client.ticket.findUnique({
       where: { id },
       include: {
         status_history: true,
-        comments: true,
-        author: true,
+        comments: {
+          select: {
+            id: true,
+          },
+        },
+        attachments: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
-    return ticket;
+
+    const attachmentsId =
+      ticket?.attachments.map(({ id: attachmentId }) => attachmentId) || [];
+
+    const commentsId =
+      ticket?.comments.map(({ id: commentId }) => commentId) || [];
+
+    return ticket
+      ? { ...ticket, attachments: attachmentsId, comments: commentsId }
+      : ticket;
   };
 
   update = async (

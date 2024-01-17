@@ -3,15 +3,30 @@ const Ticket = {
   properties: {
     id: { type: "string" },
     title: { type: "string" },
-    author_id: { type: "string" },
-    ticket_category: { type: "number" },
-    ticket_priority: { type: "number" },
+    user_id: { type: "string" },
+    description: { type: "string" },
+    attachments: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    comments: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    status_id: { type: "number" },
+    petrol_station_id: { type: "string" },
+    ticket_category: { type: ["number", "null"] },
+    ticket_priority: { type: ["number", "null"] },
   },
-  required: ["id", "title", "author_id", "ticket_category", "ticket_priority"],
+  required: ["title", "petrol_station_id"],
   additionalProperties: false,
 };
 
-const getTicketSchema = {
+const getTicketsSchema = {
   tags: ["ticket"],
   response: {
     200: {
@@ -21,7 +36,7 @@ const getTicketSchema = {
   },
 };
 
-const getTicketsSchema = {
+const getTicketSchema = {
   tags: ["ticket"],
   params: {
     id: { type: "string" },
