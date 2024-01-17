@@ -20,7 +20,7 @@ const getCategoriesSchema = {
 const getCategorySchema = {
   tags: ["category"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   response: {
     200: Category,
@@ -40,7 +40,7 @@ const createCategorySchema = {
 const updateCategorySchema = {
   tags: ["category"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   body: Category,
   response: {
