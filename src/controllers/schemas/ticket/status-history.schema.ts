@@ -1,12 +1,13 @@
 const StatusHistory = {
   type: "object",
   properties: {
+    id: { type: "string" },
     ticket_id: { type: "string" },
     user_id: { type: "string" },
     ticket_status: { type: "number" },
-    updated_at: { type: "string", format: "date-time" },
+    created_at: { type: "string", format: "date-time" },
   },
-  required: ["ticket_id", "user_id", "ticket_status", "updated_at"],
+  required: ["ticket_id", "user_id", "ticket_status"],
   additionalProperties: false,
 };
 
