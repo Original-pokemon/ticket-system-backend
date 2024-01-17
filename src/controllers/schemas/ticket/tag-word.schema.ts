@@ -4,17 +4,14 @@ const TagWord = {
     id: {
       type: "string",
       description: "Уникальный идентификатор тега",
-      example: "abc123",
     },
     category_id: {
       type: "number",
       description: "Идентификатор категории, к которой относится тег",
-      example: 1,
     },
     priority_id: {
       type: "number",
       description: "Идентификатор приоритета тега",
-      example: 2,
     },
   },
   required: ["id", "category_id", "priority_id"],

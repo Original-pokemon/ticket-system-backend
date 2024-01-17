@@ -33,7 +33,7 @@ const getManagersSchema = {
       type: "array",
       items: {
         type: "object",
-        properties: ManagerWithUser,
+        properties: { ...Manager, user: User },
       },
     },
   },
@@ -73,12 +73,12 @@ const updateManagerSchema = {
   },
   body: {
     type: "object",
-    properties: ManagerWithPetrolStation,
+    properties: ManagerInfo,
   },
   response: {
     200: {
       type: "object",
-      properties: Manager,
+      properties: ManagerInfo,
     },
   },
 };
@@ -91,7 +91,7 @@ const deleteManagerSchema = {
   response: {
     200: {
       type: "object",
-      properties: Manager,
+      properties: ManagerInfo,
     },
   },
 };

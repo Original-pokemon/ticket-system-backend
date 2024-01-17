@@ -27,7 +27,10 @@ const getPetrolStationsSchema = {
       type: "array",
       items: {
         type: "object",
-        properties: PetrolStationWithUser,
+        properties: {
+          ...PetrolStation,
+          user: { type: "object", properties: User },
+        },
       },
     },
   },
@@ -67,7 +70,13 @@ const updatePetrolStationSchema = {
   },
   body: {
     type: "object",
-    properties: PetrolStationWithManager,
+    properties: {
+      ...PetrolStation,
+      managers: {
+        type: "array",
+        items: { type: "string" },
+      },
+    },
   },
   response: {
     200: {

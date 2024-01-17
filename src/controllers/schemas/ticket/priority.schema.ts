@@ -4,7 +4,7 @@ const Priority = {
     id: { type: "number" },
     description: { type: "string" },
   },
-  required: ["id", "description"],
+  required: ["description"],
 };
 
 const getPrioritiesSchema = {
