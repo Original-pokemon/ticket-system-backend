@@ -4,7 +4,7 @@ const Status = {
     id: { type: "number" },
     description: { type: "string" },
   },
-  required: ["id", "description"],
+  required: ["description"],
   additionalProperties: false,
 };
 
