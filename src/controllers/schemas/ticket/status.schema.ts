@@ -21,7 +21,7 @@ const getStatusesSchema = {
 const getStatusSchema = {
   tags: ["status"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   response: {
     200: Status,
@@ -41,7 +41,7 @@ const createStatusSchema = {
 const updateStatusSchema = {
   tags: ["status"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   body: Status,
   response: {
@@ -52,7 +52,7 @@ const updateStatusSchema = {
 const deleteStatusSchema = {
   tags: ["status"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   response: {
     200: Status,

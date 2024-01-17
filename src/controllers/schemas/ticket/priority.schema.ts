@@ -20,7 +20,7 @@ const getPrioritiesSchema = {
 const getPrioritySchema = {
   tags: ["priority"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   response: {
     200: Priority,
@@ -40,7 +40,7 @@ const createPrioritySchema = {
 const updatePrioritySchema = {
   tags: ["priority"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   body: Priority,
   response: {
@@ -51,7 +51,7 @@ const updatePrioritySchema = {
 const deletePrioritySchema = {
   tags: ["priority"],
   params: {
-    id: { type: "string" },
+    id: { type: "number" },
   },
   response: {
     200: Priority,
