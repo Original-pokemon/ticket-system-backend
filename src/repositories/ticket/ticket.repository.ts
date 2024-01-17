@@ -80,20 +80,18 @@ class TicketRepository extends Repository {
   };
 
   update = async (
-    ticket: Ticket & {
-      status_history: { user_id: string; ticket_status: number };
-    },
+    ticket: Ticket & { attachments: string[]; comments: string[] },
   ): Promise<Ticket> => {
-    const { id, status_history, ticket_priority, ticket_category } = ticket;
-    const { user_id, ticket_status } = status_history;
+    const {
+      attachments: _attachments,
+      comments: _comments,
+      ...ticketWithoutAttachment
+    } = ticket;
     const updateTicket = await this.client.ticket.update({
-      data: {
-        ticket_priority,
-        ticket_category,
-        status_history: { update: { user_id, ticket_status } },
-      },
-      where: { id },
+      data: ticketWithoutAttachment,
+      where: { id: ticket.id },
     });
+
     return updateTicket;
   };
 
