@@ -14,6 +14,20 @@ class StatusHistoryRepository extends Repository {
     return statusHistories;
   };
 
+  getMany = async ([userId, status]: [string, string]) => {
+    const statusHistories = await this.client.statusHistory.findMany({
+      where: {
+        user_id: userId,
+        ticket_status: Number(status),
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+
+    return statusHistories;
+  };
+
   getUnique = async (id: string): Promise<StatusHistory | null> => {
     const statusHistory = await this.client.statusHistory.findUnique({
       where: { id },
