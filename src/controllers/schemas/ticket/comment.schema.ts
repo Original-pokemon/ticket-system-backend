@@ -1,13 +1,16 @@
-const Comment = {
+export const Comment = {
   type: "object",
   properties: {
     id: { type: "string" },
     ticket_id: { type: "string" },
     user_id: { type: "string" },
     text: { type: "string" },
+    attachments: {
+      type: "array",
+      items: { type: "string" },
+    },
     created_at: { type: "string", format: "date-time" },
   },
-  required: ["id", "ticket_id", "user_id", "text", "created_at"],
   additionalProperties: false,
 };
 

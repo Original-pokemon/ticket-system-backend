@@ -46,10 +46,18 @@ class CommentRepository extends Repository {
     });
   };
 
+  getUnique = async (id: string) => {
     const comment = await this.client.comment.findUnique({
       where: { id },
+      include: {
+        attachments: true,
+      },
     });
-    return comment;
+
+    const attachmentIds =
+      comment?.attachments.map(({ id: attachmentId }) => attachmentId) || [];
+
+    return comment ? { ...comment, attachments: attachmentIds } : comment;
   };
 
   update = async (comment: Comment): Promise<Comment> => {
