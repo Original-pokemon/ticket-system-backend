@@ -2,11 +2,11 @@ import { Priority } from "@prisma/client";
 import Repository from "../repository.js";
 
 class PriorityRepository extends Repository {
-  create = async (priority: Priority): Promise<Priority> => {
-    const createdPriority = await this.client.priority.create({
+  create = async (priority: Priority): Promise<number> => {
+    const { id } = await this.client.priority.create({
       data: priority,
     });
-    return createdPriority;
+    return id;
   };
 
   getAll = async (): Promise<Priority[]> => {

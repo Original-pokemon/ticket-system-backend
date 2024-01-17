@@ -2,9 +2,9 @@ import { User } from "@prisma/client";
 import Repository from "../repository.js";
 
 class UserRepository extends Repository {
-  create = async (user: User): Promise<User> => {
-    const createdUser = await this.client.user.create({ data: user });
-    return createdUser;
+  create = async (user: User): Promise<string> => {
+    const { id } = await this.client.user.create({ data: user });
+    return id;
   };
 
   getAll = async (): Promise<User[]> => {

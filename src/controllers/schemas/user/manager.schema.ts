@@ -59,8 +59,7 @@ const createManagerSchema = {
   },
   response: {
     200: {
-      type: "object",
-      properties: Manager,
+      type: "string",
     },
   },
 };

@@ -2,11 +2,11 @@ import { Category } from "@prisma/client";
 import Repository from "../repository.js";
 
 class CategoryRepository extends Repository {
-  create = async (category: Category): Promise<Category> => {
-    const createdCategory = await this.client.category.create({
+  create = async (category: Category): Promise<number> => {
+    const { id } = await this.client.category.create({
       data: category,
     });
-    return createdCategory;
+    return id;
   };
 
   getAll = async (): Promise<Category[]> => {

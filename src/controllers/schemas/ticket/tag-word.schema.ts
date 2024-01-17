@@ -46,8 +46,7 @@ const createTagWordSchema = {
   body: TagWord,
   response: {
     200: {
-      type: "object",
-      properties: TagWord,
+      type: "string",
     },
   },
 };

@@ -31,7 +31,9 @@ const createCategorySchema = {
   tags: ["category"],
   body: Category,
   response: {
-    200: Category,
+    200: {
+      type: "string",
+    },
   },
 };
 

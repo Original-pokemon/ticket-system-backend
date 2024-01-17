@@ -1,12 +1,12 @@
-import { PetrolStation } from "@prisma/client";
-import Repository from "../repository.js";
+import { PetrolStation } from '@prisma/client';
+import Repository from '../repository.js';
 
 class PetrolStationRepository extends Repository {
-  create = async (petrolStation: PetrolStation) => {
-    const createdPetrolStation = await this.client.petrolStation.create({
+  create = async (petrolStation: PetrolStation): Promise<string> => {
+    const { user_id } = await this.client.petrolStation.create({
       data: petrolStation,
     });
-    return createdPetrolStation;
+    return user_id;
   };
 
   getAll = async () => {

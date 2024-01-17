@@ -38,8 +38,7 @@ const createGroupSchema = {
   },
   response: {
     200: {
-      type: "object",
-      properties: Group,
+      type: "string",
     },
   },
 };

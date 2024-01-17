@@ -49,6 +49,13 @@ const getSelectTicketsSchema = {
   },
 };
 
+const createTicketSchema = {
+  tags: ["ticket"],
+  body: Ticket,
+  response: {
+    200: {
+      type: "string",
+    },
   },
 };
 
@@ -74,6 +81,7 @@ const deleteTicketSchema = {
 };
 
 export {
+  getSelectTicketsSchema,
   createTicketSchema,
   deleteTicketSchema,
   getTicketsSchema,

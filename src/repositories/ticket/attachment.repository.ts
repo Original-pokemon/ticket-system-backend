@@ -1,5 +1,5 @@
-import { Attachment } from "@prisma/client";
-import Repository from "../repository.js";
+import { Attachment } from '@prisma/client';
+import Repository from '../repository.js';
 
 class AttachmentRepository extends Repository {
   create = async (attachment: Attachment): Promise<string> => {

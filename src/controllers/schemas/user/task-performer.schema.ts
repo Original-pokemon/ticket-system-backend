@@ -38,13 +38,12 @@ const createTaskPerformerSchema = {
   tags: ["task-performer"],
   body: {
     type: "object",
-    required: ["category_id", "user_id", "bush_id"],
+    required: ["user_id", "bush_id"],
     properties: TaskPerformer,
   },
   response: {
     200: {
-      type: "object",
-      properties: TaskPerformer,
+      type: "string",
     },
   },
 };

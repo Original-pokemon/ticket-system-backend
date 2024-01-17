@@ -2,11 +2,11 @@ import { StatusHistory } from "@prisma/client";
 import Repository from "../repository.js";
 
 class StatusHistoryRepository extends Repository {
-  create = async (statusHistory: StatusHistory): Promise<StatusHistory> => {
-    const createdStatusHistory = await this.client.statusHistory.create({
+  create = async (statusHistory: StatusHistory): Promise<string> => {
+    const { id } = await this.client.statusHistory.create({
       data: statusHistory,
     });
-    return createdStatusHistory;
+    return id;
   };
 
   getAll = async (): Promise<StatusHistory[]> => {
@@ -14,25 +14,25 @@ class StatusHistoryRepository extends Repository {
     return statusHistories;
   };
 
-  getUnique = async (ticket_id: string): Promise<StatusHistory | null> => {
+  getUnique = async (id: string): Promise<StatusHistory | null> => {
     const statusHistory = await this.client.statusHistory.findUnique({
-      where: { ticket_id },
+      where: { id },
     });
     return statusHistory;
   };
 
   update = async (statusHistory: StatusHistory): Promise<StatusHistory> => {
-    const { ticket_id } = statusHistory;
+    const { id } = statusHistory;
     const updateStatusHistory = await this.client.statusHistory.update({
       data: statusHistory,
-      where: { ticket_id },
+      where: { id },
     });
     return updateStatusHistory;
   };
 
-  delete = async (ticket_id: string): Promise<StatusHistory> => {
+  delete = async (id: string): Promise<StatusHistory> => {
     const deleteStatusHistory = await this.client.statusHistory.delete({
-      where: { ticket_id },
+      where: { id },
     });
     return deleteStatusHistory;
   };

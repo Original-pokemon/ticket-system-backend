@@ -53,7 +53,9 @@ const createCommentSchema = {
   tags: ["comment"],
   body: Comment,
   response: {
-    200: Comment,
+    200: {
+      type: "string",
+    },
   },
 };
 

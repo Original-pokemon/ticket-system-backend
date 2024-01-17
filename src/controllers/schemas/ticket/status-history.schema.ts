@@ -32,13 +32,11 @@ const getStatusHistorySchema = {
 
 const createStatusHistorySchema = {
   tags: ["status-history"],
-  body: {
-    type: "object",
-    required: ["id"],
-    properties: StatusHistory,
-  },
+  body: StatusHistory,
   response: {
-    200: StatusHistory,
+    200: {
+      type: "string",
+    },
   },
 };
 

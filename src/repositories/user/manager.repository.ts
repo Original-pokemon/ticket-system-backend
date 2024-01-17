@@ -1,6 +1,5 @@
-/* eslint-disable camelcase */
-import { Manager } from "@prisma/client";
-import Repository from "../repository.js";
+import { Manager } from '@prisma/client';
+import Repository from '../repository.js';
 
 const convertPetrolStationsToTicket = (
   petrolStations: {
@@ -17,11 +16,11 @@ const convertPetrolStationsToTicket = (
 };
 
 class ManagerRepository extends Repository {
-  create = async (manager: Manager): Promise<Manager> => {
-    const createdManager = await this.client.manager.create({
+  create = async (manager: Manager): Promise<string> => {
+    const { user_id } = await this.client.manager.create({
       data: manager,
     });
-    return createdManager;
+    return user_id;
   };
 
   getAll = async () => {

@@ -42,8 +42,7 @@ const createBushSchema = {
   },
   response: {
     200: {
-      type: "object",
-      properties: Bush,
+      type: "string",
     },
   },
 };

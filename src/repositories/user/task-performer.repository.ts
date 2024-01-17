@@ -3,11 +3,11 @@ import { TaskPerformer } from "@prisma/client";
 import Repository from "../repository.js";
 
 class TaskPerformerRepository extends Repository {
-  create = async (taskPerformer: TaskPerformer): Promise<TaskPerformer> => {
-    const createdTaskPerformer = await this.client.taskPerformer.create({
+  create = async (taskPerformer: TaskPerformer): Promise<string> => {
+    const { user_id } = await this.client.taskPerformer.create({
       data: taskPerformer,
     });
-    return createdTaskPerformer;
+    return user_id;
   };
 
   getAll = async (): Promise<TaskPerformer[]> => {
@@ -15,7 +15,7 @@ class TaskPerformerRepository extends Repository {
     return taskPerformer;
   };
 
-  getUnique = async (user_id: string): Promise<TaskPerformer | null> => {
+  getUnique = async (user_id: string) => {
     const taskPerformer = await this.client.taskPerformer.findUnique({
       where: { user_id },
       include: {
@@ -37,6 +37,7 @@ class TaskPerformerRepository extends Repository {
         tickets: taskPerformer.category?.tickets.map((ticket) => ticket.id),
       };
     }
+
     return taskPerformer;
   };
 
@@ -51,10 +52,10 @@ class TaskPerformerRepository extends Repository {
   };
 
   delete = async (user_id: string): Promise<TaskPerformer> => {
-    const deletetaskPerformer = await this.client.taskPerformer.delete({
+    const deleteTaskPerformer = await this.client.taskPerformer.delete({
       where: { user_id },
     });
-    return deletetaskPerformer;
+    return deleteTaskPerformer;
   };
 }
 

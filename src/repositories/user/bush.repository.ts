@@ -1,10 +1,10 @@
-import { Bush } from "@prisma/client";
-import Repository from "../repository.js";
+import { Bush } from '@prisma/client';
+import Repository from '../repository.js';
 
 class BushRepository extends Repository {
-  create = async (bush: Bush): Promise<Bush> => {
-    const createdBush = await this.client.bush.create({ data: bush });
-    return createdBush;
+  create = async (bush: Bush): Promise<number> => {
+    const { id } = await this.client.bush.create({ data: bush });
+    return id;
   };
 
   getAll = async (): Promise<Bush[]> => {

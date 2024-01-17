@@ -2,9 +2,9 @@ import { Group } from "@prisma/client";
 import Repository from "../repository.js";
 
 class GroupRepository extends Repository {
-  create = async (group: Group): Promise<Group> => {
-    const createdGroup = await this.client.group.create({ data: group });
-    return createdGroup;
+  create = async (group: Group): Promise<string> => {
+    const { id } = await this.client.group.create({ data: group });
+    return id;
   };
 
   getAll = async (): Promise<Group[]> => {

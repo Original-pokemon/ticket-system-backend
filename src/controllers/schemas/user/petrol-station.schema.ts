@@ -55,8 +55,7 @@ const createPetrolStationSchema = {
   },
   response: {
     200: {
-      type: "object",
-      properties: PetrolStation,
+      type: "string",
     },
   },
 };

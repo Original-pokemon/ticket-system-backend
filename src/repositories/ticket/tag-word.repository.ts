@@ -2,11 +2,11 @@ import { TagWord } from "@prisma/client";
 import Repository from "../repository.js";
 
 class TagWordRepository extends Repository {
-  create = async (tagWord: TagWord): Promise<TagWord> => {
-    const createdTagWord = await this.client.tagWord.create({
+  create = async (tagWord: TagWord): Promise<string> => {
+    const { id } = await this.client.tagWord.create({
       data: tagWord,
     });
-    return createdTagWord;
+    return id;
   };
 
   getAll = async (): Promise<TagWord[]> => {

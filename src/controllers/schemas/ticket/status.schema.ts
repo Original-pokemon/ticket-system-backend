@@ -30,13 +30,11 @@ const getStatusSchema = {
 
 const createStatusSchema = {
   tags: ["status"],
-  body: {
-    type: "object",
-    required: ["id"],
-    properties: Status,
-  },
+  body: Status,
   response: {
-    200: Status,
+    200: {
+      type: "string",
+    },
   },
 };
 

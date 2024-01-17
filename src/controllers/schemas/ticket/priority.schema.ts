@@ -29,13 +29,11 @@ const getPrioritySchema = {
 
 const createPrioritySchema = {
   tags: ["priority"],
-  body: {
-    type: "object",
-    required: ["id"],
-    properties: Priority,
-  },
+  body: Priority,
   response: {
-    200: Priority,
+    200: {
+      type: "string",
+    },
   },
 };
 
