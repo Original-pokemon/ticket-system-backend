@@ -19,7 +19,9 @@ const ManagerInfo = {
   },
   petrol_stations: {
     type: "array",
-    items: { type: "string" },
+    items: {
+      type: "string",
+    },
   },
   user: { type: "object", properties: User },
 };
