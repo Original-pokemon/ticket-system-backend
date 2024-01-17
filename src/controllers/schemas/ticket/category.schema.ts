@@ -3,6 +3,12 @@ const Category = {
   properties: {
     id: { type: "number" },
     description: { type: "string" },
+    task_performers: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
   },
   required: ["id", "description"],
 };

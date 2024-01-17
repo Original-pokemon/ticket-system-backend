@@ -14,9 +14,17 @@ class CategoryRepository extends Repository {
     return categories;
   };
 
-  getUnique = async (id: number): Promise<Category | null> => {
-    const category = await this.client.category.findUnique({ where: { id } });
-    return category;
+  getUnique = async (id: number) => {
+    const category = await this.client.category.findUnique({
+      where: { id },
+      include: { task_performers: { select: { user_id: true } } },
+    });
+
+    const taskPerformerIds = category?.task_performers.map(
+      (taskPerformer) => taskPerformer.user_id,
+    );
+
+    return { ...category, task_performers: taskPerformerIds };
   };
 
   update = async (category: Category): Promise<Category> => {
