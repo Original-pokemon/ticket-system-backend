@@ -25,11 +25,8 @@ const getTaskPerformerSchema = {
   },
   response: {
     200: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: TaskPerformer,
-      },
+      type: "object",
+      properties: TaskPerformer,
     },
   },
 };
