@@ -22,6 +22,15 @@ const productionTargets = [
       destination: fileURLToPath(new URL("app.log", import.meta.url)),
     },
   },
+  {
+    target: "pino-pretty",
+    level: config.LOG_LEVEL,
+    options: {
+      ignore: "pid,hostname",
+      colorize: true,
+      translateTime: true,
+    },
+  },
 ];
 
 export const logger = pino({
