@@ -1,5 +1,8 @@
 import { logger } from "#root/logger.js";
-import { PrismaClientValidationError } from "@prisma/client/runtime/library.js";
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientValidationError,
+} from "@prisma/client/runtime/library.js";
 import { FastifyReply } from "fastify/types/reply.js";
 
 export const handleErrors = (
@@ -8,7 +11,10 @@ export const handleErrors = (
   defaultMessage: string,
 ) => {
   if (error instanceof Error) {
-    if (error instanceof PrismaClientValidationError) {
+    if (
+      error instanceof PrismaClientValidationError ||
+      error instanceof PrismaClientKnownRequestError
+    ) {
       logger.error(error);
       reply.status(400).send({ message: defaultMessage });
     } else {
