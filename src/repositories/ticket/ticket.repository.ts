@@ -1,5 +1,9 @@
 import { Comment, Ticket } from "@prisma/client";
+
+import { logger } from "#root/logger.js";
 import { saveAttachments } from "#root/helpers/save-attachments.js";
+import { config } from "#root/config.js";
+import fs from "node:fs/promises";
 import Repository from "../repository.js";
 
 class TicketRepository extends Repository {
@@ -95,11 +99,41 @@ class TicketRepository extends Repository {
     return updateTicket;
   };
 
-  delete = async (id: string): Promise<Ticket> => {
-    const deleteTicket = await this.client.ticket.delete({
-      where: { id },
-    });
-    return deleteTicket;
+  delete = async (id: string): Promise<string> => {
+    const ticket = await this.getUnique(id);
+    if (ticket) {
+      const promises = ticket.attachments.map(async (fileId) => {
+        const localPath = `${config.PATH_TO_SAVE_FILE}\\${fileId}.jpg`;
+        try {
+          const promise = await fs.unlink(localPath);
+          return promise;
+        } catch (error) {
+          logger.warn(error);
+        }
+      });
+
+      Promise.all(promises);
+
+      await this.client.ticket.update({
+        where: { id },
+        data: {
+          attachments: {
+            deleteMany: {},
+          },
+          comments: {
+            deleteMany: {},
+          },
+          status_history: {
+            deleteMany: {},
+          },
+        },
+      });
+      const { id: deletedTicketId } = await this.client.ticket.delete({
+        where: { id },
+      });
+      return deletedTicketId;
+    }
+    return id;
   };
 }
 
