@@ -11,161 +11,162 @@ datasource db {
 }
 
 model Group {
-  id String @id
+  id          String @id
   description String
-  users User[]
+  users       User[]
 
   @@map("groups")
 }
 
 model Bush {
-  id Int @id  @default(autoincrement())
-  description String 
-  managers Manager[]
+  id              Int             @id @default(autoincrement())
+  description     String
+  managers        Manager[]
   petrol_stations PetrolStation[]
-  task_performers  TaskPerformer[]
+  task_performers TaskPerformer[]
 
   @@map("bushes")
 }
 
 model User {
-  id         String   @id
-  user_name  String   @unique
-  first_name String
-  last_name  String?
-  user_group String
-  group      Group    @relation(fields: [user_group], references: [id])
-  task_performer  TaskPerformer?
-  manager   Manager?
-  petrol_station PetrolStation?
-  comments Comment[]
+  id               String          @id
+  user_name        String          @unique
+  first_name       String
+  last_name        String?
+  user_group       String
+  group            Group           @relation(fields: [user_group], references: [id])
+  task_performer   TaskPerformer?
+  manager          Manager?
+  petrol_station   PetrolStation?
+  comments         Comment[]
   status_histories StatusHistory[]
-  created_at DateTime @default(now())
+  created_at       DateTime        @default(now())
 
   @@map("users")
 }
 
 model Manager {
-  user_id   String  @id
-  user User @relation(fields: [user_id], references: [id])
-  bush_id Int? 
-  bush Bush? @relation(fields: [bush_id], references: [id])
+  user_id         String          @id
+  user            User            @relation(fields: [user_id], references: [id])
+  bush_id         Int?
+  bush            Bush?           @relation(fields: [bush_id], references: [id])
   petrol_stations PetrolStation[]
 
   @@map("managers")
 }
 
 model PetrolStation {
-  user_id String @id
-  user User @relation(fields:user_id, references: id)
+  user_id  String    @id
+  user     User      @relation(fields: user_id, references: id)
   managers Manager[]
-  bush_id Int?
-  bush Bush? @relation(fields: [bush_id], references: [id])
-  tickets Ticket[]
+  bush_id  Int?
+  bush     Bush?     @relation(fields: [bush_id], references: [id])
+  tickets  Ticket[]
 
-	@@map("petrol_stations")
+  @@map("petrol_stations")
 }
 
 model Category {
-  id Int @id @default(autoincrement())
-  description String
-  tickets Ticket[]
-  words TagWord[]
-  task_performers  TaskPerformer[]
+  id              Int             @id @default(autoincrement())
+  description     String
+  tickets         Ticket[]
+  words           TagWord[]
+  task_performers TaskPerformer[]
 
   @@map("categores")
 }
 
 model TaskPerformer {
-  user_id String @id
-  id User @relation(fields: [user_id], references: [id])
-  bush_id Int
-  bush Bush @relation(fields: [bush_id], references: [id])
+  user_id     String    @id
+  id          User      @relation(fields: [user_id], references: [id])
+  bush_id     Int
+  bush        Bush      @relation(fields: [bush_id], references: [id])
   category_id Int?
-  category Category? @relation(fields: [category_id], references: [id])
+  category    Category? @relation(fields: [category_id], references: [id])
 
   @@map("task_performers")
 }
 
 model Priority {
-  id Int @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   description String
-  tickets Ticket[]
-  tag_words TagWord[]
+  tickets     Ticket[]
+  tag_words   TagWord[]
 
   @@map("priorites")
 }
 
 model Status {
-  id Int @id @default(autoincrement())
-  description String
+  id               Int             @id @default(autoincrement())
+  description      String
   status_histories StatusHistory[]
-  tickets Ticket[]
+  tickets          Ticket[]
 
   @@map("statuses")
 }
 
 model Ticket {
-  id         String   @id @default(uuid())
-  title      String
-  description String
-  attachments Attachment[]
-  petrol_station_id  String
-  petrol_station   PetrolStation  @relation(fields: [petrol_station_id], references: [user_id])
-  ticket_category Int?
-  category Category? @relation(fields: [ticket_category], references: [id])
-  ticket_priority Int?
-  priority Priority? @relation(fields: [ticket_priority], references: [id])
-  status_id Int
-  status Status @relation(fields: [status_id], references: [id])
-  status_history StatusHistory[]
-  comments Comment[]
+  id                String          @id @default(uuid())
+  title             String
+  description       String
+  attachments       Attachment[]
+  petrol_station_id String
+  petrol_station    PetrolStation   @relation(fields: [petrol_station_id], references: [user_id])
+  ticket_category   Int?
+  category          Category?       @relation(fields: [ticket_category], references: [id])
+  ticket_priority   Int?
+  priority          Priority?       @relation(fields: [ticket_priority], references: [id])
+  status_id         Int
+  status            Status          @relation(fields: [status_id], references: [id])
+  status_history    StatusHistory[]
+  comments          Comment[]
 
   @@map("tickets")
 }
 
 model StatusHistory {
-  id         String   @id @default(uuid())
-  ticket_id String
-  ticket Ticket @relation(fields: [ticket_id], references: [id])
-  user_id String
-  user User @relation(fields: [user_id], references: [id])
+  id            String   @id @default(uuid())
+  ticket_id     String
+  ticket        Ticket   @relation(fields: [ticket_id], references: [id])
+  user_id       String
+  user          User     @relation(fields: [user_id], references: [id])
   ticket_status Int
-  status Status @relation(fields: [ticket_status], references: [id])
-  created_at DateTime @default(now())
+  status        Status   @relation(fields: [ticket_status], references: [id])
+  created_at    DateTime @default(now())
 
   @@map("status_histories")
 }
 
 model Comment {
-  id String @id @default(uuid())
-  ticket_id String 
-  ticket Ticket @relation(fields: [ticket_id], references: [id])
-  user_id String 
-  user User @relation(fields: [user_id], references: [id])
-  text String
-  attachments Attachment []
-  created_at DateTime @default(now())
+  id          String       @id @default(uuid())
+  ticket_id   String
+  ticket      Ticket       @relation(fields: [ticket_id], references: [id])
+  user_id     String
+  user        User         @relation(fields: [user_id], references: [id])
+  text        String
+  attachments Attachment[]
+  created_at  DateTime     @default(now())
 
   @@map("comments")
 }
 
 model Attachment {
-  id String @id @default(uuid())
-  ticket_id String?
-  ticket Ticket? @relation(fields: [ticket_id], references: [id])
+  id         String   @id @default(uuid())
+  ticket_id  String?
+  ticket     Ticket?  @relation(fields: [ticket_id], references: [id])
   comment_id String?
-  comment Comment? @relation(fields: [comment_id], references: [id])
-  path String
+  comment    Comment? @relation(fields: [comment_id], references: [id])
+  path       String
 
   @@map("attachments")
 }
 
 model TagWord {
-  id String @id
+  id          String   @id
   category_id Int
-  category Category @relation(fields: [category_id], references: [id])
+  category    Category @relation(fields: [category_id], references: [id])
   priority_id Int
-  priority Priority @relation(fields: [priority_id], references: [id])
+  priority    Priority @relation(fields: [priority_id], references: [id])
+
   @@map("tag_words")
 }
