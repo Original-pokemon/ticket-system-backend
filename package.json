@@ -54,6 +54,9 @@
     "tsc-watch": "6.0.4",
     "typescript": "5.2.2"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
