@@ -22,11 +22,11 @@ const getUsersSchema = {
 
 const getSelectUsersSchema = {
   tags: ["user"],
-  body: {
-    data: {
-      type: "array",
-      items: {
-        type: "string",
+  querystring: {
+    type: "object",
+    properties: {
+      ids: {
+        type: "array",
       },
     },
   },

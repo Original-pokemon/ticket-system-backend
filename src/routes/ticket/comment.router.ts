@@ -56,9 +56,7 @@ export const commentRouters: FastifyPluginCallback = (
 ) => {
   instance.get(APIRoute.Comment.All, getCommentsOptions);
 
-  instance.post<{
-    Body: { data: string[] };
-  }>(APIRoute.Comment.Many, getSelectCommentsOptions);
+  instance.get(APIRoute.Comment.Many, getSelectCommentsOptions);
 
   instance.get<{
     Params: {

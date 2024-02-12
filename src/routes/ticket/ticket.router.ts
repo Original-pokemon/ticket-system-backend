@@ -56,9 +56,7 @@ export const ticketRouters: FastifyPluginCallback = (
 ) => {
   instance.get(APIRoute.Ticket.All, getTicketsOptions);
 
-  instance.post<{
-    Body: { data: string[] };
-  }>(APIRoute.Ticket.Many, getSelectTicketsOptions);
+  instance.get(APIRoute.Ticket.Many, getSelectTicketsOptions);
 
   instance.get<{
     Params: {

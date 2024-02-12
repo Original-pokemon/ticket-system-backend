@@ -56,7 +56,7 @@ export const attachmentRouters: FastifyPluginCallback = (
 ) => {
   instance.get(APIRoute.Attachment.All, getAttachmentsOptions);
 
-  instance.post(APIRoute.Attachment.Many, getSelectAttachmentsOptions);
+  instance.get(APIRoute.Attachment.Many, getSelectAttachmentsOptions);
 
   instance.get<{
     Params: {

@@ -26,12 +26,9 @@ const getCommentsSchema = {
 
 const getSelectCommentsSchema = {
   tags: ["comment"],
-  body: {
-    data: {
+  querystring: {
+    ids: {
       type: "array",
-      items: {
-        type: "string",
-      },
     },
   },
   response: {

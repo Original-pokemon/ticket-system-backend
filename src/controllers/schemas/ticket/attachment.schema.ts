@@ -20,12 +20,9 @@ const getAttachmentsSchema = {
 };
 const getSelectAttachmentsSchema = {
   tags: ["attachment"],
-  body: {
-    data: {
+  querystring: {
+    ids: {
       type: "array",
-      items: {
-        type: "string",
-      },
     },
   },
   response: {

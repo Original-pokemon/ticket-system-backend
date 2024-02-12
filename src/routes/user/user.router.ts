@@ -57,7 +57,7 @@ export const userRouters: FastifyPluginCallback = (
 ) => {
   instance.get(APIRoute.Users.All, getUsersOptions);
 
-  instance.post(APIRoute.Users.Many, getSelectUsersOptions);
+  instance.get(APIRoute.Users.Many, getSelectUsersOptions);
 
   instance.get<{
     Params: {

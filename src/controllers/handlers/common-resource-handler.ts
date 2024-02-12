@@ -26,15 +26,14 @@ function getResourcesHandler<Id>(resource: Resource<Id>): RouteHandlerMethod {
 function getManyResourcesHandler<Id>(resource: Resource<Id>) {
   return async (
     request: FastifyRequest<{
-      Body: { data: Id[] };
+      Querystring: { ids: Id[] };
     }>,
     reply: FastifyReply,
   ) => {
     try {
       if (resource.getMany) {
-        const { data } = request.body;
-
-        const items = await resource.getMany(data);
+        const { ids } = request.query;
+        const items = await resource.getMany(ids);
         reply.send(items);
       } else {
         throw new Error("Method don`t implement");

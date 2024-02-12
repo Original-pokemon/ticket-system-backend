@@ -1,5 +1,5 @@
-import { PetrolStation } from '@prisma/client';
-import Repository from '../repository.js';
+import { PetrolStation } from "@prisma/client";
+import Repository from "../repository.js";
 
 class PetrolStationRepository extends Repository {
   create = async (petrolStation: PetrolStation): Promise<string> => {

@@ -1,5 +1,5 @@
-import { Manager } from '@prisma/client';
-import Repository from '../repository.js';
+import { Manager } from "@prisma/client";
+import Repository from "../repository.js";
 
 const convertPetrolStationsToTicket = (
   petrolStations: {

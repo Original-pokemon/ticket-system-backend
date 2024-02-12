@@ -48,12 +48,9 @@ const getTicketSchema = {
 
 const getSelectTicketsSchema = {
   tags: ["ticket"],
-  body: {
-    data: {
+  querystring: {
+    ids: {
       type: "array",
-      items: {
-        type: "string",
-      },
     },
   },
   response: {
