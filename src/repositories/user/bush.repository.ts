@@ -1,5 +1,5 @@
-import { Bush } from '@prisma/client';
-import Repository from '../repository.js';
+import { Bush } from "@prisma/client";
+import Repository from "../repository.js";
 
 class BushRepository extends Repository {
   create = async (bush: Bush): Promise<number> => {
@@ -26,11 +26,11 @@ class BushRepository extends Repository {
     return updateBush;
   };
 
-  delete = async (id: number): Promise<Bush> => {
-    const deleteBush = await this.client.bush.delete({
+  delete = async (id: number): Promise<number> => {
+    const { id: deletedBushId } = await this.client.bush.delete({
       where: { id },
     });
-    return deleteBush;
+    return deletedBushId;
   };
 }
 

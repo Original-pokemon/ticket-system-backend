@@ -37,8 +37,8 @@ class CategoryRepository extends Repository {
     return updateCategory;
   };
 
-  delete = async (id: number): Promise<Category> => {
-    const deleteCategory = await this.client.category.delete({
+  delete = async (id: number): Promise<number> => {
+    const { id: deleteCategory } = await this.client.category.delete({
       where: { id },
     });
 

@@ -90,8 +90,7 @@ const deleteManagerSchema = {
   },
   response: {
     200: {
-      type: "object",
-      properties: ManagerInfo,
+      type: "string",
     },
   },
 };

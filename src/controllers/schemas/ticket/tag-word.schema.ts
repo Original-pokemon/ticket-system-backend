@@ -65,7 +65,9 @@ const deleteTagWordSchema = {
     id: { type: "string" },
   },
   response: {
-    200: TagWord,
+    200: {
+      type: "string",
+    },
   },
 };
 

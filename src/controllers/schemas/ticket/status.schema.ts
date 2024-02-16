@@ -55,7 +55,7 @@ const deleteStatusSchema = {
     id: { type: "number" },
   },
   response: {
-    200: Status,
+    200: { type: "string" },
   },
 };
 

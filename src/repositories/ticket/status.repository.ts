@@ -26,11 +26,11 @@ class StatusRepository extends Repository {
     return updateStatus;
   };
 
-  delete = async (id: number): Promise<Status> => {
-    const deleteStatus = await this.client.status.delete({
+  delete = async (id: number): Promise<number> => {
+    const { id: deleteStatusId } = await this.client.status.delete({
       where: { id },
     });
-    return deleteStatus;
+    return deleteStatusId;
   };
 }
 

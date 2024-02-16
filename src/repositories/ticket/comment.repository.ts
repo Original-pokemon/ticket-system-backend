@@ -69,11 +69,11 @@ class CommentRepository extends Repository {
     return updateComment;
   };
 
-  delete = async (id: string): Promise<Comment> => {
-    const deleteComment = await this.client.comment.delete({
+  delete = async (id: string): Promise<string> => {
+    const { id: deleteCommentId } = await this.client.comment.delete({
       where: { id },
     });
-    return deleteComment;
+    return deleteCommentId;
   };
 }
 

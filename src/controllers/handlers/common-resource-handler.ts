@@ -54,6 +54,9 @@ function getResourceHandler<Id>(resource: Resource<Id>) {
     const { id } = request.params;
     try {
       const data = await resource.getUnique(id);
+      if (!data) {
+        return reply.code(404).send({ message: "Not found" });
+      }
       reply.send(data);
     } catch (error) {
       handleErrors(reply, error, `Error fetching ${resource.name}`);
@@ -71,7 +74,7 @@ function createResourceHandler<Id, Data>(resource: Resource<Id>) {
     try {
       const { body } = request;
       const data = await resource.create(body);
-      reply.send(data);
+      reply.code(200).send(data);
     } catch (error) {
       handleErrors(reply, error, `Error creating ${resource.name}`);
     }
@@ -87,7 +90,7 @@ function updateResourceHandler<Id, Data>(resource: Resource<Id>) {
   ) => {
     try {
       const data = await resource.update(request.body);
-      reply.send(data);
+      reply.code(200).send(data);
     } catch (error) {
       handleErrors(reply, error, `Error updating ${resource.name}`);
     }
@@ -104,7 +107,7 @@ function deleteResourceHandler<Id>(resource: Resource<Id>) {
     const { id } = request.params;
     try {
       const data = await resource.delete(id);
-      reply.send(data);
+      reply.code(204).send(data);
     } catch (error) {
       handleErrors(reply, error, `Error deleting ${resource.name}`);
     }

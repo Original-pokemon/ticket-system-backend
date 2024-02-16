@@ -88,7 +88,7 @@ const deleteTicketSchema = {
     id: { type: "string" },
   },
   response: {
-    200: Ticket,
+    200: { type: "string" },
   },
 };
 

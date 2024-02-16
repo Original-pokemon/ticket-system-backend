@@ -67,8 +67,7 @@ const deleteGroupSchema = {
   },
   response: {
     200: {
-      type: "object",
-      properties: Group,
+      type: "string",
     },
   },
 };

@@ -44,11 +44,12 @@ class StatusHistoryRepository extends Repository {
     return updateStatusHistory;
   };
 
-  delete = async (id: string): Promise<StatusHistory> => {
-    const deleteStatusHistory = await this.client.statusHistory.delete({
-      where: { id },
-    });
-    return deleteStatusHistory;
+  delete = async (id: string): Promise<string> => {
+    const { id: deletedStatusHistoryId } =
+      await this.client.statusHistory.delete({
+        where: { id },
+      });
+    return deletedStatusHistoryId;
   };
 }
 

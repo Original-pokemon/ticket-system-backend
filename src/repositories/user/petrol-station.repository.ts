@@ -76,11 +76,11 @@ class PetrolStationRepository extends Repository {
 
   delete = async (id: string) => {
     try {
-      const deletePetrolStation = await this.client.petrolStation.delete({
+      const { user_id } = await this.client.petrolStation.delete({
         where: { user_id: id },
       });
 
-      return deletePetrolStation;
+      return user_id;
     } catch (error) {
       if (error instanceof Error) {
         throw new TypeError(error.message);

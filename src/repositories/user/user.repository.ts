@@ -38,11 +38,11 @@ class UserRepository extends Repository {
     return updatedUser;
   };
 
-  delete = async (id: string): Promise<User> => {
-    const deleteUser = await this.client.user.delete({
+  delete = async (id: string): Promise<string> => {
+    const { id: deletedUserId } = await this.client.user.delete({
       where: { id },
     });
-    return deleteUser;
+    return deletedUserId;
   };
 }
 

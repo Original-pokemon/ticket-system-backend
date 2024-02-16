@@ -76,7 +76,7 @@ const deleteCommentSchema = {
     id: { type: "string" },
   },
   response: {
-    200: Comment,
+    200: { type: "string" },
   },
 };
 

@@ -90,11 +90,11 @@ class ManagerRepository extends Repository {
     return updateManager;
   };
 
-  delete = async (id: string) => {
-    const deleteManager = await this.client.manager.delete({
-      where: { user_id: id },
+  delete = async (user_id: string) => {
+    const { user_id: id } = await this.client.manager.delete({
+      where: { user_id },
     });
-    return deleteManager;
+    return id;
   };
 }
 

@@ -29,12 +29,12 @@ class TagWordRepository extends Repository {
     return updateTagWord;
   };
 
-  delete = async (id: string): Promise<TagWord> => {
-    const deleteTagWord = await this.client.tagWord.delete({
+  delete = async (id: string): Promise<string> => {
+    const { id: tagWordId } = await this.client.tagWord.delete({
       where: { id },
     });
 
-    return deleteTagWord;
+    return tagWordId;
   };
 }
 

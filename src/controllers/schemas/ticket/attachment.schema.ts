@@ -70,7 +70,7 @@ const deleteAttachmentSchema = {
     id: { type: "string" },
   },
   response: {
-    200: Attachment,
+    200: { type: "string" },
   },
 };
 

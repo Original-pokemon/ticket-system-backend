@@ -30,8 +30,8 @@ class PriorityRepository extends Repository {
     return updatePriority;
   };
 
-  delete = async (id: number): Promise<Priority> => {
-    const deletePriority = await this.client.priority.delete({
+  delete = async (id: number): Promise<number> => {
+    const { id: deletePriority } = await this.client.priority.delete({
       where: { id },
     });
     return deletePriority;

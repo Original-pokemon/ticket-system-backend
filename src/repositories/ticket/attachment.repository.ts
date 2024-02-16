@@ -1,5 +1,5 @@
-import { Attachment } from '@prisma/client';
-import Repository from '../repository.js';
+import { Attachment } from "@prisma/client";
+import Repository from "../repository.js";
 
 class AttachmentRepository extends Repository {
   create = async (attachment: Attachment): Promise<string> => {
@@ -45,11 +45,11 @@ class AttachmentRepository extends Repository {
     return updateAttachment;
   };
 
-  delete = async (id: string): Promise<Attachment> => {
-    const deleteAttachment = await this.client.attachment.delete({
+  delete = async (id: string): Promise<string> => {
+    const { id: deleteAttachmentId } = await this.client.attachment.delete({
       where: { id },
     });
-    return deleteAttachment;
+    return deleteAttachmentId;
   };
 }
 

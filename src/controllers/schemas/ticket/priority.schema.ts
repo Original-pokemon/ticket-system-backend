@@ -54,7 +54,9 @@ const deletePrioritySchema = {
     id: { type: "number" },
   },
   response: {
-    200: Priority,
+    200: {
+      type: "string",
+    },
   },
 };
 

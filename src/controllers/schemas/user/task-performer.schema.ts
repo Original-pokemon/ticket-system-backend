@@ -68,10 +68,7 @@ const deleteTaskPerformerSchema = {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: TaskPerformer,
-    },
+    200: { type: "string" },
   },
 };
 

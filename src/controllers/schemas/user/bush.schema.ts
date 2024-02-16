@@ -71,8 +71,7 @@ const deleteBushSchema = {
   },
   response: {
     200: {
-      type: "object",
-      properties: Bush,
+      type: "string",
     },
   },
 };

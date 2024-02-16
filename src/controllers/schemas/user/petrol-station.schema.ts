@@ -92,10 +92,7 @@ const deletePetrolStationSchema = {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: PetrolStation,
-    },
+    200: { type: "string" },
   },
 };
 

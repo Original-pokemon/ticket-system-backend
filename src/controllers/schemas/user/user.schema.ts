@@ -91,10 +91,7 @@ const deleteUserSchema = {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: User,
-    },
+    200: { type: "string" },
   },
 };
 

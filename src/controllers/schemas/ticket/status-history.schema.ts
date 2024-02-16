@@ -58,7 +58,9 @@ const deleteStatusHistorySchema = {
     id: { type: "string" },
   },
   response: {
-    200: StatusHistory,
+    200: {
+      type: "string",
+    },
   },
 };
 

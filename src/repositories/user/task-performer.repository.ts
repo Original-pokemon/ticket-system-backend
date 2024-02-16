@@ -51,11 +51,11 @@ class TaskPerformerRepository extends Repository {
     return updateTaskPerformer;
   };
 
-  delete = async (user_id: string): Promise<TaskPerformer> => {
-    const deleteTaskPerformer = await this.client.taskPerformer.delete({
+  delete = async (user_id: string): Promise<string> => {
+    const { user_id: id } = await this.client.taskPerformer.delete({
       where: { user_id },
     });
-    return deleteTaskPerformer;
+    return id;
   };
 }
 

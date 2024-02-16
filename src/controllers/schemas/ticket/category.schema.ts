@@ -60,7 +60,8 @@ const deleteCategorySchema = {
     id: { type: "string" },
   },
   response: {
-    200: Category,
+    200: {
+      type: "string",
   },
 };
 

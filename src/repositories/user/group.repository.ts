@@ -26,11 +26,11 @@ class GroupRepository extends Repository {
     return updateGroup;
   };
 
-  delete = async (id: string): Promise<Group> => {
-    const deleteGroup = await this.client.group.delete({
+  delete = async (id: string): Promise<string> => {
+    const { id: deletedGroupId } = await this.client.group.delete({
       where: { id },
     });
-    return deleteGroup;
+    return deletedGroupId;
   };
 }
 
