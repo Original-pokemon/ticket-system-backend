@@ -5,7 +5,6 @@ import {
   getResourceHandler,
   updateResourceHandler,
   getResourcesHandler,
-  getManyResourcesHandler,
 } from "../common-resource-handler.js";
 
 const commentResource = {
@@ -23,5 +22,3 @@ export const getCommentHandler = getResourceHandler(commentResource);
 export const createCommentHandler = createResourceHandler(commentResource);
 export const updateCommentHandler = updateResourceHandler(commentResource);
 export const deleteCommentHandler = deleteResourceHandler(commentResource);
-export const getSelectCommentsHandler =
-  getManyResourcesHandler(commentResource);

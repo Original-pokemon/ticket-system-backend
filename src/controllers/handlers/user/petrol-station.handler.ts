@@ -17,20 +17,18 @@ const petrolStationResource = {
   name: "petrolStation",
 };
 
-export const getPetrolStationsHandler = getResourcesHandler<string>(
+export const getPetrolStationsHandler = getResourcesHandler(
   petrolStationResource,
 );
-export const getPetrolStationHandler = getResourceHandler<string>(
+export const getPetrolStationHandler = getResourceHandler(
   petrolStationResource,
 );
-export const createPetrolStationHandler = createResourceHandler<
-  string,
-  PetrolStation
->(petrolStationResource);
-export const updatePetrolStationHandler = updateResourceHandler<
-  string,
-  PetrolStation
->(petrolStationResource);
-export const deletePetrolStationHandler = deleteResourceHandler<string>(
+export const createPetrolStationHandler = createResourceHandler<PetrolStation>(
+  petrolStationResource,
+);
+export const updatePetrolStationHandler = updateResourceHandler<PetrolStation>(
+  petrolStationResource,
+);
+export const deletePetrolStationHandler = deleteResourceHandler(
   petrolStationResource,
 );

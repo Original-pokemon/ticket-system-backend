@@ -17,20 +17,18 @@ const taskPerformerResource = {
   name: "taskPerformer",
 };
 
-export const getTaskPerformersHandler = getResourcesHandler<string>(
+export const getTaskPerformersHandler = getResourcesHandler(
   taskPerformerResource,
 );
-export const getTaskPerformerHandler = getResourceHandler<string>(
+export const getTaskPerformerHandler = getResourceHandler(
   taskPerformerResource,
 );
-export const createTaskPerformerHandler = createResourceHandler<
-  string,
-  TaskPerformer
->(taskPerformerResource);
-export const updateTaskPerformerHandler = updateResourceHandler<
-  string,
-  TaskPerformer
->(taskPerformerResource);
-export const deleteTaskPerformerHandler = deleteResourceHandler<string>(
+export const createTaskPerformerHandler = createResourceHandler<TaskPerformer>(
+  taskPerformerResource,
+);
+export const updateTaskPerformerHandler = updateResourceHandler<TaskPerformer>(
+  taskPerformerResource,
+);
+export const deleteTaskPerformerHandler = deleteResourceHandler(
   taskPerformerResource,
 );

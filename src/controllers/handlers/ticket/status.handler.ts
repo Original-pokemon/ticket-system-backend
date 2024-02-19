@@ -17,13 +17,10 @@ const statusResource = {
   name: "status",
 };
 
-export const getStatusesHandler = getResourcesHandler<number>(statusResource);
-export const getStatusHandler = getResourceHandler<number>(statusResource);
-export const createStatusHandler = createResourceHandler<number, Status>(
-  statusResource,
-);
-export const updateStatusHandler = updateResourceHandler<number, Status>(
-  statusResource,
-);
-export const deleteStatusHandler =
-  deleteResourceHandler<number>(statusResource);
+export const getStatusesHandler = getResourcesHandler(statusResource);
+export const getStatusHandler = getResourceHandler(statusResource);
+export const createStatusHandler =
+  createResourceHandler<Status>(statusResource);
+export const updateStatusHandler =
+  updateResourceHandler<Status>(statusResource);
+export const deleteStatusHandler = deleteResourceHandler(statusResource);

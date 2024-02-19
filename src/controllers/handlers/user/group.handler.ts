@@ -17,12 +17,8 @@ const groupResource = {
   name: "group",
 };
 
-export const getGroupsHandler = getResourcesHandler<string>(groupResource);
-export const getGroupHandler = getResourceHandler<string>(groupResource);
-export const createGroupHandler = createResourceHandler<string, Group>(
-  groupResource,
-);
-export const updateGroupHandler = updateResourceHandler<string, Group>(
-  groupResource,
-);
-export const deleteGroupHandler = deleteResourceHandler<string>(groupResource);
+export const getGroupsHandler = getResourcesHandler(groupResource);
+export const getGroupHandler = getResourceHandler(groupResource);
+export const createGroupHandler = createResourceHandler<Group>(groupResource);
+export const updateGroupHandler = updateResourceHandler<Group>(groupResource);
+export const deleteGroupHandler = deleteResourceHandler(groupResource);

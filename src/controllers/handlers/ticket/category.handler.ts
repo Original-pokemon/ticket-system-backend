@@ -17,14 +17,10 @@ const categoryResource = {
   name: "category",
 };
 
-export const getCategoriesHandler =
-  getResourcesHandler<number>(categoryResource);
-export const getCategoryHandler = getResourceHandler<number>(categoryResource);
-export const createCategoryHandler = createResourceHandler<number, Category>(
-  categoryResource,
-);
-export const updateCategoryHandler = updateResourceHandler<number, Category>(
-  categoryResource,
-);
-export const deleteCategoryHandler =
-  deleteResourceHandler<number>(categoryResource);
+export const getCategoriesHandler = getResourcesHandler(categoryResource);
+export const getCategoryHandler = getResourceHandler(categoryResource);
+export const createCategoryHandler =
+  createResourceHandler<Category>(categoryResource);
+export const updateCategoryHandler =
+  updateResourceHandler<Category>(categoryResource);
+export const deleteCategoryHandler = deleteResourceHandler(categoryResource);

@@ -17,12 +17,8 @@ const bushResource = {
   name: "bush",
 };
 
-export const getBushesHandler = getResourcesHandler<number>(bushResource);
-export const getBushHandler = getResourceHandler<number>(bushResource);
-export const createBushHandler = createResourceHandler<number, Bush>(
-  bushResource,
-);
-export const updateBushHandler = updateResourceHandler<number, Bush>(
-  bushResource,
-);
-export const deleteBushHandler = deleteResourceHandler<number>(bushResource);
+export const getBushesHandler = getResourcesHandler(bushResource);
+export const getBushHandler = getResourceHandler(bushResource);
+export const createBushHandler = createResourceHandler<Bush>(bushResource);
+export const updateBushHandler = updateResourceHandler<Bush>(bushResource);
+export const deleteBushHandler = deleteResourceHandler(bushResource);

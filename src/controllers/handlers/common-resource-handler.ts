@@ -5,10 +5,10 @@ import { handleErrors } from "#root/helpers/handle-error.js";
 type Resource<Id> = {
   getAll: () => Promise<any[]>;
   getMany?: (data: Id[]) => Promise<any[]>;
-  getUnique: (id: Id) => Promise<any>;
+  getUnique: (id: string) => Promise<any>;
   create: (data: any) => Promise<any>;
   update: (data: any) => Promise<any>;
-  delete: (id: Id) => Promise<any>;
+  delete: (id: string) => Promise<any>;
   name: string;
 };
 
@@ -44,10 +44,10 @@ function getManyResourcesHandler<Id>(resource: Resource<Id>) {
   };
 }
 
-function getResourceHandler<Id>(resource: Resource<Id>) {
+function getResourceHandler(resource: Resource) {
   return async (
     request: FastifyRequest<{
-      Params: { id: Id };
+      Params: { id: string };
     }>,
     reply: FastifyReply,
   ) => {
@@ -64,7 +64,7 @@ function getResourceHandler<Id>(resource: Resource<Id>) {
   };
 }
 
-function createResourceHandler<Id, Data>(resource: Resource<Id>) {
+function createResourceHandler<Data>(resource: Resource) {
   return async (
     request: FastifyRequest<{
       Body: Data;
@@ -81,7 +81,7 @@ function createResourceHandler<Id, Data>(resource: Resource<Id>) {
   };
 }
 
-function updateResourceHandler<Id, Data>(resource: Resource<Id>) {
+function updateResourceHandler<Data>(resource: Resource) {
   return async (
     request: FastifyRequest<{
       Body: Data;
@@ -97,10 +97,10 @@ function updateResourceHandler<Id, Data>(resource: Resource<Id>) {
   };
 }
 
-function deleteResourceHandler<Id>(resource: Resource<Id>) {
+function deleteResourceHandler(resource: Resource) {
   return async (
     request: FastifyRequest<{
-      Params: { id: Id };
+      Params: { id: string };
     }>,
     reply: FastifyReply,
   ) => {

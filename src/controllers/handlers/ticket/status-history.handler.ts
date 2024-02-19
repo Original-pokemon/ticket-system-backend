@@ -17,20 +17,18 @@ const statusHistoryResource = {
   name: "statusHistory",
 };
 
-export const getStatusHistoriesHandler = getResourcesHandler<string>(
+export const getStatusHistoriesHandler = getResourcesHandler(
   statusHistoryResource,
 );
-export const getStatusHistoryHandler = getResourceHandler<string>(
+export const getStatusHistoryHandler = getResourceHandler(
   statusHistoryResource,
 );
-export const createStatusHistoryHandler = createResourceHandler<
-  string,
-  StatusHistory
->(statusHistoryResource);
-export const updateStatusHistoryHandler = updateResourceHandler<
-  string,
-  StatusHistory
->(statusHistoryResource);
-export const deleteStatusHistoryHandler = deleteResourceHandler<string>(
+export const createStatusHistoryHandler = createResourceHandler<StatusHistory>(
+  statusHistoryResource,
+);
+export const updateStatusHistoryHandler = updateResourceHandler<StatusHistory>(
+  statusHistoryResource,
+);
+export const deleteStatusHistoryHandler = deleteResourceHandler(
   statusHistoryResource,
 );

@@ -6,7 +6,6 @@ import {
   getResourceHandler,
   updateResourceHandler,
   getResourcesHandler,
-  getManyResourcesHandler,
 } from "../common-resource-handler.js";
 
 const ticketResource = {
@@ -19,15 +18,10 @@ const ticketResource = {
   name: "ticket",
 };
 
-export const getTicketsHandler = getResourcesHandler<string>(ticketResource);
-export const getTicketHandler = getResourceHandler<string>(ticketResource);
-export const createTicketHandler = createResourceHandler<string, Ticket>(
-  ticketResource,
-);
-export const updateTicketHandler = updateResourceHandler<string, Ticket>(
-  ticketResource,
-);
-export const deleteTicketHandler =
-  deleteResourceHandler<string>(ticketResource);
-export const getSelectTicketsHandler =
-  getManyResourcesHandler<string>(ticketResource);
+export const getTicketsHandler = getResourcesHandler(ticketResource);
+export const getTicketHandler = getResourceHandler(ticketResource);
+export const createTicketHandler =
+  createResourceHandler<Ticket>(ticketResource);
+export const updateTicketHandler =
+  updateResourceHandler<Ticket>(ticketResource);
+export const deleteTicketHandler = deleteResourceHandler(ticketResource);

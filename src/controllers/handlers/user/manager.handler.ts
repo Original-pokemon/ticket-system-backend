@@ -17,13 +17,10 @@ const managerResource = {
   name: "manager",
 };
 
-export const getManagersHandler = getResourcesHandler<string>(managerResource);
-export const getManagerHandler = getResourceHandler<string>(managerResource);
-export const createManagerHandler = createResourceHandler<string, Manager>(
-  managerResource,
-);
-export const updateManagerHandler = updateResourceHandler<string, Manager>(
-  managerResource,
-);
-export const deleteManagerHandler =
-  deleteResourceHandler<string>(managerResource);
+export const getManagersHandler = getResourcesHandler(managerResource);
+export const getManagerHandler = getResourceHandler(managerResource);
+export const createManagerHandler =
+  createResourceHandler<Manager>(managerResource);
+export const updateManagerHandler =
+  updateResourceHandler<Manager>(managerResource);
+export const deleteManagerHandler = deleteResourceHandler(managerResource);

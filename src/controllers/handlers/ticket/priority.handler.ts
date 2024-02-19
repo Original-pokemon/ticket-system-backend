@@ -17,14 +17,10 @@ const priorityResource = {
   name: "priority",
 };
 
-export const getPrioritiesHandler =
-  getResourcesHandler<number>(priorityResource);
-export const getPriorityHandler = getResourceHandler<number>(priorityResource);
-export const createPriorityHandler = createResourceHandler<number, Priority>(
-  priorityResource,
-);
-export const updatePriorityHandler = updateResourceHandler<number, Priority>(
-  priorityResource,
-);
-export const deletePriorityHandler =
-  deleteResourceHandler<number>(priorityResource);
+export const getPrioritiesHandler = getResourcesHandler(priorityResource);
+export const getPriorityHandler = getResourceHandler(priorityResource);
+export const createPriorityHandler =
+  createResourceHandler<Priority>(priorityResource);
+export const updatePriorityHandler =
+  updateResourceHandler<Priority>(priorityResource);
+export const deletePriorityHandler = deleteResourceHandler(priorityResource);
