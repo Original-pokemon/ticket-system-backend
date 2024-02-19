@@ -1,5 +1,6 @@
 import { TagWord } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class TagWordRepository extends Repository {
   create = async (tagWord: TagWord): Promise<string> => {
@@ -9,9 +10,32 @@ class TagWordRepository extends Repository {
     return id;
   };
 
-  getAll = async (): Promise<TagWord[]> => {
-    const categories = await this.client.tagWord.findMany();
-    return categories;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.tagWord.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
   getUnique = async (id: string): Promise<TagWord | null> => {

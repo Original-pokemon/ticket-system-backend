@@ -1,5 +1,6 @@
 import { Attachment } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class AttachmentRepository extends Repository {
   create = async (attachment: Attachment): Promise<string> => {
@@ -9,9 +10,32 @@ class AttachmentRepository extends Repository {
     return id;
   };
 
-  getAll = async (): Promise<Attachment[]> => {
-    const statusHistories = await this.client.attachment.findMany();
-    return statusHistories;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.attachment.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
   getMany = async (data: string[]) => {

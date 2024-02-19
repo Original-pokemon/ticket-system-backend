@@ -1,27 +1,51 @@
 import { Category } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class CategoryRepository extends Repository {
-  create = async (category: Category): Promise<number> => {
+  create = async (category: Category) => {
     const { id } = await this.client.category.create({
       data: category,
     });
     return id;
   };
 
-  getAll = async (): Promise<Category[]> => {
-    const categories = await this.client.category.findMany();
-    return categories;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.category.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
-  getUnique = async (id: number) => {
+  getUnique = async (id: string) => {
     const category = await this.client.category.findUnique({
       where: { id },
-      include: { task_performers: { select: { user_id: true } } },
+      include: { task_performers: { select: { id: true } } },
     });
 
     const taskPerformerIds = category?.task_performers.map(
-      (taskPerformer) => taskPerformer.user_id,
+      (taskPerformer) => taskPerformer.id,
     );
 
     return { ...category, task_performers: taskPerformerIds };
@@ -37,7 +61,7 @@ class CategoryRepository extends Repository {
     return updateCategory;
   };
 
-  delete = async (id: number): Promise<number> => {
+  delete = async (id: string) => {
     const { id: deleteCategory } = await this.client.category.delete({
       where: { id },
     });

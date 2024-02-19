@@ -19,7 +19,7 @@ model Group {
 }
 
 model Bush {
-  id              Int             @id @default(autoincrement())
+  id              String          @id
   description     String
   managers        Manager[]
   petrol_stations PetrolStation[]
@@ -48,7 +48,7 @@ model User {
 model Manager {
   user_id         String          @id
   user            User            @relation(fields: [user_id], references: [id])
-  bush_id         Int?
+  bush_id         String?
   bush            Bush?           @relation(fields: [bush_id], references: [id])
   petrol_stations PetrolStation[]
 
@@ -59,7 +59,7 @@ model PetrolStation {
   user_id  String    @id
   user     User      @relation(fields: user_id, references: id)
   managers Manager[]
-  bush_id  Int?
+  bush_id  String?
   bush     Bush?     @relation(fields: [bush_id], references: [id])
   tickets  Ticket[]
 
@@ -67,7 +67,7 @@ model PetrolStation {
 }
 
 model Category {
-  id              Int             @id @default(autoincrement())
+  id              String          @id
   description     String
   tickets         Ticket[]
   words           TagWord[]
@@ -79,16 +79,16 @@ model Category {
 model TaskPerformer {
   user_id     String    @id
   id          User      @relation(fields: [user_id], references: [id])
-  bush_id     Int
+  bush_id     String
   bush        Bush      @relation(fields: [bush_id], references: [id])
-  category_id Int?
+  category_id String?
   category    Category? @relation(fields: [category_id], references: [id])
 
   @@map("task_performers")
 }
 
 model Priority {
-  id          Int       @id @default(autoincrement())
+  id          String    @id
   description String
   tickets     Ticket[]
   tag_words   TagWord[]
@@ -97,7 +97,7 @@ model Priority {
 }
 
 model Status {
-  id               Int             @id @default(autoincrement())
+  id               String          @id
   description      String
   status_histories StatusHistory[]
   tickets          Ticket[]
@@ -112,11 +112,11 @@ model Ticket {
   attachments       Attachment[]
   petrol_station_id String
   petrol_station    PetrolStation   @relation(fields: [petrol_station_id], references: [user_id])
-  ticket_category   Int?
+  ticket_category   String?
   category          Category?       @relation(fields: [ticket_category], references: [id])
-  ticket_priority   Int?
+  ticket_priority   String?
   priority          Priority?       @relation(fields: [ticket_priority], references: [id])
-  status_id         Int
+  status_id         String
   status            Status          @relation(fields: [status_id], references: [id])
   status_history    StatusHistory[]
   comments          Comment[]
@@ -130,7 +130,7 @@ model StatusHistory {
   ticket        Ticket   @relation(fields: [ticket_id], references: [id])
   user_id       String
   user          User     @relation(fields: [user_id], references: [id])
-  ticket_status Int
+  ticket_status String
   status        Status   @relation(fields: [ticket_status], references: [id])
   created_at    DateTime @default(now())
 
@@ -163,9 +163,9 @@ model Attachment {
 
 model TagWord {
   id          String   @id
-  category_id Int
+  category_id String
   category    Category @relation(fields: [category_id], references: [id])
-  priority_id Int
+  priority_id String
   priority    Priority @relation(fields: [priority_id], references: [id])
 
   @@map("tag_words")

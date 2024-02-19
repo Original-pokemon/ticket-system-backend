@@ -1,6 +1,7 @@
 import { Comment } from "@prisma/client";
 import { saveAttachments } from "#root/helpers/save-attachments.js";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class CommentRepository extends Repository {
   create = async (
@@ -21,9 +22,32 @@ class CommentRepository extends Repository {
     return id;
   };
 
-  getAll = async (): Promise<Comment[]> => {
-    const statusHistories = await this.client.comment.findMany();
-    return statusHistories;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.comment.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
   getMany = async (data: string[]): Promise<Comment[]> => {

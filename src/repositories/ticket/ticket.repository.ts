@@ -5,6 +5,7 @@ import { saveAttachments } from "#root/helpers/save-attachments.js";
 import { config } from "#root/config.js";
 import fs from "node:fs/promises";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class TicketRepository extends Repository {
   create = async (
@@ -37,9 +38,32 @@ class TicketRepository extends Repository {
     return id;
   };
 
-  getAll = async (): Promise<Ticket[]> => {
-    const tickets = await this.client.ticket.findMany();
-    return tickets;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.ticket.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
   getMany = async (data: string[]): Promise<Ticket[]> => {

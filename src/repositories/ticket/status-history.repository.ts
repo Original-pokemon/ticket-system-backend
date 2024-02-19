@@ -1,5 +1,6 @@
 import { StatusHistory } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class StatusHistoryRepository extends Repository {
   create = async (statusHistory: StatusHistory): Promise<string> => {
@@ -9,16 +10,39 @@ class StatusHistoryRepository extends Repository {
     return id;
   };
 
-  getAll = async (): Promise<StatusHistory[]> => {
-    const statusHistories = await this.client.statusHistory.findMany();
-    return statusHistories;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.statusHistory.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
   getMany = async ([userId, status]: [string, string]) => {
     const statusHistories = await this.client.statusHistory.findMany({
       where: {
         user_id: userId,
-        ticket_status: Number(status),
+        ticket_status: status,
       },
       orderBy: {
         created_at: "desc",
