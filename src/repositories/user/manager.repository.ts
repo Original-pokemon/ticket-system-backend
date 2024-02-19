@@ -1,6 +1,6 @@
 import { Manager } from "@prisma/client";
+import { OrderByType, WhereType, getAllProperties } from "#root/types.js";
 import Repository from "../repository.js";
-import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 const convertPetrolStationsToTicket = (
   petrolStations: {
@@ -25,13 +25,13 @@ class ManagerRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const { ids, start = 0, end, filter, sort } = properties;
+    const { idList, start = 0, end, filter, sort } = properties;
 
     const where: WhereType = {};
     const orderBy: OrderByType = {};
 
-    if (ids) {
-      where.id = { in: ids };
+    if (idList) {
+      where.id = { in: idList };
     }
 
     if (filter && filter.key && filter.value) {

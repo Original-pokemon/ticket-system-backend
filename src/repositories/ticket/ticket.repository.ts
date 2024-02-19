@@ -4,8 +4,8 @@ import { logger } from "#root/logger.js";
 import { saveAttachments } from "#root/helpers/save-attachments.js";
 import { config } from "#root/config.js";
 import fs from "node:fs/promises";
+import { OrderByType, WhereType, getAllProperties } from "#root/types.js";
 import Repository from "../repository.js";
-import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class TicketRepository extends Repository {
   create = async (
@@ -39,13 +39,13 @@ class TicketRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const { ids, start = 0, end, filter, sort } = properties;
+    const { idList, start = 0, end, filter, sort } = properties;
 
     const where: WhereType = {};
     const orderBy: OrderByType = {};
 
-    if (ids) {
-      where.id = { in: ids };
+    if (idList) {
+      where.id = { in: idList };
     }
 
     if (filter && filter.key && filter.value) {
