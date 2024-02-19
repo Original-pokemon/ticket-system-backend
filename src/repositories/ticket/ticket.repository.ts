@@ -39,13 +39,13 @@ class TicketRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const { idList, start = 0, end, filter, sort } = properties;
+    const { id, start = 0, end, filter, sort } = properties;
 
     const where: WhereType = {};
     const orderBy: OrderByType = {};
 
-    if (idList) {
-      where.id = { in: idList };
+    if (id) {
+      where.id = { in: id };
     }
 
     if (filter && filter.key && filter.value) {

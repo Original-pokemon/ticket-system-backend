@@ -20,7 +20,7 @@ type OrderByType = {
 };
 
 type getAllProperties = {
-  idList?: string[];
+  id?: string[];
   start?: number;
   end?: number;
   filter?: FilterType;
