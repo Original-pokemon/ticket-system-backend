@@ -1,18 +1,42 @@
 import { Bush } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class BushRepository extends Repository {
-  create = async (bush: Bush): Promise<number> => {
+  create = async (bush: Bush) => {
     const { id } = await this.client.bush.create({ data: bush });
     return id;
   };
 
-  getAll = async (): Promise<Bush[]> => {
-    const bushes = await this.client.bush.findMany();
-    return bushes;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.bush.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
-  getUnique = async (id: number): Promise<Bush | null> => {
+  getUnique = async (id: string): Promise<Bush | null> => {
     const bush = await this.client.bush.findUnique({ where: { id } });
     return bush;
   };
@@ -26,7 +50,7 @@ class BushRepository extends Repository {
     return updateBush;
   };
 
-  delete = async (id: number): Promise<number> => {
+  delete = async (id: string) => {
     const { id: deletedBushId } = await this.client.bush.delete({
       where: { id },
     });

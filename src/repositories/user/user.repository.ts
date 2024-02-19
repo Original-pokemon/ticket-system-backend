@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class UserRepository extends Repository {
   create = async (user: User): Promise<string> => {
@@ -7,9 +8,32 @@ class UserRepository extends Repository {
     return id;
   };
 
-  getAll = async (): Promise<User[]> => {
-    const users = await this.client.user.findMany();
-    return users;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.user.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+    });
+
+    return items;
   };
 
   getMany = async (data: string[]): Promise<User[]> => {

@@ -1,28 +1,50 @@
 import { PetrolStation } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class PetrolStationRepository extends Repository {
   create = async (petrolStation: PetrolStation): Promise<string> => {
-    const { user_id } = await this.client.petrolStation.create({
+    const { id } = await this.client.petrolStation.create({
       data: petrolStation,
     });
-    return user_id;
+    return id;
   };
 
-  getAll = async () => {
-    const petrolStation = await this.client.petrolStation.findMany({
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.petrolStation.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
       include: {
         user: true,
       },
     });
 
-    return petrolStation;
+    return items;
   };
 
   getUnique = async (id: string) => {
     const petrolStation = await this.client.petrolStation.findUnique({
       where: {
-        user_id: id,
+        id,
       },
       include: {
         tickets: {
@@ -32,7 +54,7 @@ class PetrolStationRepository extends Repository {
         },
         managers: {
           select: {
-            user_id: true,
+            id: true,
           },
         },
         user: true,
@@ -40,7 +62,7 @@ class PetrolStationRepository extends Repository {
     });
 
     if (petrolStation) {
-      const managers = petrolStation?.managers.map((item) => item.user_id);
+      const managers = petrolStation?.managers.map((item) => item.id);
       const tickets = petrolStation?.tickets.map((item) => item.id);
       return { ...petrolStation, managers, tickets };
     }
@@ -49,9 +71,9 @@ class PetrolStationRepository extends Repository {
   };
 
   update = async (petrolStation: PetrolStation & { managers: string[] }) => {
-    const { user_id: id, managers } = petrolStation;
-    const _managers = managers.map((manager) => ({
-      user_id: manager,
+    const { id, managers } = petrolStation;
+    const managersObject = managers.map((manager) => ({
+      id: manager,
     }));
 
     await this.client.petrolStation.update({
@@ -60,27 +82,43 @@ class PetrolStationRepository extends Repository {
           set: [],
         },
       },
-      where: { user_id: id },
+      where: { id },
     });
 
     const updatePetrolStation = await this.client.petrolStation.update({
+      where: { id },
       data: {
         managers: {
-          connect: _managers,
+          connect: managersObject,
         },
       },
-      where: { user_id: id },
+      include: {
+        managers: true,
+        tickets: true,
+        user: true,
+      },
     });
-    return updatePetrolStation;
+
+    const updatedManagers = updatePetrolStation?.managers.map(
+      (item) => item.id,
+    );
+    const tickets = updatePetrolStation?.tickets.map((item) => item.id);
+
+    return {
+      ...updatePetrolStation,
+      managers: updatedManagers,
+      tickets,
+    };
   };
 
   delete = async (id: string) => {
     try {
-      const { user_id } = await this.client.petrolStation.delete({
-        where: { user_id: id },
-      });
+      const { id: deletedPetrolStationId } =
+        await this.client.petrolStation.delete({
+          where: { id },
+        });
 
-      return user_id;
+      return deletedPetrolStationId;
     } catch (error) {
       if (error instanceof Error) {
         throw new TypeError(error.message);

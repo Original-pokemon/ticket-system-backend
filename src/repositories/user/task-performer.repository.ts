@@ -1,23 +1,50 @@
 /* eslint-disable camelcase */
 import { TaskPerformer } from "@prisma/client";
 import Repository from "../repository.js";
+import { OrderByType, WhereType, getAllProperties } from "../types.js";
 
 class TaskPerformerRepository extends Repository {
   create = async (taskPerformer: TaskPerformer): Promise<string> => {
-    const { user_id } = await this.client.taskPerformer.create({
+    const { id } = await this.client.taskPerformer.create({
       data: taskPerformer,
     });
-    return user_id;
+    return id;
   };
 
-  getAll = async (): Promise<TaskPerformer[]> => {
-    const taskPerformer = await this.client.taskPerformer.findMany();
-    return taskPerformer;
+  getAll = async (properties: getAllProperties) => {
+    const { ids, start = 0, end, filter, sort } = properties;
+
+    const where: WhereType = {};
+    const orderBy: OrderByType = {};
+
+    if (ids) {
+      where.id = { in: ids };
+    }
+
+    if (filter && filter.key && filter.value) {
+      where[filter.key] = filter.value;
+    }
+
+    if (sort && sort.orderBy) {
+      orderBy[sort.orderBy] = sort.sort;
+    }
+
+    const items = await this.client.taskPerformer.findMany({
+      where,
+      skip: start,
+      take: end ? end - start : undefined,
+      orderBy,
+      include: {
+        user: true,
+      },
+    });
+
+    return items;
   };
 
-  getUnique = async (user_id: string) => {
+  getUnique = async (id: string) => {
     const taskPerformer = await this.client.taskPerformer.findUnique({
-      where: { user_id },
+      where: { id },
       include: {
         category: {
           include: {
@@ -42,20 +69,21 @@ class TaskPerformerRepository extends Repository {
   };
 
   update = async (taskPerformer: TaskPerformer): Promise<TaskPerformer> => {
-    const { user_id } = taskPerformer;
+    const { id } = taskPerformer;
     const updateTaskPerformer = await this.client.taskPerformer.update({
       data: taskPerformer,
-      where: { user_id },
+      where: { id },
     });
 
     return updateTaskPerformer;
   };
 
-  delete = async (user_id: string): Promise<string> => {
-    const { user_id: id } = await this.client.taskPerformer.delete({
-      where: { user_id },
-    });
-    return id;
+  delete = async (id: string): Promise<string> => {
+    const { id: deletedTaskPerformerId } =
+      await this.client.taskPerformer.delete({
+        where: { id },
+      });
+    return deletedTaskPerformerId;
   };
 }
 

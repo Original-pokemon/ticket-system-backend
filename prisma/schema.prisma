@@ -46,8 +46,8 @@ model User {
 }
 
 model Manager {
-  user_id         String          @id
-  user            User            @relation(fields: [user_id], references: [id])
+  id              String          @id
+  user            User            @relation(fields: [id], references: [id])
   bush_id         String?
   bush            Bush?           @relation(fields: [bush_id], references: [id])
   petrol_stations PetrolStation[]
@@ -56,8 +56,8 @@ model Manager {
 }
 
 model PetrolStation {
-  user_id  String    @id
-  user     User      @relation(fields: user_id, references: id)
+  id       String    @id
+  user     User      @relation(fields: [id], references: [id])
   managers Manager[]
   bush_id  String?
   bush     Bush?     @relation(fields: [bush_id], references: [id])
@@ -77,8 +77,8 @@ model Category {
 }
 
 model TaskPerformer {
-  user_id     String    @id
-  id          User      @relation(fields: [user_id], references: [id])
+  id          String    @id
+  user        User      @relation(fields: [id], references: [id])
   bush_id     String
   bush        Bush      @relation(fields: [bush_id], references: [id])
   category_id String?
@@ -111,7 +111,7 @@ model Ticket {
   description       String
   attachments       Attachment[]
   petrol_station_id String
-  petrol_station    PetrolStation   @relation(fields: [petrol_station_id], references: [user_id])
+  petrol_station    PetrolStation   @relation(fields: [petrol_station_id], references: [id])
   ticket_category   String?
   category          Category?       @relation(fields: [ticket_category], references: [id])
   ticket_priority   String?
