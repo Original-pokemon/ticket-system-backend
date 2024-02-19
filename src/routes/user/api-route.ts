@@ -15,7 +15,6 @@ export const APIRoute = {
   },
   Users: {
     All: "/user",
-    Many: "/user/select",
     Info: `/user/:id`,
     Create: "/user",
     Update: `/user/:id`,

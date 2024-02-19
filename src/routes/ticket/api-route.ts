@@ -21,8 +21,7 @@ export const APIRoute = {
     Delete: `/tag-word/:id`,
   },
   Ticket: {
-    All: "/tickets",
-    Many: "/tickets/select",
+    All: "/ticket",
     Info: "/ticket/:id",
     Create: "/ticket",
     Update: "/ticket/:id",
@@ -43,16 +42,14 @@ export const APIRoute = {
     Delete: "/status-history/:id",
   },
   Comment: {
-    All: "/comments",
-    Many: "/comments/select",
+    All: "/comment",
     Info: "/comment/:id",
     Create: "/comment/",
     Update: "/comment/:id",
     Delete: "/comment/:id",
   },
   Attachment: {
-    All: "/attachments",
-    Many: "/attachments/select",
+    All: "/attachment",
     Info: "/attachment/:id",
     Create: "/attachment",
     Update: "/attachment/:id",
