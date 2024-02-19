@@ -3,7 +3,6 @@ import { Ticket } from "@prisma/client";
 import {
   createTicketHandler,
   deleteTicketHandler,
-  getSelectTicketsHandler,
   getTicketHandler,
   getTicketsHandler,
   updateTicketHandler,
@@ -11,7 +10,6 @@ import {
 import {
   createTicketSchema,
   deleteTicketSchema,
-  getSelectTicketsSchema,
   getTicketSchema,
   getTicketsSchema,
   updateTicketSchema,
@@ -22,11 +20,6 @@ import { APIRoute } from "./api-route.js";
 const getTicketsOptions = {
   schema: getTicketsSchema,
   handler: getTicketsHandler,
-};
-
-const getSelectTicketsOptions = {
-  schema: getSelectTicketsSchema,
-  handler: getSelectTicketsHandler,
 };
 
 const getTicketOptions = {
@@ -55,8 +48,6 @@ export const ticketRouters: FastifyPluginCallback = (
   done,
 ) => {
   instance.get(APIRoute.Ticket.All, getTicketsOptions);
-
-  instance.get(APIRoute.Ticket.Many, getSelectTicketsOptions);
 
   instance.get<{
     Params: {
