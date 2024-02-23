@@ -38,21 +38,6 @@ class AttachmentRepository extends Repository {
     return items;
   };
 
-  getMany = async (data: string[]) => {
-    if (data) {
-      const attachments = await this.client.attachment.findMany({
-        where: {
-          id: {
-            in: data,
-          },
-        },
-      });
-
-      return attachments;
-    }
-    return [];
-  };
-
   getUnique = async (id: string): Promise<Attachment | null> => {
     const attachment = await this.client.attachment.findUnique({
       where: { id },

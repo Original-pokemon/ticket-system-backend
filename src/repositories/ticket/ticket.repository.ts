@@ -66,18 +66,6 @@ class TicketRepository extends Repository {
     return items;
   };
 
-  getMany = async (data: string[]): Promise<Ticket[]> => {
-    const tickets = await this.client.ticket.findMany({
-      where: {
-        id: {
-          in: data,
-        },
-      },
-    });
-
-    return tickets;
-  };
-
   getUnique = async (id: string) => {
     const ticket = await this.client.ticket.findUnique({
       where: { id },

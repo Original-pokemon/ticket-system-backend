@@ -11,7 +11,6 @@ import {
 const ticketResource = {
   getAll: TicketRepository.getAll,
   getUnique: TicketRepository.getUnique,
-  getMany: TicketRepository.getMany,
   create: TicketRepository.create,
   update: TicketRepository.update,
   delete: TicketRepository.delete,

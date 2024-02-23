@@ -11,7 +11,6 @@ import {
 const userResource = {
   getAll: userRepository.getAll,
   getUnique: userRepository.getUnique,
-  getMany: userRepository.getMany,
   create: userRepository.create,
   update: userRepository.update,
   delete: userRepository.delete,

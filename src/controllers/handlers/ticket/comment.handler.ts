@@ -10,7 +10,6 @@ import {
 const commentResource = {
   getAll: CommentRepository.getAll,
   getUnique: CommentRepository.getUnique,
-  getMany: CommentRepository.getMany,
   create: CommentRepository.create,
   update: CommentRepository.update,
   delete: CommentRepository.delete,

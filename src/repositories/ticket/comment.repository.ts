@@ -50,26 +50,6 @@ class CommentRepository extends Repository {
     return items;
   };
 
-  getMany = async (data: string[]): Promise<Comment[]> => {
-    const comments = await this.client.comment.findMany({
-      where: {
-        id: {
-          in: data,
-        },
-      },
-      include: {
-        attachments: true,
-      },
-    });
-
-    return comments.map((comment) => {
-      const attachmentIds = comment.attachments.map(
-        (attachment) => attachment.id,
-      );
-      return { ...comment, attachments: attachmentIds };
-    });
-  };
-
   getUnique = async (id: string) => {
     const comment = await this.client.comment.findUnique({
       where: { id },

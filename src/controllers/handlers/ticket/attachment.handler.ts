@@ -11,7 +11,6 @@ import {
 const attachmentResource = {
   getAll: AttachmentRepository.getAll,
   getUnique: AttachmentRepository.getUnique,
-  getMany: AttachmentRepository.getMany,
   create: AttachmentRepository.create,
   update: AttachmentRepository.update,
   delete: AttachmentRepository.delete,
