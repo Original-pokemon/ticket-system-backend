@@ -1,13 +1,22 @@
-type FilterType = {
-  key: string;
-  value: string;
-};
+import { JWT } from "@fastify/jwt";
+
+declare module "fastify" {
+  interface FastifyRequest {
+    jwt: JWT;
+  }
+}
+
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    login: string;
+  }
+}
 
 type SortMethodType = "ASC" | "DESC";
 
 type SortType = {
-  orderBy: string;
-  sort: SortMethodType;
+  sortBy: string;
+  method: SortMethodType;
 };
 
 type WhereType = {
@@ -23,12 +32,11 @@ type getAllProperties = {
   id?: string[];
   start?: number;
   end?: number;
-  filter?: FilterType;
+  filter?: { [key: string]: string[] };
   sort?: SortType;
 };
 
 export type {
-  FilterType,
   SortMethodType,
   SortType,
   WhereType,

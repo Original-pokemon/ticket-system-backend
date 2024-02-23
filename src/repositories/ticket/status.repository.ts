@@ -1,5 +1,6 @@
 import { Status } from "@prisma/client";
-import { OrderByType, WhereType, getAllProperties } from "#root/types.js";
+import { getAllProperties } from "#root/types.js";
+import getPropertiesGetAll from "#root/helpers/get-properties-get-all.js";
 import Repository from "../repository.js";
 
 class StatusRepository extends Repository {
@@ -9,29 +10,9 @@ class StatusRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const { id, start = 0, end, filter, sort } = properties;
-
-    const where: WhereType = {};
-    const orderBy: OrderByType = {};
-
-    if (id) {
-      where.id = { in: id };
-    }
-
-    if (filter && filter.key && filter.value) {
-      where[filter.key] = filter.value;
-    }
-
-    if (sort && sort.orderBy) {
-      orderBy[sort.orderBy] = sort.sort;
-    }
-
-    const items = await this.client.status.findMany({
-      where,
-      skip: start,
-      take: end ? end - start : undefined,
-      orderBy,
-    });
+    const items = await this.client.status.findMany(
+      getPropertiesGetAll(properties),
+    );
 
     return items;
   };

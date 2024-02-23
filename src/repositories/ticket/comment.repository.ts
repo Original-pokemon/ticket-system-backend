@@ -1,6 +1,7 @@
 import { Comment } from "@prisma/client";
 import { saveAttachments } from "#root/helpers/save-attachments.js";
-import { OrderByType, WhereType, getAllProperties } from "#root/types.js";
+import { getAllProperties } from "#root/types.js";
+import getPropertiesGetAll from "#root/helpers/get-properties-get-all.js";
 import Repository from "../repository.js";
 
 class CommentRepository extends Repository {
@@ -23,29 +24,11 @@ class CommentRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const { id, start = 0, end, filter, sort } = properties;
-
-    const where: WhereType = {};
-    const orderBy: OrderByType = {};
-
-    if (id) {
-      where.id = { in: id };
-    }
-
-    if (filter && filter.key && filter.value) {
-      where[filter.key] = filter.value;
-    }
-
-    if (sort && sort.orderBy) {
-      orderBy[sort.orderBy] = sort.sort;
-    }
-
-    const items = await this.client.comment.findMany({
-      where,
-      skip: start,
-      take: end ? end - start : undefined,
-      orderBy,
-    });
+    const items = await this.client.comment.findMany(
+      getPropertiesGetAll(properties, {
+        attachments: true,
+      }),
+    );
 
     return items;
   };

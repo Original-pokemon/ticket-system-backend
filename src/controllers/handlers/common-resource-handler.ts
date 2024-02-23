@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FastifyReply, FastifyRequest, RouteHandlerMethod } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { handleErrors } from "#root/helpers/handle-error.js";
+import { SortMethodType, getAllProperties } from "#root/types.js";
 
-type Resource<Id> = {
-  getAll: () => Promise<any[]>;
-  getMany?: (data: Id[]) => Promise<any[]>;
+type Resource = {
+  getAll: (properties: getAllProperties) => Promise<any[]>;
   getUnique: (id: string) => Promise<any>;
   create: (data: any) => Promise<any>;
   update: (data: any) => Promise<any>;
@@ -12,32 +12,40 @@ type Resource<Id> = {
   name: string;
 };
 
-function getResourcesHandler<Id>(resource: Resource<Id>): RouteHandlerMethod {
-  return async (_request, reply) => {
-    try {
-      const data = await resource.getAll();
-      reply.send(data);
-    } catch (error) {
-      handleErrors(reply, error, `Error fetching ${resource.name}s`);
-    }
-  };
-}
-
-function getManyResourcesHandler<Id>(resource: Resource<Id>) {
+function getResourcesHandler(resource: Resource) {
   return async (
     request: FastifyRequest<{
-      Querystring: { ids: Id[] };
+      Querystring: {
+        id: string[];
+        _sort: string;
+        _order: SortMethodType;
+        _start: string;
+        _end: string;
+      };
     }>,
     reply: FastifyReply,
   ) => {
+    const {
+      id,
+      _sort,
+      _order,
+      _start: start,
+      _end: end,
+      ...filter
+    } = request.query;
+
+    const queryParameters = {
+      filter,
+      id,
+      sort: { sortBy: _sort, method: _order },
+      start: Number(start) || undefined,
+      end: Number(end) || undefined,
+    };
+
     try {
-      if (resource.getMany) {
-        const { ids } = request.query;
-        const items = await resource.getMany(ids);
-        reply.send(items);
-      } else {
-        throw new Error("Method don`t implement");
-      }
+      const data = await resource.getAll(queryParameters);
+      reply.header("x-total-count", data.length);
+      reply.send(data);
     } catch (error) {
       handleErrors(reply, error, `Error fetching ${resource.name}s`);
     }
@@ -120,5 +128,4 @@ export {
   deleteResourceHandler,
   getResourceHandler,
   updateResourceHandler,
-  getManyResourcesHandler,
 };
