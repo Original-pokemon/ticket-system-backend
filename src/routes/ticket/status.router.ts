@@ -51,7 +51,7 @@ export const statusRouters: FastifyPluginCallback = (
 
   instance.get<{
     Params: {
-      id: number;
+      id: string;
     };
   }>(APIRoute.Status.Info, getStatusOptions);
 
@@ -65,7 +65,7 @@ export const statusRouters: FastifyPluginCallback = (
 
   instance.delete<{
     Params: {
-      id: number;
+      id: string;
     };
   }>(APIRoute.Status.Delete, deleteStatusOptions);
 

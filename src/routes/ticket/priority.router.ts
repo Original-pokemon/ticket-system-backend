@@ -51,7 +51,7 @@ export const priorityRouters: FastifyPluginCallback = (
 
   instance.get<{
     Params: {
-      id: number;
+      id: string;
     };
   }>(APIRoute.Priority.Info, getPriorityOptions);
 
@@ -65,7 +65,7 @@ export const priorityRouters: FastifyPluginCallback = (
 
   instance.delete<{
     Params: {
-      id: number;
+      id: string;
     };
   }>(APIRoute.Priority.Delete, deletePriorityOptions);
 

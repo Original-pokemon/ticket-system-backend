@@ -51,7 +51,7 @@ export const categoryRouters: FastifyPluginCallback = (
 
   instance.get<{
     Params: {
-      id: number;
+      id: string;
     };
   }>(APIRoute.Category.Info, getCategoryOptions);
 
@@ -65,7 +65,7 @@ export const categoryRouters: FastifyPluginCallback = (
 
   instance.delete<{
     Params: {
-      id: number;
+      id: string;
     };
   }>(APIRoute.Category.Delete, deleteCategoryOptions);
 
