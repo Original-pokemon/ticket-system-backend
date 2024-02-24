@@ -143,3 +143,6 @@ data/
 
 # prisma migrations
 migrations/
+
+#upload folder
+uploads/

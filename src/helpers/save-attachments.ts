@@ -1,20 +1,47 @@
 import fetch from "node-fetch";
 import { v4 as uuidv4 } from "uuid";
-import { config } from "#root/config.js";
 import fs from "node:fs/promises";
+import path from "node:path";
+import { staticFilePrefix, uploadsDirectory } from "#root/const.js";
 
 const downloadAndSaveFile = async (
   attachment: string,
 ): Promise<{ id: string; path: string }> => {
   const id = uuidv4();
-  const response = await fetch(attachment);
-  const buffer = Buffer.from(await response.arrayBuffer());
-  const localPath = `${config.PATH_TO_SAVE_FILE}\\${id}.jpg`;
-  await fs.writeFile(localPath, buffer);
+  const fileName = `${id}.jpg`;
+  const localPath = path.join(uploadsDirectory, fileName);
+  const staticPath = path.join(staticFilePrefix, fileName);
+
+  try {
+    const response = await fetch(attachment, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to download file. Status: ${response.status} ${response.statusText}`,
+      );
+    }
+    const buffer = Buffer.from(await response.arrayBuffer());
+
+    try {
+      await fs.writeFile(localPath, buffer);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new TypeError(`Failed to save file to disk. ${error.message}`);
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new TypeError(
+        `Failed to fetch file from ${attachment}. ${error.message}`,
+      );
+    }
+  }
 
   return {
     id,
-    path: localPath,
+    path: staticPath,
   };
 };
 

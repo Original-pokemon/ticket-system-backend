@@ -9,7 +9,10 @@ const configSchema = z.object({
     .default("info"),
   LISTEN_SERVER_HOST: z.string().default("0.0.0.0"),
   LISTEN_SERVER_PORT: z.coerce.number().positive().default(80),
-  PATH_TO_SAVE_FILE: z.string(),
+  SECRET_COOKIE: z.string(),
+  SECRET: z.string(),
+  LOGIN: z.string(),
+  PASSWORD: z.string(),
 });
 
 const parseConfig = (environment: NodeJS.ProcessEnv) => {
