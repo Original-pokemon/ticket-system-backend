@@ -2,24 +2,11 @@ import { logger } from "#root/logger.js";
 import fastify from "fastify";
 import fastifySwagger from "@fastify/swagger";
 
-import {
-  taskPerformerRouters,
-  managerRouters,
-  petrolStationRouters,
-  groupRouters,
-  userRouters,
-  categoryRouters,
-  bushRouters,
-  attachmentRouters,
-  commentRouters,
-  priorityRouters,
-  statusHistoryRouters,
-  statusRouters,
-  tagWordRouters,
-  ticketRouters,
-} from "#root/routes/index.js";
+import { routers } from "#root/routes/index.js";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import { authPlugin } from "#root/plugins/auth.js";
 import { modelsPlugin } from "#root/plugins/models.js";
+import { authRouters } from "#root/routes/auth.js";
 import dataBase from "../database/index.js";
 import { swaggerOptions } from "../swagger/options.js";
 
@@ -51,20 +38,10 @@ export const createServer = async () => {
     },
     transformSpecificationClone: true,
   });
-  server.register(userRouters);
-  server.register(groupRouters);
-  server.register(taskPerformerRouters);
-  server.register(managerRouters);
-  server.register(petrolStationRouters);
-  server.register(categoryRouters);
-  server.register(bushRouters);
-  server.register(attachmentRouters);
-  server.register(commentRouters);
-  server.register(priorityRouters);
-  server.register(statusHistoryRouters);
-  server.register(statusRouters);
-  server.register(tagWordRouters);
-  server.register(ticketRouters);
+  server.register(modelsPlugin);
+  server.register(authPlugin);
+  server.register(authRouters);
+  server.register(routers);
 
   server.addHook("onClose", async () => {
     await dataBase.disconnect();
