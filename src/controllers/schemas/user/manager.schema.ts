@@ -8,7 +8,7 @@ const getManagersSchema = createRouteSchema({
   tags,
   querystring: { $ref: "querystring" },
   response: {
-    200: managerSchema,
+    200: { type: "array", items: managerSchema },
   },
 });
 
