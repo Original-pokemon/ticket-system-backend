@@ -1,5 +1,6 @@
 import { logger } from "#root/logger.js";
 import fastify from "fastify";
+import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifyStatic from "@fastify/static";
 
@@ -25,6 +26,13 @@ export const createServer = async () => {
     prefix: staticFilePrefix,
   });
 
+  server.register(cors, {
+    origin: "*",
+    credentials: true,
+    exposedHeaders: ["Authorization", "Content-Type", "X-Total-Count"],
+    allowedHeaders: ["Authorization", "Content-Type", "X-Total-Count"],
+    methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
+  });
   server.register(fastifySwagger, swaggerOptions);
   server.register(fastifySwaggerUi, {
     routePrefix: "/docs",
