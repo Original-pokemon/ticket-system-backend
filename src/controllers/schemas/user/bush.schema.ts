@@ -1,12 +1,11 @@
-import { createRouteSchema, querystringObject } from "../common-schemas.js";
-import { querystringId } from "../models/index.js";
+import { createRouteSchema } from "../common-schemas.js";
 
 const tags = ["bush"];
 const bushSchema = { $ref: "bush" };
 
 const getBushesSchema = createRouteSchema({
   tags,
-  querystring: { $ref: querystringId },
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",

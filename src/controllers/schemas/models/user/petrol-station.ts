@@ -1,4 +1,4 @@
-export const petrolStationsProperties = {
+const petrolStationsProperties = {
   id: { type: "string" },
   bush_id: { type: "string" },
   user: { $ref: "user" },

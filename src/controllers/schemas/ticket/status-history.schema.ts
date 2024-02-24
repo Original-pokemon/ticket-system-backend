@@ -1,59 +1,53 @@
-const StatusHistory = {
-  type: "object",
-  properties: {
-    id: { type: "string" },
-    ticket_id: { type: "string" },
-    user_id: { type: "string" },
-    ticket_status: { type: "number" },
-    created_at: { type: "string", format: "date-time" },
-  },
-  required: ["ticket_id", "user_id", "ticket_status"],
-  additionalProperties: false,
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getStatusHistoriesSchema = {
-  tags: ["status-history"],
+const tags = ["status-history"];
+const statusHistorySchema = { $ref: "statusHistory" };
+
+const getStatusHistoriesSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: StatusHistory,
+      items: statusHistorySchema,
     },
   },
-};
+});
 
-const getStatusHistorySchema = {
-  tags: ["status-history"],
+const getStatusHistorySchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: StatusHistory,
+    200: statusHistorySchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createStatusHistorySchema = {
-  tags: ["status-history"],
-  body: StatusHistory,
+const createStatusHistorySchema = createRouteSchema({
+  tags,
+  body: statusHistorySchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateStatusHistorySchema = {
-  tags: ["status-history"],
+const updateStatusHistorySchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: StatusHistory,
+  body: statusHistorySchema,
   response: {
-    200: StatusHistory,
+    200: statusHistorySchema,
   },
-};
+});
 
-const deleteStatusHistorySchema = {
-  tags: ["status-history"],
+const deleteStatusHistorySchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
@@ -62,7 +56,7 @@ const deleteStatusHistorySchema = {
       type: "string",
     },
   },
-};
+});
 
 export {
   createStatusHistorySchema,

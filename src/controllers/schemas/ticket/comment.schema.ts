@@ -1,88 +1,63 @@
-export const Comment = {
-  type: "object",
-  properties: {
-    id: { type: "string" },
-    ticket_id: { type: "string" },
-    user_id: { type: "string" },
-    text: { type: "string" },
-    attachments: {
-      type: "array",
-      items: { type: "string" },
-    },
-    created_at: { type: "string", format: "date-time" },
-  },
-  additionalProperties: false,
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getCommentsSchema = {
-  tags: ["comment"],
+const tags = ["comment"];
+const commentSchema = { $ref: "comment" };
+
+const getCommentsSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: Comment,
+      items: commentSchema,
     },
   },
-};
+});
 
-const getSelectCommentsSchema = {
-  tags: ["comment"],
-  querystring: {
-    ids: {
-      type: "array",
-    },
-  },
-  response: {
-    200: {
-      type: "array",
-      items: Comment,
-    },
-  },
-};
-
-const getCommentSchema = {
-  tags: ["comment"],
+const getCommentSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: Comment,
+    200: commentSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createCommentSchema = {
-  tags: ["comment"],
-  body: Comment,
+const createCommentSchema = createRouteSchema({
+  tags,
+  body: commentSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateCommentSchema = {
-  tags: ["comment"],
+const updateCommentSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: Comment,
+  body: commentSchema,
   response: {
-    200: Comment,
+    200: commentSchema,
   },
-};
+});
 
-const deleteCommentSchema = {
-  tags: ["comment"],
+const deleteCommentSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
     200: { type: "string" },
   },
-};
+});
 
 export {
   createCommentSchema,
-  getSelectCommentsSchema,
   deleteCommentSchema,
   getCommentSchema,
   getCommentsSchema,

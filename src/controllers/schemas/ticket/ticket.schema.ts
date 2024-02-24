@@ -1,99 +1,63 @@
-const Ticket = {
-  type: "object",
-  properties: {
-    id: { type: "string" },
-    title: { type: "string" },
-    user_id: { type: "string" },
-    description: { type: "string" },
-    attachments: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    comments: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    status_id: { type: "number" },
-    petrol_station_id: { type: "string" },
-    ticket_category: { type: ["number", "null"] },
-    ticket_priority: { type: ["number", "null"] },
-  },
-  required: ["title", "petrol_station_id"],
-  additionalProperties: false,
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getTicketsSchema = {
-  tags: ["ticket"],
+const tags = ["ticket"];
+const ticketSchema = { $ref: "ticket" };
+const TicketInfoSchema = { $ref: "ticketInfo" };
+
+const getTicketsSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: Ticket,
+      items: ticketSchema,
     },
   },
-};
+});
 
-const getTicketSchema = {
-  tags: ["ticket"],
+const getTicketSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: Ticket,
+    200: TicketInfoSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const getSelectTicketsSchema = {
-  tags: ["ticket"],
-  querystring: {
-    ids: {
-      type: "array",
-    },
-  },
-  response: {
-    200: {
-      type: "array",
-      items: Ticket,
-    },
-  },
-};
-
-const createTicketSchema = {
-  tags: ["ticket"],
-  body: Ticket,
+const createTicketSchema = createRouteSchema({
+  tags,
+  body: TicketInfoSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateTicketSchema = {
-  tags: ["ticket"],
+const updateTicketSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: Ticket,
+  body: TicketInfoSchema,
   response: {
-    200: Ticket,
+    200: ticketSchema,
   },
-};
+});
 
-const deleteTicketSchema = {
-  tags: ["ticket"],
+const deleteTicketSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
     200: { type: "string" },
   },
-};
+});
 
 export {
-  getSelectTicketsSchema,
   createTicketSchema,
   deleteTicketSchema,
   getTicketsSchema,

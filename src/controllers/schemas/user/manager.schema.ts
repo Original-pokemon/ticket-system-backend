@@ -1,5 +1,4 @@
 import { createRouteSchema } from "../common-schemas.js";
-import { querystringId } from "../models/index.js";
 
 const tags = ["manager"];
 const managerSchema = { $ref: "manager" };
@@ -7,7 +6,7 @@ const managerInfoSchema = { $ref: "managerInfo" };
 
 const getManagersSchema = createRouteSchema({
   tags,
-  querystring: { $ref: querystringId },
+  querystring: { $ref: "querystring" },
   response: {
     200: managerSchema,
   },

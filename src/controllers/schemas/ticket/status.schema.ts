@@ -1,63 +1,60 @@
-const Status = {
-  type: "object",
-  properties: {
-    id: { type: "number" },
-    description: { type: "string" },
-  },
-  required: ["description"],
-  additionalProperties: false,
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getStatusesSchema = {
-  tags: ["status"],
+const tags = ["status"];
+const statusSchema = { $ref: "status" };
+
+const getStatusesSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: Status,
+      items: statusSchema,
     },
   },
-};
+});
 
-const getStatusSchema = {
-  tags: ["status"],
+const getStatusSchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
   response: {
-    200: Status,
+    200: statusSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createStatusSchema = {
-  tags: ["status"],
-  body: Status,
+const createStatusSchema = createRouteSchema({
+  tags,
+  body: statusSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateStatusSchema = {
-  tags: ["status"],
+const updateStatusSchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
-  body: Status,
+  body: statusSchema,
   response: {
-    200: Status,
+    200: statusSchema,
   },
-};
+});
 
-const deleteStatusSchema = {
-  tags: ["status"],
+const deleteStatusSchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
   response: {
     200: { type: "string" },
   },
-};
+});
 
 export {
   createStatusSchema,

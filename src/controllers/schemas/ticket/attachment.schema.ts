@@ -1,82 +1,63 @@
-const Attachment = {
-  type: "object",
-  properties: {
-    id: { type: "string" },
-    comment_id: { type: "string" },
-    path: { type: "string" },
-  },
-  required: ["id", "comment_id", "path"],
-  additionalProperties: false,
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getAttachmentsSchema = {
-  tags: ["attachment"],
+const tags = ["attachment"];
+const attachmentSchema = { $ref: "attachment" };
+
+const getAttachmentsSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: Attachment,
+      items: attachmentSchema,
     },
   },
-};
-const getSelectAttachmentsSchema = {
-  tags: ["attachment"],
-  querystring: {
-    ids: {
-      type: "array",
-    },
-  },
-  response: {
-    200: {
-      type: "array",
-      items: Attachment,
-    },
-  },
-};
+});
 
-const getAttachmentSchema = {
-  tags: ["attachment"],
+const getAttachmentSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: Attachment,
+    200: attachmentSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createAttachmentSchema = {
-  tags: ["attachment"],
-  body: Attachment,
+const createAttachmentSchema = createRouteSchema({
+  tags,
+  body: attachmentSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateAttachmentSchema = {
-  tags: ["attachment"],
+const updateAttachmentSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: Attachment,
+  body: attachmentSchema,
   response: {
-    200: Attachment,
+    200: attachmentSchema,
   },
-};
+});
 
-const deleteAttachmentSchema = {
-  tags: ["attachment"],
+const deleteAttachmentSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
     200: { type: "string" },
   },
-};
+});
 
 export {
   createAttachmentSchema,
-  getSelectAttachmentsSchema,
   deleteAttachmentSchema,
   getAttachmentSchema,
   getAttachmentsSchema,

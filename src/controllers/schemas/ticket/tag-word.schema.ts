@@ -1,66 +1,53 @@
-const TagWord = {
-  type: "object",
-  properties: {
-    id: {
-      type: "string",
-      description: "Уникальный идентификатор тега",
-    },
-    category_id: {
-      type: "number",
-      description: "Идентификатор категории, к которой относится тег",
-    },
-    priority_id: {
-      type: "number",
-      description: "Идентификатор приоритета тега",
-    },
-  },
-  required: ["id", "category_id", "priority_id"],
-  additionalProperties: false,
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getTagWordsSchema = {
-  tags: ["tagWord"],
+const tags = ["tagWord"];
+const tagWordSchema = { $ref: "tagWord" };
+
+const getTagWordsSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: TagWord,
+      items: tagWordSchema,
     },
   },
-};
+});
 
-const getTagWordSchema = {
-  tags: ["tagWord"],
+const getTagWordSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: TagWord,
+    200: tagWordSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createTagWordSchema = {
-  tags: ["tagWord"],
-  body: TagWord,
+const createTagWordSchema = createRouteSchema({
+  tags,
+  body: tagWordSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateTagWordSchema = {
-  tags: ["tagWord"],
+const updateTagWordSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: TagWord,
+  body: tagWordSchema,
   response: {
-    200: TagWord,
+    200: tagWordSchema,
   },
-};
+});
 
-const deleteTagWordSchema = {
-  tags: ["tagWord"],
+const deleteTagWordSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
@@ -69,7 +56,7 @@ const deleteTagWordSchema = {
       type: "string",
     },
   },
-};
+});
 
 export {
   createTagWordSchema,

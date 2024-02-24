@@ -1,5 +1,4 @@
 import { createRouteSchema } from "../common-schemas.js";
-import { querystringId } from "../models/index.js";
 
 const tags = ["task-performer"];
 const taskPerformerSchema = { $ref: "taskPerformer" };
@@ -7,7 +6,7 @@ const taskPerformerInfoSchema = { $ref: "taskPerformerInfo" };
 
 const getTaskPerformersSchema = createRouteSchema({
   tags,
-  querystring: { $ref: querystringId },
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
@@ -55,7 +54,7 @@ const deleteTaskPerformerSchema = createRouteSchema({
   },
   response: {
     200: { type: "string" },
-    404: { $ref: "notFoundUser" },
+    404: { $ref: "notFoundSchema" },
   },
 });
 

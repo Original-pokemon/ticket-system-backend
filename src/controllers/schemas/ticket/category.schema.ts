@@ -1,69 +1,63 @@
-const Category = {
-  type: "object",
-  properties: {
-    id: { type: "number" },
-    description: { type: "string" },
-    task_performers: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["id", "description"],
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getCategoriesSchema = {
-  tags: ["category"],
+const tags = ["category"];
+const categorySchema = { $ref: "category" };
+
+const getCategoriesSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: Category,
+      items: categorySchema,
     },
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const getCategorySchema = {
-  tags: ["category"],
+const getCategorySchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
   response: {
-    200: Category,
+    200: categorySchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createCategorySchema = {
-  tags: ["category"],
-  body: Category,
+const createCategorySchema = createRouteSchema({
+  tags,
+  body: categorySchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateCategorySchema = {
-  tags: ["category"],
+const updateCategorySchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
-  body: Category,
+  body: categorySchema,
   response: {
-    200: Category,
+    200: categorySchema,
   },
-};
+});
 
-const deleteCategorySchema = {
-  tags: ["category"],
+const deleteCategorySchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
     200: {
       type: "string",
+    },
   },
-};
+});
 
 export {
   createCategorySchema,

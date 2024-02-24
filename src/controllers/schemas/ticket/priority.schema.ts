@@ -1,64 +1,62 @@
-const Priority = {
-  type: "object",
-  properties: {
-    id: { type: "number" },
-    description: { type: "string" },
-  },
-  required: ["description"],
-};
+import { createRouteSchema } from "../common-schemas.js";
 
-const getPrioritiesSchema = {
-  tags: ["priority"],
+const tags = ["priority"];
+const prioritySchema = { $ref: "priority" };
+
+const getPrioritiesSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: "querystring" },
   response: {
     200: {
       type: "array",
-      items: Priority,
+      items: prioritySchema,
     },
   },
-};
+});
 
-const getPrioritySchema = {
-  tags: ["priority"],
+const getPrioritySchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
   response: {
-    200: Priority,
+    200: prioritySchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createPrioritySchema = {
-  tags: ["priority"],
-  body: Priority,
+const createPrioritySchema = createRouteSchema({
+  tags,
+  body: prioritySchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updatePrioritySchema = {
-  tags: ["priority"],
+const updatePrioritySchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
-  body: Priority,
+  body: prioritySchema,
   response: {
-    200: Priority,
+    200: prioritySchema,
   },
-};
+});
 
-const deletePrioritySchema = {
-  tags: ["priority"],
+const deletePrioritySchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
 export {
   createPrioritySchema,
