@@ -41,10 +41,7 @@ class CommentRepository extends Repository {
       },
     });
 
-    const attachmentIds =
-      comment?.attachments.map(({ id: attachmentId }) => attachmentId) || [];
-
-    return comment ? { ...comment, attachments: attachmentIds } : comment;
+    return comment;
   };
 
   update = async (comment: Comment): Promise<Comment> => {

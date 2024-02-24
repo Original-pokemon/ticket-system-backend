@@ -5,7 +5,7 @@ const commentProperties = {
   text: { type: "string" },
   attachments: {
     type: "array",
-    items: { type: "string" },
+    items: { $ref: "attachment" },
   },
   created_at: { type: "string", format: "date-time" },
 };
