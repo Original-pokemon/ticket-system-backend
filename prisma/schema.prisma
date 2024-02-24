@@ -118,6 +118,7 @@ model Ticket {
   priority          Priority?       @relation(fields: [ticket_priority], references: [id])
   status_id         String
   status            Status          @relation(fields: [status_id], references: [id])
+  created_at        DateTime        @default(now())
   status_history    StatusHistory[]
   comments          Comment[]
 
