@@ -37,7 +37,7 @@ export const APIRoute = {
   PetrolStation: {
     All: "/petrol-station",
     Info: `/petrol-station/:id`,
-    Create: "/petrol-station/",
+    Create: "/petrol-station",
     Update: `/petrol-station/:id`,
     Delete: `/petrol-station/:id`,
   },
