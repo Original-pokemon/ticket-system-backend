@@ -1,90 +1,52 @@
-import { User } from "./user.schema.js";
+import { createRouteSchema } from "../common-schemas.js";
+import { querystringId } from "../models/index.js";
 
-const Manager = {
-  user_id: { type: "string" },
-  bush_id: { type: "number" },
-};
+const tags = ["manager"];
+const managerSchema = { $ref: "manager" };
+const managerInfoSchema = { $ref: "managerInfo" };
 
-const ManagerInfo = {
-  ...Manager,
-  tickets: {
-    type: "array",
-    items: {
-      type: "object",
-      properties: {
-        petrol_station: { type: "string" },
-        tickets: { type: "array", items: { type: "string" } },
-      },
-    },
-  },
-  petrol_stations: {
-    type: "array",
-    items: {
-      type: "string",
-    },
-  },
-  user: { type: "object", properties: User },
-};
-
-const getManagersSchema = {
-  tags: ["manager"],
+const getManagersSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: querystringId },
   response: {
-    200: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: { ...Manager, user: User },
-      },
-    },
+    200: managerSchema,
   },
-};
+});
 
-const getManagerSchema = {
-  tags: ["manager"],
+const getManagerSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: ManagerInfo,
-    },
+    200: managerInfoSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createManagerSchema = {
-  tags: ["manager"],
-  body: {
-    type: "object",
-    required: ["user_id", "bush_id"],
-    properties: Manager,
-  },
+const createManagerSchema = createRouteSchema({
+  tags,
+  body: managerSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateManagerSchema = {
-  tags: ["manager"],
+const updateManagerSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: {
-    type: "object",
-    properties: ManagerInfo,
-  },
+  body: managerInfoSchema,
   response: {
-    200: {
-      type: "object",
-      properties: ManagerInfo,
-    },
+    200: managerInfoSchema,
   },
-};
+});
 
-const deleteManagerSchema = {
-  tags: ["manager"],
+const deleteManagerSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
@@ -93,7 +55,7 @@ const deleteManagerSchema = {
       type: "string",
     },
   },
-};
+});
 
 export {
   getManagerSchema,

@@ -1,80 +1,63 @@
-const Bush = {
-  id: {
-    type: "number",
-  },
-  description: {
-    type: "string",
-  },
-};
+import { createRouteSchema, querystringObject } from "../common-schemas.js";
+import { querystringId } from "../models/index.js";
 
-const getBushesSchema = {
-  tags: ["bush"],
+const tags = ["bush"];
+const bushSchema = { $ref: "bush" };
+
+const getBushesSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: querystringId },
   response: {
     200: {
       type: "array",
-      items: {
-        type: "object",
-        properties: Bush,
-      },
+      items: bushSchema,
     },
   },
-};
+});
 
-const getBushSchema = {
-  tags: ["bush"],
+const getBushSchema = createRouteSchema({
+  tags,
   params: {
-    id: { type: "number" },
+    id: { type: "string" },
   },
   response: {
+    200: bushSchema,
+    404: { $ref: "notFoundSchema" },
+  },
+});
+
+const createBushSchema = createRouteSchema({
+  tags,
+  body: bushSchema,
+  response: {
     200: {
-      type: "object",
-      properties: Bush,
+      type: "string",
     },
   },
-};
+});
 
-const createBushSchema = {
-  tags: ["bush"],
-  body: {
-    type: "object",
-    required: ["description"],
-    properties: Bush,
+const updateBushSchema = createRouteSchema({
+  tags,
+  params: {
+    id: { type: "string" },
+  },
+  body: bushSchema,
+  response: {
+    200: bushSchema,
+  },
+});
+
+const deleteBushSchema = createRouteSchema({
+  tags,
+  params: {
+    id: { type: "string" },
   },
   response: {
     200: {
       type: "string",
     },
   },
-};
-
-const updateBushSchema = {
-  tags: ["bush"],
-  params: {
-    id: { type: "number" },
-  },
-  body: {
-    type: "object",
-    properties: Bush,
-  },
-  response: {
-    200: {
-      type: "object",
-      properties: Bush,
-    },
-  },
-};
-
-const deleteBushSchema = {
-  tags: ["bush"],
-  params: {
-    id: { type: "number" },
-  },
-  response: {
-    200: {
-      type: "string",
-    },
-  },
-};
+});
 
 export {
   createBushSchema,

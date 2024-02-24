@@ -19,6 +19,7 @@ import {
   ticketRouters,
 } from "#root/routes/index.js";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import { modelsPlugin } from "#root/plugins/models.js";
 import dataBase from "../database/index.js";
 import { swaggerOptions } from "../swagger/options.js";
 

@@ -33,6 +33,7 @@ class TaskPerformerRepository extends Repository {
             },
           },
         },
+        user: true,
       },
     });
 
@@ -51,6 +52,9 @@ class TaskPerformerRepository extends Repository {
     const updateTaskPerformer = await this.client.taskPerformer.update({
       data: taskPerformer,
       where: { id },
+      include: {
+        user: true,
+      },
     });
 
     return updateTaskPerformer;

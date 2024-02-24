@@ -1,76 +1,63 @@
-const TaskPerformer = {
-  user_id: { type: "string" },
-  bush_id: { type: "number" },
-  category_id: { type: ["number", "null"] },
-  tickets: { type: "array", items: { type: "string" } },
-};
+import { createRouteSchema } from "../common-schemas.js";
+import { querystringId } from "../models/index.js";
 
-const getTaskPerformersSchema = {
-  tags: ["task-performer"],
+const tags = ["task-performer"];
+const taskPerformerSchema = { $ref: "taskPerformer" };
+const taskPerformerInfoSchema = { $ref: "taskPerformerInfo" };
+
+const getTaskPerformersSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: querystringId },
   response: {
     200: {
       type: "array",
-      items: {
-        type: "object",
-        properties: TaskPerformer,
-      },
+      items: taskPerformerSchema,
     },
   },
-};
+});
 
-const getTaskPerformerSchema = {
-  tags: ["task-performer"],
+const getTaskPerformerSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: TaskPerformer,
-    },
+    200: taskPerformerInfoSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createTaskPerformerSchema = {
-  tags: ["task-performer"],
-  body: {
-    type: "object",
-    required: ["user_id", "bush_id"],
-    properties: TaskPerformer,
-  },
+const createTaskPerformerSchema = createRouteSchema({
+  tags,
+  body: taskPerformerSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateTaskPerformerSchema = {
-  tags: ["task-performer"],
+const updateTaskPerformerSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: {
-    type: "object",
-    properties: TaskPerformer,
-  },
+  body: taskPerformerSchema,
   response: {
-    200: {
-      type: "object",
-      properties: TaskPerformer,
-    },
+    200: taskPerformerSchema,
   },
-};
+});
 
-const deleteTaskPerformerSchema = {
-  tags: ["task-performer"],
+const deleteTaskPerformerSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
     200: { type: "string" },
+    404: { $ref: "notFoundUser" },
   },
-};
+});
 
 export {
   getTaskPerformerSchema,

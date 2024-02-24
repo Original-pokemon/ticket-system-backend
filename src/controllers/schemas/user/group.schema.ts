@@ -1,67 +1,51 @@
-const Group = {
-  id: { type: "string" },
-  description: { type: "string" },
-};
+import { createRouteSchema } from "../common-schemas.js";
+import { querystringId } from "../models/index.js";
 
-const getGroupsSchema = {
-  tags: ["group"],
+const tags = ["group"];
+const GroupSchema = { $ref: "group" };
+
+const getGroupsSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: querystringId },
   response: {
-    200: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: Group,
-      },
-    },
+    200: GroupSchema,
   },
-};
+});
 
-const getGroupSchema = {
-  tags: ["group"],
+const getGroupSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: Group,
-    },
+    200: GroupSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createGroupSchema = {
-  tags: ["group"],
-  body: {
-    type: "object",
-    required: ["id"],
-    properties: Group,
-  },
+const createGroupSchema = createRouteSchema({
+  tags,
+  body: GroupSchema,
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updateGroupSchema = {
-  tags: ["group"],
+const updateGroupSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: {
-    type: "object",
-    properties: Group,
-  },
+  body: GroupSchema,
   response: {
-    200: {
-      type: "object",
-      properties: Group,
-    },
+    200: GroupSchema,
   },
-};
+});
 
-const deleteGroupSchema = {
-  tags: ["group"],
+const deleteGroupSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
@@ -70,7 +54,7 @@ const deleteGroupSchema = {
       type: "string",
     },
   },
-};
+});
 
 export {
   createGroupSchema,

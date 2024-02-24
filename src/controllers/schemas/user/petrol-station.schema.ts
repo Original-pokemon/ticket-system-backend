@@ -1,100 +1,64 @@
-import { User } from "./user.schema.js";
+import { createRouteSchema } from "../common-schemas.js";
+import { querystringId } from "../models/index.js";
 
-const PetrolStation = {
-  user_id: { type: "string" },
-  bush_id: { type: "number" },
-};
+const tags = ["petrol-station"];
+const petrolStationSchema = { $ref: "petrolStation" };
+const petrolStationInfoSchema = { $ref: "petrolStationInfo" };
 
-const PetrolStationInfo = {
-  ...PetrolStation,
-  managers: {
-    type: "array",
-    items: {
-      type: "string",
-    },
-  },
-  tickets: {
-    type: "array",
-    items: { type: "string" },
-  },
-  user: { type: "object", properties: User },
-};
-
-const getPetrolStationsSchema = {
-  tags: ["petrol-station"],
+const getPetrolStationsSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: querystringId },
   response: {
     200: {
       type: "array",
-      items: {
-        type: "object",
-        properties: {
-          ...PetrolStation,
-          user: { type: "object", properties: User },
-        },
-      },
+      items: petrolStationSchema,
     },
   },
-};
+});
 
-const getPetrolStationSchema = {
-  tags: ["petrol-station"],
+const getPetrolStationSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: PetrolStationInfo,
-    },
+    200: petrolStationInfoSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createPetrolStationSchema = {
-  tags: ["petrol-station"],
-  body: {
-    type: "object",
-    required: ["user_id", "bush_id"],
-    properties: PetrolStation,
-  },
+const createPetrolStationSchema = createRouteSchema({
+  tags,
+  body: { $ref: "petrolStation" },
   response: {
     200: {
       type: "string",
     },
   },
-};
+});
 
-const updatePetrolStationSchema = {
-  tags: ["petrol-station"],
+const updatePetrolStationSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
-  body: {
-    type: "object",
-    properties: {
-      ...PetrolStation,
-      managers: {
-        type: "array",
-        items: { type: "string" },
-      },
-    },
-  },
+  body: { $ref: "petrolStationInfo" },
   response: {
     200: {
-      type: "object",
-      properties: PetrolStation,
+      $ref: "petrolStationInfo",
     },
   },
-};
+});
 
-const deletePetrolStationSchema = {
-  tags: ["petrol-station"],
+const deletePetrolStationSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
     200: { type: "string" },
   },
-};
+});
 
 export {
   createPetrolStationSchema,

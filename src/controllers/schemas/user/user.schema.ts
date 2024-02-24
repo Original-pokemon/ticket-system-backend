@@ -1,105 +1,65 @@
-export const User = {
-  id: { type: "string" },
-  user_name: { type: "string" },
-  first_name: { type: "string" },
-  last_name: { type: "string" },
-  user_group: { type: "string" },
-  created_at: { type: "string" },
-};
+import { createRouteSchema } from "../common-schemas.js";
+import { querystringId } from "../models/index.js";
 
-const getUsersSchema = {
-  tags: ["user"],
+const tags = ["user"];
+const userSchema = { $ref: "user" };
+
+const getUsersSchema = createRouteSchema({
+  tags,
+  querystring: { $ref: querystringId },
   response: {
     200: {
       type: "array",
-      items: {
-        type: "object",
-        properties: User,
-      },
+      items: userSchema,
     },
   },
-};
+});
 
-const getSelectUsersSchema = {
-  tags: ["user"],
-  querystring: {
-    type: "object",
-    properties: {
-      ids: {
-        type: "array",
-      },
-    },
-  },
-  response: {
-    200: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: User,
-      },
-    },
-  },
-};
-
-const getUserSchema = {
-  tags: ["user"],
+const getUserSchema = createRouteSchema({
+  tags,
   params: {
     id: { type: "string" },
   },
   response: {
-    200: {
-      type: "object",
-      properties: User,
-    },
+    200: userSchema,
+    404: { $ref: "notFoundSchema" },
   },
-};
+});
 
-const createUserSchema = {
-  tags: ["user"],
-  body: {
-    type: "object",
-    required: ["id", "user_name", "first_name", "user_group"],
-    properties: User,
-  },
-  response: {
-    200: {
-      type: "string",
-    },
-  },
-};
-
-const updateUserSchema = {
-  tags: ["user"],
-  params: {
-    id: { type: "string" },
-  },
-  body: {
-    type: "object",
-    properties: User,
-  },
-  response: {
-    200: {
-      type: "object",
-      properties: User,
-    },
-  },
-};
-
-const deleteUserSchema = {
-  tags: ["user"],
-  params: {
-    id: { type: "string" },
-  },
+const createUserSchema = createRouteSchema({
+  tags,
+  body: userSchema,
   response: {
     200: { type: "string" },
   },
-};
+});
+
+const updateUserSchema = createRouteSchema({
+  tags,
+  params: {
+    id: { type: "string" },
+  },
+  body: userSchema,
+  response: {
+    200: userSchema,
+  },
+});
+
+const deleteUserSchema = createRouteSchema({
+  tags,
+  params: {
+    id: { type: "string" },
+  },
+  response: {
+    404: { $ref: "notFoundUser" },
+    200: userSchema,
+  },
+});
 
 export {
   createUserSchema,
   deleteUserSchema,
   getUserSchema,
-  getSelectUsersSchema,
   getUsersSchema,
   updateUserSchema,
 };
