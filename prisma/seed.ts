@@ -46,11 +46,11 @@ const upsertGroups = async () => {
 
 const upsertStatusList = async () => {
   const TicketStatus = {
-    Created: 1,
-    ReviewedManager: 2,
-    ReviewedTaskPerformer: 3,
-    Performed: 4,
-    Completed: 5,
+    Created: "1",
+    ReviewedManager: "2",
+    ReviewedTaskPerformer: "3",
+    Performed: "4",
+    Completed: "5",
   } as const;
 
   const TicketStatusDescription = {
@@ -85,9 +85,9 @@ const upsertStatusList = async () => {
 
 const upsertPriorityList = async () => {
   const TicketPriority = {
-    High: 1,
-    Medium: 2,
-    Low: 3,
+    High: "1",
+    Medium: "2",
+    Low: "3",
   };
 
   const TicketStatusDescription = {
@@ -121,10 +121,10 @@ const upsertPriorityList = async () => {
 
 const upsertCategoryList = async () => {
   const TicketCategory = {
-    Electrician: 1,
-    Mechanic: 2,
-    Plumber: 3,
-    Builder: 4,
+    Electrician: "1",
+    Mechanic: "2",
+    Plumber: "3",
+    Builder: "4",
   } as const;
 
   const TicketCategoryDescription = {
@@ -158,12 +158,12 @@ const upsertCategoryList = async () => {
 
 const upsertBushList = async () => {
   const Bush = {
-    Istra: 1,
-    Odintsovo: 2,
-    Derzhinsky: 3,
-    GPN_1: 4,
-    GPN_2: 5,
-    Opti: 6,
+    Istra: "1",
+    Odintsovo: "2",
+    Derzhinsky: "3",
+    GPN_1: "4",
+    GPN_2: "5",
+    Opti: "6",
   } as const;
 
   const BushDescription = {

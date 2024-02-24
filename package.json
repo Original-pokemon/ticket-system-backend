@@ -11,7 +11,7 @@
     "format": "eslint . --fix",
     "typecheck": "tsc",
     "build": "tsc --noEmit false",
-    "initPrisma": "npx prisma migrate dev --name init",
+    "initPrisma": "npx prisma migrate dev --name init && npx prisma db seed",
     "dev": "tsc-watch --onSuccess \"tsx ./scripts/start.ts\"",
     "start": "tsc && tsx ./scripts/start.ts",
     "start:force": "tsx ./scripts/start.ts"
