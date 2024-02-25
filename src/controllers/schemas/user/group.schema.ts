@@ -7,7 +7,10 @@ const getGroupsSchema = createRouteSchema({
   tags,
   querystring: { $ref: "querystring" },
   response: {
-    200: GroupSchema,
+    200: {
+      type: "array",
+      items: GroupSchema,
+    },
   },
 });
 
