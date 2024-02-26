@@ -27,7 +27,7 @@ export const createServer = async () => {
   });
 
   server.register(cors, {
-    origin: "*",
+    origin: true,
     credentials: true,
     exposedHeaders: ["Authorization", "Content-Type", "X-Total-Count"],
     allowedHeaders: ["Authorization", "Content-Type", "X-Total-Count"],
