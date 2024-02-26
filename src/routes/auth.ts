@@ -55,7 +55,7 @@ const getLoginOptions = {
     reply.setCookie("access_token", token, {
       path: "/",
       httpOnly: true,
-      secure: true,
+      // secure: true,
     });
     reply.code(200).send({ message: "You are welcome" });
   },
