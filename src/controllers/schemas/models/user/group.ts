@@ -10,4 +10,16 @@ const GroupSchema = {
   properties: GroupProperties,
 };
 
-export { GroupSchema };
+const GroupInfoSchema = {
+  $id: "groupInfo",
+  type: "object",
+  properties: {
+    ...GroupProperties,
+    users: {
+      type: "array",
+      items: { type: "string" },
+    },
+  },
+};
+
+export { GroupSchema, GroupInfoSchema };

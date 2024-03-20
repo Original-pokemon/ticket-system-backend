@@ -17,8 +17,18 @@ class GroupRepository extends Repository {
     return items;
   };
 
-  getUnique = async (id: string): Promise<Group | null> => {
-    const group = await this.client.group.findUnique({ where: { id } });
+  getUnique = async (id: string) => {
+    const group = await this.client.group.findUnique({
+      where: { id },
+      include: { users: true },
+    });
+
+    if (group) {
+      const users = group.users.map((user) => user.id);
+
+      return { ...group, users };
+    }
+
     return group;
   };
 

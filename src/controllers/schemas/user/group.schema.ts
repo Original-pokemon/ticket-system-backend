@@ -2,6 +2,7 @@ import { createRouteSchema } from "../common-schemas.js";
 
 const tags = ["group"];
 const GroupSchema = { $ref: "group" };
+const GroupInfoSchema = { $ref: "groupInfo" };
 
 const getGroupsSchema = createRouteSchema({
   tags,
@@ -20,7 +21,7 @@ const getGroupSchema = createRouteSchema({
     id: { type: "string" },
   },
   response: {
-    200: GroupSchema,
+    200: GroupInfoSchema,
     404: { $ref: "notFoundSchema" },
   },
 });
