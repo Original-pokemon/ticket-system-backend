@@ -92,9 +92,9 @@ const upsertPriorityList = async () => {
 
   const TicketStatusDescription = {
     [TicketPriority.Medium]:
-      "Может подождать (не блокирует, но ухудашает работу)",
+      "Может подождать (не блокирует, но ухудшает работу)",
     [TicketPriority.High]: "Критично (блокирует работу АЗС)",
-    [TicketPriority.Low]: "Когда-нибудь (Только космитические  изменения )",
+    [TicketPriority.Low]: "Когда-нибудь (Только косметические  изменения )",
   };
 
   const ticketPriorityIdList = Object.values(TicketPriority);
