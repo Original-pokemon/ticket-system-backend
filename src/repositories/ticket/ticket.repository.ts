@@ -84,26 +84,27 @@ class TicketRepository extends Repository {
     ticket: Ticket & {
       attachments: string[];
       comments: string[];
-      status_history: string[];
-      user_id: string;
+      status_history: { user_id: string; ticket_status: string }[];
     },
   ): Promise<Ticket> => {
     const {
       attachments: _attachments,
       comments: _comments,
-      status_history: _status_history,
-      user_id: userId,
+      status_history: statusHistory,
       ...ticketWithoutAttachment
     } = ticket;
+
+    const newTicketStatus = statusHistory.at(-1);
+
+    if (!newTicketStatus) {
+      throw new Error("Invalid status history");
+    }
 
     const updateTicket = await this.client.ticket.update({
       data: {
         ...ticketWithoutAttachment,
         status_history: {
-          create: {
-            user_id: userId,
-            ticket_status: ticket.status_id,
-          },
+          create: newTicketStatus,
         },
       },
       where: { id: ticket.id },
