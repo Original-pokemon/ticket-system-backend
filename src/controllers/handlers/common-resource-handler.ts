@@ -115,7 +115,7 @@ function deleteResourceHandler(resource: Resource) {
     const { id } = request.params;
     try {
       const data = await resource.delete(id);
-      reply.code(204).send(data);
+      reply.code(200).send(data);
     } catch (error) {
       handleErrors(reply, error, `Error deleting ${resource.name}`);
     }
