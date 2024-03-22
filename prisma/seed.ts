@@ -128,10 +128,10 @@ const upsertCategoryList = async () => {
   } as const;
 
   const TicketCategoryDescription = {
-    [TicketCategory.Electrician]: "Электрик",
-    [TicketCategory.Mechanic]: "Механик",
-    [TicketCategory.Plumber]: "Водопроводчик",
-    [TicketCategory.Builder]: "Строитель",
+    [TicketCategory.Electrician]: "Электрики",
+    [TicketCategory.Mechanic]: "Механики",
+    [TicketCategory.Plumber]: "Сантехники",
+    [TicketCategory.Builder]: "Строители",
   } as const;
 
   const ticketCategoryIdList = Object.values(TicketCategory);
