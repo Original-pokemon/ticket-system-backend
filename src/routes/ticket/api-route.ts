@@ -44,7 +44,7 @@ export const APIRoute = {
   Comment: {
     All: "/comment",
     Info: "/comment/:id",
-    Create: "/comment/",
+    Create: "/comment",
     Update: "/comment/:id",
     Delete: "/comment/:id",
   },
