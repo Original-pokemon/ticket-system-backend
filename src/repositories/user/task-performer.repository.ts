@@ -47,10 +47,9 @@ class TaskPerformerRepository extends Repository {
     return taskPerformer;
   };
 
-  update = async (taskPerformer: TaskPerformer): Promise<TaskPerformer> => {
-    const { id } = taskPerformer;
+  update = async ({ id, ...data }: TaskPerformer): Promise<TaskPerformer> => {
     const updateTaskPerformer = await this.client.taskPerformer.update({
-      data: taskPerformer,
+      data,
       where: { id },
       include: {
         user: true,

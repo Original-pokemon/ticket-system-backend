@@ -22,10 +22,9 @@ class BushRepository extends Repository {
     return bush;
   };
 
-  update = async (bush: Bush): Promise<Bush> => {
-    const { id } = bush;
+  update = async ({ id, ...data }: Bush): Promise<Bush> => {
     const updateBush = await this.client.bush.update({
-      data: bush,
+      data,
       where: { id },
     });
     return updateBush;

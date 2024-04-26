@@ -48,8 +48,8 @@ class PetrolStationRepository extends Repository {
     return petrolStation;
   };
 
-  update = async (petrolStation: PetrolStation & { managers: string[] }) => {
-    const { id, managers } = petrolStation;
+  update = async ({ id, ...data }: PetrolStation & { managers: string[] }) => {
+    const { managers } = data;
     const managersObject = managers.map((manager) => ({
       id: manager,
     }));

@@ -26,10 +26,9 @@ class PriorityRepository extends Repository {
     return priority;
   };
 
-  update = async (priority: Priority) => {
-    const { id } = priority;
+  update = async ({ id, ...data }: Priority) => {
     const updatePriority = await this.client.priority.update({
-      data: priority,
+      data,
       where: { id },
     });
     return updatePriority;

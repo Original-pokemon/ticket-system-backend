@@ -32,10 +32,9 @@ class GroupRepository extends Repository {
     return group;
   };
 
-  update = async (group: Group): Promise<Group> => {
-    const { id } = group;
+  update = async ({ id, ...data }: Group): Promise<Group> => {
     const updateGroup = await this.client.group.update({
-      data: group,
+      data,
       where: { id },
     });
     return updateGroup;

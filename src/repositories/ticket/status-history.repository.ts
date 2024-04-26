@@ -26,10 +26,9 @@ class StatusHistoryRepository extends Repository {
     return statusHistory;
   };
 
-  update = async (statusHistory: StatusHistory): Promise<StatusHistory> => {
-    const { id } = statusHistory;
+  update = async ({ id, ...data }: StatusHistory): Promise<StatusHistory> => {
     const updateStatusHistory = await this.client.statusHistory.update({
-      data: statusHistory,
+      data,
       where: { id },
     });
     return updateStatusHistory;

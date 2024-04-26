@@ -24,10 +24,9 @@ class TagWordRepository extends Repository {
     return tagWord;
   };
 
-  update = async (tagWord: TagWord): Promise<TagWord> => {
-    const { id } = tagWord;
+  update = async ({ id, ...data }: TagWord): Promise<TagWord> => {
     const updateTagWord = await this.client.tagWord.update({
-      data: tagWord,
+      data,
       where: { id },
     });
 

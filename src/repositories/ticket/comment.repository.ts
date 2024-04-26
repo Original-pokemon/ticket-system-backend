@@ -44,10 +44,9 @@ class CommentRepository extends Repository {
     return comment;
   };
 
-  update = async (comment: Comment): Promise<Comment> => {
-    const { id } = comment;
+  update = async ({ id, ...data }: Comment): Promise<Comment> => {
     const updateComment = await this.client.comment.update({
-      data: comment,
+      data,
       where: { id },
     });
     return updateComment;

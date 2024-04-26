@@ -22,10 +22,9 @@ class UserRepository extends Repository {
     return user;
   };
 
-  update = async (user: User): Promise<User> => {
-    const { id } = user;
+  update = async ({ id, ...data }: User): Promise<User> => {
     const updatedUser = await this.client.user.update({
-      data: user,
+      data,
       where: { id },
     });
     return updatedUser;

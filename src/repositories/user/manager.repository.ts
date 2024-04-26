@@ -62,12 +62,8 @@ class ManagerRepository extends Repository {
     return manager;
   };
 
-  update = async (
-    manager: Manager & {
-      petrol_stations: string[];
-    },
-  ) => {
-    const { id, petrol_stations } = manager;
+  update = async ({ id, ...data }: Manager & { petrol_stations: string[] }) => {
+    const { petrol_stations } = data;
     const petrolStations = petrol_stations.map((petrol_station) => ({
       id: petrol_station,
     }));

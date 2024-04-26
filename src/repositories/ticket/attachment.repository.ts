@@ -26,10 +26,9 @@ class AttachmentRepository extends Repository {
     return attachment;
   };
 
-  update = async (attachment: Attachment): Promise<Attachment> => {
-    const { id } = attachment;
+  update = async ({ id, ...data }: Attachment): Promise<Attachment> => {
     const updateAttachment = await this.client.attachment.update({
-      data: attachment,
+      data,
       where: { id },
     });
     return updateAttachment;

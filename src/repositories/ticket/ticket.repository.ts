@@ -88,10 +88,11 @@ class TicketRepository extends Repository {
     },
   ): Promise<Ticket> => {
     const {
+      id,
       attachments: _attachments,
       comments: _comments,
       status_history: statusHistory,
-      ...ticketWithoutAttachment
+      ...data
     } = ticket;
 
     const newTicketStatus = statusHistory.at(-1);
@@ -102,12 +103,12 @@ class TicketRepository extends Repository {
 
     const updateTicket = await this.client.ticket.update({
       data: {
-        ...ticketWithoutAttachment,
+        ...data,
         status_history: {
           create: newTicketStatus,
         },
       },
-      where: { id: ticket.id },
+      where: { id },
     });
 
     return updateTicket;

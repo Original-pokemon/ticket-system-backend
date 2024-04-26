@@ -32,10 +32,9 @@ class CategoryRepository extends Repository {
     return { ...category, task_performers: taskPerformerIds };
   };
 
-  update = async (category: Category): Promise<Category> => {
-    const { id } = category;
+  update = async ({ id, ...data }: Category): Promise<Category> => {
     const updateCategory = await this.client.category.update({
-      data: category,
+      data,
       where: { id },
     });
 

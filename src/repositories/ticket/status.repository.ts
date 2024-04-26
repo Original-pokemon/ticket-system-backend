@@ -22,10 +22,9 @@ class StatusRepository extends Repository {
     return status;
   };
 
-  update = async (status: Status): Promise<Status> => {
-    const { id } = status;
+  update = async ({ id, ...data }: Status): Promise<Status> => {
     const updateStatus = await this.client.status.update({
-      data: status,
+      data,
       where: { id },
     });
     return updateStatus;
