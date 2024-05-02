@@ -48,8 +48,24 @@ class TaskPerformerRepository extends Repository {
   };
 
   update = async ({ id, ...data }: TaskPerformer): Promise<TaskPerformer> => {
+    const { bush_id, category_id } = data;
+    if (!bush_id || !category_id) {
+      throw new Error("bush_id and category_id are required");
+    }
+
     const updateTaskPerformer = await this.client.taskPerformer.update({
-      data,
+      data: {
+        bush: {
+          connect: {
+            id: bush_id,
+          },
+        },
+        category: {
+          connect: {
+            id: category_id,
+          },
+        },
+      },
       where: { id },
       include: {
         user: true,
