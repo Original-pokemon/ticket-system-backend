@@ -12,11 +12,11 @@ class PriorityRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.priority.findMany(
+    const result = await this.client.priority.findManyAndCount(
       getPropertiesGetAll(properties),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string): Promise<Priority | null> => {

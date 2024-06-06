@@ -26,11 +26,11 @@ class ManagerRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.manager.findMany(
+    const result = await this.client.manager.findManyAndCount(
       getPropertiesGetAll(properties, { user: true }),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string) => {

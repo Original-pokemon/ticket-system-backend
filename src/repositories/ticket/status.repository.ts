@@ -10,11 +10,11 @@ class StatusRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.status.findMany(
+    const result = await this.client.status.findManyAndCount(
       getPropertiesGetAll(properties),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string): Promise<Status | null> => {

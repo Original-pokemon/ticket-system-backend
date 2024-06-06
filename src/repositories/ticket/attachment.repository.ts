@@ -12,11 +12,11 @@ class AttachmentRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.attachment.findMany(
+    const result = await this.client.attachment.findManyAndCount(
       getPropertiesGetAll(properties),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string): Promise<Attachment | null> => {

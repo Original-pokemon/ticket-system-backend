@@ -10,11 +10,11 @@ class BushRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.bush.findMany(
+    const result = await this.client.bush.findManyAndCount(
       getPropertiesGetAll(properties),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string): Promise<Bush | null> => {

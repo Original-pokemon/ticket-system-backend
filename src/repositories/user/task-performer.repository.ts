@@ -13,11 +13,11 @@ class TaskPerformerRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.taskPerformer.findMany(
+    const result = await this.client.taskPerformer.findManyAndCount(
       getPropertiesGetAll(properties, { user: true }),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string) => {

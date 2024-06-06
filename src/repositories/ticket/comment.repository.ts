@@ -24,13 +24,13 @@ class CommentRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.comment.findMany(
+    const result = await this.client.comment.findManyAndCount(
       getPropertiesGetAll(properties, {
         attachments: true,
       }),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string) => {

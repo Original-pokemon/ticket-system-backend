@@ -10,11 +10,11 @@ class UserRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.user.findMany(
+    const result = await this.client.user.findManyAndCount(
       getPropertiesGetAll(properties),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string): Promise<User | null> => {

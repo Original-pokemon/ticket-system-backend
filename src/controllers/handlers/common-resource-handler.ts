@@ -4,7 +4,7 @@ import { handleErrors } from "#root/helpers/handle-error.js";
 import { SortMethodType, getAllProperties } from "#root/types.js";
 
 type Resource = {
-  getAll: (properties: getAllProperties) => Promise<any[]>;
+  getAll: (properties: getAllProperties) => Promise<[any[], number]>;
   getUnique: (id: string) => Promise<any>;
   create: (data: any) => Promise<any>;
   update: (data: any) => Promise<any>;
@@ -43,8 +43,8 @@ function getResourcesHandler(resource: Resource) {
     };
 
     try {
-      const data = await resource.getAll(queryParameters);
-      reply.header("x-total-count", data.length);
+      const [data, count] = await resource.getAll(queryParameters);
+      reply.header("x-total-count", count);
       reply.send(data);
     } catch (error) {
       handleErrors(reply, error, `Error fetching ${resource.name}s`);

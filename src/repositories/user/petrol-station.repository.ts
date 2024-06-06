@@ -12,11 +12,11 @@ class PetrolStationRepository extends Repository {
   };
 
   getAll = async (properties: getAllProperties) => {
-    const items = await this.client.petrolStation.findMany(
+    const result = await this.client.petrolStation.findManyAndCount(
       getPropertiesGetAll(properties, { user: true }),
     );
 
-    return items;
+    return result;
   };
 
   getUnique = async (id: string) => {

@@ -1,7 +1,24 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
+
+const prisma = new PrismaClient().$extends({
+  name: "findManyAndCount",
+  model: {
+    $allModels: {
+      findManyAndCount<Model, Arguments>(
+        this: Model,
+        arguments_: Prisma.Exact<Arguments, Prisma.Args<Model, "findMany">>,
+      ): Promise<[Prisma.Result<Model, Arguments, "findMany">, number]> {
+        return prisma.$transaction([
+          (this as any).findMany(arguments_),
+          (this as any).count({ where: (arguments_ as any).where }),
+        ]) as any;
+      },
+    },
+  },
+});
 
 class DataBase {
-  private database: PrismaClient = new PrismaClient();
+  private database = prisma;
 
   get client() {
     return this.database;
@@ -10,7 +27,6 @@ class DataBase {
   async init() {
     try {
       await this.database.$connect();
-
       return this.database;
     } catch {
       throw new Error(`Error initializing database`);
