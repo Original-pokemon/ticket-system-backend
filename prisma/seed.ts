@@ -48,7 +48,9 @@ const upsertStatusList = async () => {
     [TicketStatus.Created]: "Создана",
     [TicketStatus.ReviewedManager]: "На рассмотрении у менеджера",
     [TicketStatus.ReviewedTaskPerformer]: "На рассмотрении у исполнителя задач",
+    [TicketStatus.SeenTaskPerformer]: "Просмотренно исполнителем",
     [TicketStatus.Performed]: "Взята на исполнение",
+    [TicketStatus.WaitingConfirmation]: "Ожидает подтверждения",
     [TicketStatus.Completed]: "Исполнена",
   } as const;
 
