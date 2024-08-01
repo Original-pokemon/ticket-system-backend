@@ -1,10 +1,15 @@
-const ticketProperties = {
+import { Ticket } from "@prisma/client";
+
+type TicketKeys = keyof Ticket;
+
+const ticketProperties: { [key in TicketKeys]: object } = {
   id: { type: "string" },
   title: { type: "string" },
   description: { type: "string" },
   status_id: { type: "string" },
   petrol_station_id: { type: "string" },
   ticket_category: { type: ["string", "null"] },
+  deadline: { type: ["string", "null"] },
   ticket_priority: { type: ["string", "null"] },
   created_at: { type: "string", format: "date-time" },
 };
