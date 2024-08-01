@@ -17,8 +17,8 @@ model Group {
 }
 
 model Bush {
-  id              String          @id
   description     String
+  id              String          @id
   managers        Manager[]
   petrol_stations PetrolStation[]
   task_performers TaskPerformer[]
@@ -45,22 +45,22 @@ model User {
 }
 
 model Manager {
-  id              String          @id
-  user            User            @relation(fields: [id], references: [id])
   bush_id         String?
+  id              String          @id
   bush            Bush?           @relation(fields: [bush_id], references: [id])
-  petrol_stations PetrolStation[]
+  user            User            @relation(fields: [id], references: [id])
+  petrol_stations PetrolStation[] @relation("ManagerToPetrolStation")
 
   @@map("managers")
 }
 
 model PetrolStation {
-  id       String    @id
-  user     User      @relation(fields: [id], references: [id])
-  managers Manager[]
   bush_id  String?
+  id       String    @id
   bush     Bush?     @relation(fields: [bush_id], references: [id])
+  user     User      @relation(fields: [id], references: [id])
   tickets  Ticket[]
+  managers Manager[] @relation("ManagerToPetrolStation")
 
   @@map("petrol_stations")
 }
@@ -68,20 +68,20 @@ model PetrolStation {
 model Category {
   id              String          @id
   description     String
-  tickets         Ticket[]
   words           TagWord[]
   task_performers TaskPerformer[]
+  tickets         Ticket[]
 
   @@map("categores")
 }
 
 model TaskPerformer {
-  id          String    @id
-  user        User      @relation(fields: [id], references: [id])
-  bush_id     String
-  bush        Bush      @relation(fields: [bush_id], references: [id])
   category_id String?
+  bush_id     String
+  id          String    @id
+  bush        Bush      @relation(fields: [bush_id], references: [id])
   category    Category? @relation(fields: [category_id], references: [id])
+  user        User      @relation(fields: [id], references: [id])
 
   @@map("task_performers")
 }
@@ -89,8 +89,8 @@ model TaskPerformer {
 model Priority {
   id          String    @id
   description String
-  tickets     Ticket[]
   tag_words   TagWord[]
+  tickets     Ticket[]
 
   @@map("priorites")
 }
@@ -126,14 +126,14 @@ model Ticket {
 }
 
 model StatusHistory {
-  id            String   @id @default(uuid())
   ticket_id     String
-  ticket        Ticket   @relation(fields: [ticket_id], references: [id])
   user_id       String
-  user          User     @relation(fields: [user_id], references: [id])
   ticket_status String
-  status        Status   @relation(fields: [ticket_status], references: [id])
   created_at    DateTime @default(now())
+  id            String   @id @default(uuid())
+  ticket        Ticket   @relation(fields: [ticket_id], references: [id])
+  status        Status   @relation(fields: [ticket_status], references: [id])
+  user          User     @relation(fields: [user_id], references: [id])
 
   @@map("status_histories")
 }
@@ -141,23 +141,23 @@ model StatusHistory {
 model Comment {
   id          String       @id @default(uuid())
   ticket_id   String
-  ticket      Ticket       @relation(fields: [ticket_id], references: [id])
   user_id     String
-  user        User         @relation(fields: [user_id], references: [id])
   text        String
-  attachments Attachment[]
   created_at  DateTime     @default(now())
+  attachments Attachment[]
+  ticket      Ticket       @relation(fields: [ticket_id], references: [id])
+  user        User         @relation(fields: [user_id], references: [id])
 
   @@map("comments")
 }
 
 model Attachment {
   id         String   @id @default(uuid())
-  ticket_id  String?
-  ticket     Ticket?  @relation(fields: [ticket_id], references: [id])
   comment_id String?
-  comment    Comment? @relation(fields: [comment_id], references: [id])
   path       String
+  ticket_id  String?
+  comment    Comment? @relation(fields: [comment_id], references: [id])
+  ticket     Ticket?  @relation(fields: [ticket_id], references: [id])
 
   @@map("attachments")
 }
@@ -165,8 +165,8 @@ model Attachment {
 model TagWord {
   id          String   @id
   category_id String
-  category    Category @relation(fields: [category_id], references: [id])
   priority_id String
+  category    Category @relation(fields: [category_id], references: [id])
   priority    Priority @relation(fields: [priority_id], references: [id])
 
   @@map("tag_words")
