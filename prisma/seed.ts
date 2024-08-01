@@ -13,6 +13,7 @@ const prisma = new PrismaClient();
 const upsertGroups = async () => {
   const GroupDescription = {
     [UserGroup.Admin]: "Администратор",
+    [UserGroup.Supervisor]: "Супервизор",
     [UserGroup.Blocked]: "Заблокирован",
     [UserGroup.Manager]: "Менеджер",
     [UserGroup.PetrolStation]: "Заправочная станция",
