@@ -1,5 +1,6 @@
 const userProperties = {
   id: { type: "string" },
+  login: { type: "string" },
   user_name: { type: "string" },
   first_name: { type: "string" },
   last_name: { type: "string" },

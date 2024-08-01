@@ -32,13 +32,14 @@ model User {
   first_name       String
   last_name        String?
   user_group       String
-  group            Group           @relation(fields: [user_group], references: [id])
-  task_performer   TaskPerformer?
+  created_at       DateTime        @default(now())
+  login            String?
+  comments         Comment[]
   manager          Manager?
   petrol_station   PetrolStation?
-  comments         Comment[]
   status_histories StatusHistory[]
-  created_at       DateTime        @default(now())
+  task_performer   TaskPerformer?
+  group            Group           @relation(fields: [user_group], references: [id])
 
   @@map("users")
 }
