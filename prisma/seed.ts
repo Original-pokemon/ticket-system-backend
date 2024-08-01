@@ -1,18 +1,16 @@
 import { logger } from "#root/logger.js";
 import { PrismaClient } from "@prisma/client";
+import {
+  Bush,
+  TicketCategory,
+  TicketPriority,
+  TicketStatus,
+  UserGroup,
+} from "./const.js";
 
 const prisma = new PrismaClient();
 
 const upsertGroups = async () => {
-  const UserGroup = {
-    Admin: "admin",
-    Unauthorized: "unauthorized",
-    Blocked: "blocked",
-    Manager: "manager",
-    PetrolStation: "petrol-station",
-    TaskPerformer: "task-performer",
-  } as const;
-
   const GroupDescription = {
     [UserGroup.Admin]: "Администратор",
     [UserGroup.Blocked]: "Заблокирован",
@@ -45,14 +43,6 @@ const upsertGroups = async () => {
 };
 
 const upsertStatusList = async () => {
-  const TicketStatus = {
-    Created: "1",
-    ReviewedManager: "2",
-    ReviewedTaskPerformer: "3",
-    Performed: "4",
-    Completed: "5",
-  } as const;
-
   const TicketStatusDescription = {
     [TicketStatus.Created]: "Создана",
     [TicketStatus.ReviewedManager]: "На рассмотрении у менеджера",
@@ -84,12 +74,6 @@ const upsertStatusList = async () => {
 };
 
 const upsertPriorityList = async () => {
-  const TicketPriority = {
-    High: "1",
-    Medium: "2",
-    Low: "3",
-  };
-
   const TicketStatusDescription = {
     [TicketPriority.Medium]:
       "Может подождать (не блокирует, но ухудшает работу)",
@@ -120,13 +104,6 @@ const upsertPriorityList = async () => {
 };
 
 const upsertCategoryList = async () => {
-  const TicketCategory = {
-    Electrician: "1",
-    Mechanic: "2",
-    Plumber: "3",
-    Builder: "4",
-  } as const;
-
   const TicketCategoryDescription = {
     [TicketCategory.Electrician]: "Электрики",
     [TicketCategory.Mechanic]: "Механики",
@@ -157,15 +134,6 @@ const upsertCategoryList = async () => {
 };
 
 const upsertBushList = async () => {
-  const Bush = {
-    Istra: "1",
-    Odintsovo: "2",
-    Derzhinsky: "3",
-    GPN_1: "4",
-    GPN_2: "5",
-    Opti: "6",
-  } as const;
-
   const BushDescription = {
     [Bush.Derzhinsky]: "Держинский",
     [Bush.Istra]: "Истра",
