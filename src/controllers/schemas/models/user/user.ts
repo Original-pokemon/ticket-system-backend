@@ -1,9 +1,9 @@
 const userProperties = {
   id: { type: "string" },
-  login: { type: "string" },
+  login: { type: ["string", "null"] },
   user_name: { type: "string" },
   first_name: { type: "string" },
-  last_name: { type: "string" },
+  last_name: { type: ["string", "null"] },
   user_group: { type: "string" },
   created_at: { type: "string" },
 };
