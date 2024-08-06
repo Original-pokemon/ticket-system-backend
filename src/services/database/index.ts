@@ -28,8 +28,8 @@ class DataBase {
     try {
       await this.database.$connect();
       return this.database;
-    } catch {
-      throw new Error(`Error initializing database`);
+    } catch (error) {
+      throw new Error(`Error initializing database\n${error}`);
     }
   }
 
