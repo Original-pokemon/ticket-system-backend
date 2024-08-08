@@ -5,7 +5,14 @@ export const authenticate = async (
   request: FastifyRequest,
   reply: FastifyReply,
 ) => {
+  try {
+    await request.jwtVerify();
+  } catch {
+    reply.code(401).send({ message: "Authentication required" });
+  }
+
   const token = request.cookies.access_token;
+
   if (!token) {
     return reply.code(401).send({
       message: "Authentication required",
