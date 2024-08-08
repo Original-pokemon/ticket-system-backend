@@ -24,6 +24,7 @@ export const createServer = async () => {
   server.register(fastifyStatic, {
     root: uploadsDirectory,
     prefix: staticFilePrefix,
+    preCompressed: true,
     setHeaders: (response) => {
       response.setHeader("Cache-Control", "public, max-age=31536000"); // 1 год кэширования
     },
