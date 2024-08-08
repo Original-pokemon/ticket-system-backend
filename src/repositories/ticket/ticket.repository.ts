@@ -127,7 +127,7 @@ class TicketRepository extends Repository {
         }
       });
 
-      Promise.all(promises);
+      await Promise.all(promises);
 
       await this.client.ticket.update({
         where: { id },
