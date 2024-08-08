@@ -24,6 +24,9 @@ export const createServer = async () => {
   server.register(fastifyStatic, {
     root: uploadsDirectory,
     prefix: staticFilePrefix,
+    setHeaders: (response) => {
+      response.setHeader("Cache-Control", "public, max-age=31536000"); // 1 год кэширования
+    },
   });
 
   server.register(cors, {
@@ -65,10 +68,16 @@ export const createServer = async () => {
     await dataBase.disconnect();
   });
 
-  server.setErrorHandler(async (error, _request, response) => {
-    logger.error(error);
+  server.setErrorHandler(async (error, request, response) => {
+    const statusCode = error.statusCode || 500;
+    const errorMessage =
+      statusCode === 500 ? "Internal Server Error" : error.message;
 
-    await response.status(500).send({ error: "Oops! Something went wrong." });
+    logger.error({ error, requestId: request.id });
+
+    await response.status(statusCode).send({
+      error: errorMessage,
+    });
   });
 
   server.get("/", () => ({ status: true }));
