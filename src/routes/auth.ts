@@ -41,8 +41,8 @@ const getLoginOptions = {
     reply: FastifyReply,
   ) => {
     if (
-      request.body.username !== config.LOGIN ||
-      request.body.password !== config.PASSWORD
+      request.body.username !== config.EXTERNAL_SERVICE_LOGIN ||
+      request.body.password !== config.EXTERNAL_SERVICE_PASSWORD
     ) {
       return reply.code(403).send({ message: "Неправильные логин или пароль" });
     }

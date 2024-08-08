@@ -17,8 +17,8 @@ try {
   });
 
   await server.listen({
-    host: config.LISTEN_SERVER_HOST,
-    port: config.LISTEN_SERVER_PORT,
+    host: config.HOST,
+    port: config.PORT,
   });
 } catch (error) {
   logger.error(error);

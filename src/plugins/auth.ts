@@ -10,7 +10,7 @@ export const authPlugin = fp(async (fastify: FastifyInstance) => {
       cookieName: "access_token",
       signed: false,
     },
-    secret: config.SECRET,
+    secret: config.JWT_SECRET,
   });
 
   fastify.addHook("preHandler", (request, _reply, next) => {
@@ -19,7 +19,7 @@ export const authPlugin = fp(async (fastify: FastifyInstance) => {
   });
 
   fastify.register(fastifyCookie, {
-    secret: config.SECRET_COOKIE,
+    secret: config.COOKIE_SECRET,
     hook: "preHandler",
   });
 });

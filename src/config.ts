@@ -7,12 +7,12 @@ const configSchema = z.object({
   LOG_LEVEL: z
     .enum(["trace", "debug", "info", "warn", "error", "fatal", "silent"])
     .default("info"),
-  LISTEN_SERVER_HOST: z.string().default("0.0.0.0"),
-  LISTEN_SERVER_PORT: z.coerce.number().positive().default(80),
-  SECRET_COOKIE: z.string(),
-  SECRET: z.string(),
-  LOGIN: z.string(),
-  PASSWORD: z.string(),
+  HOST: z.string().default("0.0.0.0"),
+  PORT: z.coerce.number().positive().default(80),
+  COOKIE_SECRET: z.string(),
+  JWT_SECRET: z.string(),
+  EXTERNAL_SERVICE_LOGIN: z.string(),
+  EXTERNAL_SERVICE_PASSWORD: z.string(),
 });
 
 const parseConfig = (environment: NodeJS.ProcessEnv) => {
