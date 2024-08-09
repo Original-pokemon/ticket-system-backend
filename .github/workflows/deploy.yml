@@ -40,11 +40,11 @@ jobs:
           docker stop backend || true
           docker rm backend || true
 
-          docker run -d -p 8000:8000 \
+          docker run -d -p 3000:8000 \
             --name backend \
             -e NODE_ENV=production \
             -e LOG_LEVEL=debug \
-            -e PORT=3000 \
+            -e PORT=8000 \
             -e HOST=0.0.0.0 \
             -e DATABASE_URL='${{ secrets.DATABASE_URL }}'\
             -e SHADOW_DATABASE_URL='${{ secrets.SHADOW_DATABASE_URL }}' \
