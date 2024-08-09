@@ -46,8 +46,8 @@ jobs:
             -e LOG_LEVEL=debug \
             -e PORT=8000 \
             -e HOST=0.0.0.0 \
-            -e DATABASE_URL='${{ secrets.DATABASE_URL }}'\
-            -e SHADOW_DATABASE_URL='${{ secrets.SHADOW_DATABASE_URL }}' \
+            -e `DATABASE_URL=${{ secrets.DATABASE_URL }}'\
+            -e `SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }}' \
             -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
             -e COOKIE_SECRET=${{ secrets.COOKIE_SECRET }} \
             -e EXTERNAL_SERVICE_LOGIN=${{ secrets.EXTERNAL_SERVICE_LOGIN }} \
