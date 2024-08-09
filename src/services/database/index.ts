@@ -1,24 +1,29 @@
+import { logger } from "#root/logger.js";
 import { PrismaClient, Prisma } from "@prisma/client";
 
-const prisma = new PrismaClient().$extends({
-  name: "findManyAndCount",
-  model: {
-    $allModels: {
-      findManyAndCount<Model, Arguments>(
-        this: Model,
-        arguments_: Prisma.Exact<Arguments, Prisma.Args<Model, "findMany">>,
-      ): Promise<[Prisma.Result<Model, Arguments, "findMany">, number]> {
-        return prisma.$transaction([
-          (this as any).findMany(arguments_),
-          (this as any).count({ where: (arguments_ as any).where }),
-        ]) as any;
-      },
-    },
-  },
-});
-
 class DataBase {
-  private database = prisma;
+  private database;
+
+  constructor() {
+    const prisma = new PrismaClient().$extends({
+      name: "findManyAndCount",
+      model: {
+        $allModels: {
+          findManyAndCount<Model, Arguments>(
+            this: Model,
+            arguments_: Prisma.Exact<Arguments, Prisma.Args<Model, "findMany">>,
+          ): Promise<[Prisma.Result<Model, Arguments, "findMany">, number]> {
+            return prisma.$transaction([
+              (this as any).findMany(arguments_),
+              (this as any).count({ where: (arguments_ as any).where }),
+            ]) as any;
+          },
+        },
+      },
+    });
+
+    this.database = prisma;
+  }
 
   get client() {
     return this.database;
@@ -27,6 +32,8 @@ class DataBase {
   async init() {
     try {
       await this.database.$connect();
+
+      logger.info("Database initialized");
       return this.database;
     } catch (error) {
       throw new Error(`Error initializing database\n${error}`);
