@@ -1,11 +1,11 @@
 import { Comment, Ticket } from "@prisma/client";
 
 import { logger } from "#root/logger.js";
-import { saveAttachments } from "#root/helpers/save-attachments.js";
-import fs from "node:fs/promises";
+import S3Service from "#root/services/s3/index.js";
 import { getAllProperties } from "#root/types.js";
 import getPropertiesGetAll from "#root/helpers/get-properties-get-all.js";
-import { uploadsDirectory } from "#root/const.js";
+
+import { saveAttachments } from "#root/helpers/save-attachments.js";
 import Repository from "../repository.js";
 
 class TicketRepository extends Repository {
@@ -117,10 +117,9 @@ class TicketRepository extends Repository {
   delete = async (id: string): Promise<string> => {
     const ticket = await this.getUnique(id);
     if (ticket) {
-      const promises = ticket.attachments.map(async (fileId) => {
-        const localPath = `${uploadsDirectory}\\${fileId}.jpg`;
+      const promises = ticket.attachments.map(async (fileName) => {
         try {
-          const promise = await fs.unlink(localPath);
+          const promise = await S3Service.deleteFile(fileName);
           return promise;
         } catch (error) {
           logger.warn(error);

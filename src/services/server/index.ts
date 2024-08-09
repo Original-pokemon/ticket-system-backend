@@ -2,14 +2,11 @@ import { logger } from "#root/logger.js";
 import fastify from "fastify";
 import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
-import fastifyStatic from "@fastify/static";
 
 import { routers } from "#root/routes/index.js";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { authPlugin } from "#root/plugins/auth.js";
 import { modelsPlugin } from "#root/plugins/models.js";
-import { mkdir } from "node:fs/promises";
-import { staticFilePrefix, uploadsDirectory } from "#root/const.js";
 import { authRouters } from "#root/routes/auth.js";
 import dataBase from "../database/index.js";
 import { swaggerOptions } from "../swagger/options.js";
@@ -17,17 +14,6 @@ import { swaggerOptions } from "../swagger/options.js";
 export const createServer = async () => {
   const server = fastify({
     logger,
-  });
-
-  await mkdir(uploadsDirectory, { recursive: true });
-
-  server.register(fastifyStatic, {
-    root: uploadsDirectory,
-    prefix: staticFilePrefix,
-    preCompressed: true,
-    setHeaders: (response) => {
-      response.setHeader("Cache-Control", "public, max-age=31536000"); // 1 год кэширования
-    },
   });
 
   server.register(cors, {

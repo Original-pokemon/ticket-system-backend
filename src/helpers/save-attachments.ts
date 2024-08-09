@@ -1,17 +1,10 @@
 import fetch from "node-fetch";
-import { v4 as uuidv4 } from "uuid";
-import fs from "node:fs/promises";
-import path from "node:path";
-import { staticFilePrefix, uploadsDirectory } from "#root/const.js";
+import { basename } from "node:path";
+import S3Service from "#root/services/s3/index.js";
 
 const downloadAndSaveFile = async (
   attachment: string,
 ): Promise<{ id: string; path: string }> => {
-  const id = uuidv4();
-  const fileName = `${id}.jpg`;
-  const localPath = path.join(uploadsDirectory, fileName);
-  const staticPath = path.join(staticFilePrefix, fileName);
-
   try {
     const response = await fetch(attachment, {
       method: "GET",
@@ -22,14 +15,22 @@ const downloadAndSaveFile = async (
         `Failed to download file. Status: ${response.status} ${response.statusText}`,
       );
     }
+
     const buffer = Buffer.from(await response.arrayBuffer());
 
     try {
-      await fs.writeFile(localPath, buffer);
+      const location = await S3Service.uploadFile(buffer);
+
+      return {
+        id: basename(location),
+        path: location,
+      };
     } catch (error) {
       if (error instanceof Error) {
-        throw new TypeError(`Failed to save file to disk. ${error.message}`);
+        throw new TypeError(`Failed to save file. ${error.message}`);
       }
+
+      throw new Error("Failed to save file");
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -37,12 +38,8 @@ const downloadAndSaveFile = async (
         `Failed to fetch file from ${attachment}. ${error.message}`,
       );
     }
+    throw new Error("Failed to download file");
   }
-
-  return {
-    id,
-    path: staticPath,
-  };
 };
 
 export const saveAttachments = async (

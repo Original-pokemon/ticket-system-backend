@@ -13,6 +13,10 @@ const configSchema = z.object({
   JWT_SECRET: z.string(),
   EXTERNAL_SERVICE_LOGIN: z.string(),
   EXTERNAL_SERVICE_PASSWORD: z.string(),
+  S3_BUCKET_NAME: z.string(),
+  S3_ACCESS_KEY: z.string(),
+  S3_SECRET_KEY: z.string(),
+  S3_ENDPOINT: z.string(),
 });
 
 const parseConfig = (environment: NodeJS.ProcessEnv) => {
