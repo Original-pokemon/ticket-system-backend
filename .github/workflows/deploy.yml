@@ -44,7 +44,7 @@ jobs:
             --name backend \
             -e NODE_ENV=production \
             -e LOG_LEVEL=debug \
-            -e PORT=8000 \
+            -e PORT=3000 \
             -e HOST=0.0.0.0 \
             -e DATABASE_URL='${{ secrets.DATABASE_URL }}'\
             -e SHADOW_DATABASE_URL='${{ secrets.SHADOW_DATABASE_URL }}' \
