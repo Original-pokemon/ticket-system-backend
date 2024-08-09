@@ -13,8 +13,8 @@ RUN npm install
 COPY . .
 
 # Сборка TypeScript
-RUN npm run build
 RUN npx prisma generate
+RUN npm run build
 
 # Указываем порт, который будет использован приложением
 EXPOSE 8000
