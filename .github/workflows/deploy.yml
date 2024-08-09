@@ -50,7 +50,6 @@ jobs:
             -e COOKIE_SECRET=${{ secrets.COOKIE_SECRET }} \
             -e EXTERNAL_SERVICE_LOGIN=${{ secrets.EXTERNAL_SERVICE_LOGIN }} \
             -e EXTERNAL_SERVICE_PASSWORD=${{ secrets.EXTERNAL_SERVICE_PASSWORD }} \
-            -e VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }} \
             -e S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} \
             -e S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }} \
             -e S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }} \
