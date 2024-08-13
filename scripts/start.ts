@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import { config } from "#root/config.js";
-import { logger } from "#root/logger.js";
+import logger from "#root/logger.js";
 import database from "#root/services/database/index.js";
 import S3Service from "#root/services/s3/index.js";
 import { createServer } from "#root/services/server/index.js";

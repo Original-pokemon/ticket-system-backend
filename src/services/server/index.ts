@@ -1,4 +1,4 @@
-import { logger } from "#root/logger.js";
+import logger from "#root/logger.js";
 import fastify from "fastify";
 import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";

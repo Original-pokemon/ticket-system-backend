@@ -1,4 +1,4 @@
-import { logger } from "#root/logger.js";
+import logger from "#root/logger.js";
 import { PrismaClient, Prisma } from "@prisma/client";
 
 class DataBase {

@@ -9,7 +9,7 @@ import {
   ListObjectsCommandOutput,
 } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
-import { logger } from "#root/logger.js";
+import logger from "#root/logger.js";
 import { config } from "#root/config.js";
 
 class S3Service {

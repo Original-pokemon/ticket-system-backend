@@ -1,6 +1,6 @@
 import { Comment, Ticket } from "@prisma/client";
 
-import { logger } from "#root/logger.js";
+import logger from "#root/logger.js";
 import S3Service from "#root/services/s3/index.js";
 import { getAllProperties } from "#root/types.js";
 import getPropertiesGetAll from "#root/helpers/get-properties-get-all.js";
