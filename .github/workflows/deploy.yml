@@ -37,23 +37,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/backend:latest
-          docker stop backend || true
-          docker rm backend || true
-
-          docker run -d -p 3000:8000 \
-            --name backend \
-            -e NODE_ENV=production \
-            -e LOG_LEVEL=debug \
-            -e PORT=8000 \
-            -e HOST=0.0.0.0 \
-            -e 'DATABASE_URL=${{ secrets.DATABASE_URL }}'\
-            -e 'SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }}' \
-            -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            -e COOKIE_SECRET=${{ secrets.COOKIE_SECRET }} \
-            -e EXTERNAL_SERVICE_LOGIN=${{ secrets.EXTERNAL_SERVICE_LOGIN }} \
-            -e EXTERNAL_SERVICE_PASSWORD=${{ secrets.EXTERNAL_SERVICE_PASSWORD }} \
-            -e S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} \
-            -e S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }} \
-            -e S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }} \
-            -e S3_ENDPOINT=${{ secrets.S3_ENDPOINT }} \
-            ${{ secrets.DOCKER_USERNAME }}/backend:latest
+          docker-compose -f docker-compose.yml down || true
+          
+          docker-compose -f docker-compose.yml up -d --build backend elasticsearch kibana filebeat

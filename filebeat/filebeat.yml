@@ -1,0 +1,27 @@
+filebeat.inputs:
+- type: filestream
+  enabled: true
+  id: 'backend-filestream'
+  index: 'backend-%{+yyyy.MM.dd}'
+  parsers:
+    - ndjson: 
+        target: ""
+        expand_keys: true
+  
+  paths:
+    - ./app/logs/*.log 
+
+setup.kibana.host: "http://kibana:5601"
+
+output.elasticsearch:
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"
+  hosts: ["elasticsearch:9200"]
+
+monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: ["elasticsearch:9200"]
+
+processors:
+  - add_docker_metadata: ~
