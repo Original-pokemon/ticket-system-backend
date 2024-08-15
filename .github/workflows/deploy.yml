@@ -46,20 +46,17 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /home/${{ secrets.REMOTE_USER }}/ticket-system/
-
-          export DATABASE_URL=${{ secrets.DATABASE_URL }}
-          export SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }}
-          export JWT_SECRET=${{ secrets.JWT_SECRET }}
-          export COOKIE_SECRET=${{ secrets.COOKIE_SECRET }}
-          export EXTERNAL_SERVICE_LOGIN=${{ secrets.EXTERNAL_SERVICE_LOGIN }}
-          export EXTERNAL_SERVICE_PASSWORD=${{ secrets.EXTERNAL_SERVICE_PASSWORD }}
-          export S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}
-          export S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }}
-          export S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}
-          export S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}
-          export ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}
-
-          docker pull ${{ secrets.DOCKER_USERNAME }}/backend:latest
           docker-compose down || true
-        
-          docker-compose up -d 
+
+          env DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }} \
+              JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              COOKIE_SECRET=${{ secrets.COOKIE_SECRET }} \
+              EXTERNAL_SERVICE_LOGIN=${{ secrets.EXTERNAL_SERVICE_LOGIN }} \
+              EXTERNAL_SERVICE_PASSWORD=${{ secrets.EXTERNAL_SERVICE_PASSWORD }} \
+              S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} \
+              S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }} \
+              S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }} \
+              S3_ENDPOINT=${{ secrets.S3_ENDPOINT }} \
+              ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }} \
+              docker-compose up -d 
