@@ -7,7 +7,7 @@ services:
       - "3000:8000"
     environment:
       NODE_ENV: production
-      LOG_LEVEL: debug
+      LOG_LEVEL: trace
       PORT: 8000
       HOST: 0.0.0.0
       DATABASE_URL: ${DATABASE_URL}
