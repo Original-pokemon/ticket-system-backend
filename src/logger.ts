@@ -2,11 +2,7 @@ import { pino } from "pino";
 import { ecsFormat } from "@elastic/ecs-pino-format";
 import path from "node:path";
 import { promises as fs } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { config } from "#root/config.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const createLogger = async () => {
   if (config.NODE_ENV === "production") {
