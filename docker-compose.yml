@@ -56,7 +56,7 @@ services:
     environment:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     volumes:
-      - ./filebeat:/usr/share/filebeat/filebeat.yml
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./logs:/usr/share/filebeat/app/logs
     command: ["--strict.perms=false", "-e", "-d", "*"]
     depends_on:
