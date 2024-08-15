@@ -47,6 +47,6 @@ jobs:
         script: |
           cd /home/${{ secrets.REMOTE_USER }}/ticket-system/
           docker pull ${{ secrets.DOCKER_USERNAME }}/backend:latest
-          docker-compose -f docker-compose.yml down || true
-          
-          docker-compose -f docker-compose.yml up -d --build backend elasticsearch kibana filebeat
+          docker-compose down || true
+        
+          docker-compose up -d 
