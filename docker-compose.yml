@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    build: .
+    image: ${DOCKER_USERNAME}/backend:latest
     ports:
       - "3000:8000"
     environment:
@@ -28,7 +28,7 @@ services:
     container_name: elasticsearch
     mem_limit: 1073741824
     environment:
-      - xpack.security.enabled=false #disable https 
+      - xpack.security.enabled=false
       - discovery.type=single-node
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     volumes:
@@ -48,7 +48,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-    - elk
+      - elk
 
   filebeat:
     image: docker.elastic.co/beats/filebeat:8.15.0
