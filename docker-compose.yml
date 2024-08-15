@@ -26,7 +26,7 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
     container_name: elasticsearch
-    mem_limit: 512m
+    mem_limit: 1gb
     cpus: 0.5 
     environment:
       - xpack.security.enabled=false
