@@ -35,7 +35,7 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "docker-compose.yml,filebeat/filebeat.yml"
+        source: "docker-compose.yml,./filebeat/filebeat.yml"
         target: /home/${{ secrets.REMOTE_USER }}/ticket-system/
 
     - name: Deploy to Server
