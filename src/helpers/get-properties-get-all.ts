@@ -8,7 +8,7 @@ const getPropertiesGetAll = (
 
   const where: WhereType = {};
   const orderBy: { [key: string]: string } = {};
-  const take = end ? end - start : 0;
+  const take = end ? end - start : undefined;
 
   if (id) {
     where.id = { in: id };
@@ -32,7 +32,7 @@ const getPropertiesGetAll = (
   return {
     where,
     skip: start,
-    take: take > 0 ? take : 0,
+    take: take ? (take > 0 ? take : 0) : undefined,
     include,
   };
 };
