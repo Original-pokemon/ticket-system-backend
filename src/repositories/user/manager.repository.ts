@@ -27,7 +27,14 @@ class ManagerRepository extends Repository {
 
   getAll = async (properties: getAllProperties) => {
     const result = await this.client.manager.findManyAndCount(
-      getPropertiesGetAll(properties, { user: true }),
+      getPropertiesGetAll(properties, {
+        petrol_stations: {
+          include: {
+            tickets: true,
+          },
+        },
+        user: true,
+      }),
     );
 
     return result;
