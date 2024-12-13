@@ -36,7 +36,6 @@ class ManagerRepository extends Repository {
         user: true,
       }),
     );
-
     return result;
   };
 
