@@ -1,7 +1,6 @@
 const petrolStationsProperties = {
   id: { type: "string" },
   bush_id: { type: "string" },
-  user: { $ref: "user" },
 };
 
 const PetrolStationSchema = {
@@ -9,7 +8,12 @@ const PetrolStationSchema = {
   title: "Petrol station",
   required: ["id", "bush_id"],
   type: "object",
-  properties: petrolStationsProperties,
+  properties: {
+    ...petrolStationsProperties,
+    user: { $ref: "user" },
+    tickets: { type: "array", items: { $ref: "ticket" } },
+    managers: { type: "array", items: { $ref: "manager" } },
+  },
 };
 
 const PetrolStationInfoSchema = {

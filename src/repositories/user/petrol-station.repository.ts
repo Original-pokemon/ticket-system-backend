@@ -13,7 +13,11 @@ class PetrolStationRepository extends Repository {
 
   getAll = async (properties: getAllProperties) => {
     const result = await this.client.petrolStation.findManyAndCount(
-      getPropertiesGetAll(properties, { user: true }),
+      getPropertiesGetAll(properties, {
+        tickets: true,
+        managers: true,
+        user: true,
+      }),
     );
 
     return result;
