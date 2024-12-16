@@ -1,24 +1,26 @@
 const ManagerProperties = {
   id: { type: "string" },
   bush_id: { type: "string" },
-  user: { $ref: "user" },
-  petrol_stations: {
-    type: "array",
-    items: {
-      type: "object",
-      properties: {
-        id: { type: "string" },
-        bush_id: { type: "string" },
-        tickets: { type: "array", items: { $ref: "ticket" } },
-      },
-    },
-  },
 };
 
 const ManagerSchema = {
   $id: "manager",
   type: "object",
-  properties: ManagerProperties,
+  properties: {
+    ...ManagerProperties,
+    user: { $ref: "user" },
+    petrol_stations: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          bush_id: { type: "string" },
+          tickets: { type: "array", items: { $ref: "ticket" } },
+        },
+      },
+    },
+  },
 };
 
 const ManagerInfoSchema = {
