@@ -41,4 +41,5 @@ export const APIRoute = {
     Update: `/petrol-station/:id`,
     Delete: `/petrol-station/:id`,
   },
+  CheckAuth: "/check-auth",
 } as const;

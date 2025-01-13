@@ -14,9 +14,14 @@ import { statusHistoryRouters } from "./ticket/status-history.router.js";
 import { statusRouters } from "./ticket/status.router.js";
 import { tagWordRouters } from "./ticket/tag-words.router.js";
 import { ticketRouters } from "./ticket/ticket.router.js";
+import { APIRoute } from "./user/api-route.js";
 
 export const routers: FastifyPluginCallback = (instance, _options, done) => {
   instance.addHook("preHandler", authenticate);
+
+  instance.get(APIRoute.CheckAuth, (request, reply) => {
+    reply.send({ ok: true });
+  });
 
   instance.register(taskPerformerRouters);
   instance.register(managerRouters);
