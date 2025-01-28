@@ -26,21 +26,16 @@ class TaskPerformerRepository extends Repository {
       include: {
         category: {
           include: {
-            tickets: {
-              select: {
-                id: true,
-              },
-            },
+            tickets: true,
           },
         },
-        user: true,
       },
     });
 
     if (taskPerformer) {
       return {
         ...taskPerformer,
-        tickets: taskPerformer.category?.tickets.map((ticket) => ticket.id),
+        tickets: taskPerformer.category?.tickets.map((ticket) => ticket),
       };
     }
 

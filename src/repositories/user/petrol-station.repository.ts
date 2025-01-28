@@ -45,8 +45,7 @@ class PetrolStationRepository extends Repository {
 
     if (petrolStation) {
       const managers = petrolStation?.managers.map((item) => item.id);
-      const tickets = petrolStation?.tickets.map((item) => item.id);
-      return { ...petrolStation, managers, tickets };
+      return { ...petrolStation, managers };
     }
 
     return petrolStation;

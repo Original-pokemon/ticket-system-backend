@@ -21,7 +21,7 @@ const taskPerformerInfoSchema = {
   type: "object",
   properties: {
     ...taskPerformerProperties,
-    tickets: { type: "array", items: { type: "string" } },
+    tickets: { type: "array", items: { $ref: "ticket" } },
   },
 };
 

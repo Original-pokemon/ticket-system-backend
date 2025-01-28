@@ -30,7 +30,7 @@ const PetrolStationInfoSchema = {
     },
     tickets: {
       type: "array",
-      items: { type: "string" },
+      items: { $ref: "ticket" },
     },
     user: { $ref: "user" },
   },
