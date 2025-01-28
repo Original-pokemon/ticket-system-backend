@@ -18,7 +18,7 @@ const getManagerSchema = createRouteSchema({
     id: { type: "string" },
   },
   response: {
-    200: managerInfoSchema,
+    200: managerSchema,
     404: { $ref: "notFoundSchema" },
   },
 });

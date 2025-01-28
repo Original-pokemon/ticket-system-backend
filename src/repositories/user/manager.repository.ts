@@ -44,26 +44,13 @@ class ManagerRepository extends Repository {
       where: { id },
       include: {
         petrol_stations: {
-          select: {
-            id: true,
-            tickets: {
-              select: {
-                id: true,
-              },
-            },
+          include: {
+            tickets: true,
           },
         },
         user: true,
       },
     });
-
-    if (manager) {
-      return {
-        ...manager,
-        tickets: convertPetrolStationsToTicket(manager.petrol_stations),
-        petrol_stations: manager.petrol_stations.map((station) => station.id),
-      };
-    }
 
     return manager;
   };
