@@ -29,11 +29,7 @@ class PetrolStationRepository extends Repository {
         id,
       },
       include: {
-        tickets: {
-          select: {
-            id: true,
-          },
-        },
+        tickets: true,
         managers: {
           select: {
             id: true,
