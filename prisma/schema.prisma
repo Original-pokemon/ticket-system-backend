@@ -69,18 +69,17 @@ model Category {
   id              String          @id
   description     String
   words           TagWord[]
-  task_performers TaskPerformer[]
+  task_performers TaskPerformer[] @relation("CategoryToTaskPerformer")
   tickets         Ticket[]
 
   @@map("categores")
 }
 
 model TaskPerformer {
-  category_id String?
   bush_id     String
   id          String    @id
   bush        Bush      @relation(fields: [bush_id], references: [id])
-  category    Category? @relation(fields: [category_id], references: [id])
+  category    Category[] @relation("CategoryToTaskPerformer")
   user        User      @relation(fields: [id], references: [id])
 
   @@map("task_performers")

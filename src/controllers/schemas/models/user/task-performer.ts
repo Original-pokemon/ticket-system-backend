@@ -1,7 +1,6 @@
 const taskPerformerProperties = {
   id: { type: "string" },
   bush_id: { type: "string" },
-  category_id: { type: ["string", "null"] },
   user: { $ref: "user" },
 };
 
@@ -22,6 +21,12 @@ const taskPerformerInfoSchema = {
   properties: {
     ...taskPerformerProperties,
     tickets: { type: "array", items: { $ref: "ticket" } },
+    category: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
   },
 };
 

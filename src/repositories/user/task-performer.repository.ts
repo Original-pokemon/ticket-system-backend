@@ -29,24 +29,41 @@ class TaskPerformerRepository extends Repository {
             tickets: true,
           },
         },
+        user: true,
       },
     });
 
     if (taskPerformer) {
       return {
         ...taskPerformer,
-        tickets: taskPerformer.category?.tickets.map((ticket) => ticket),
+        category: taskPerformer.category.map((category) => category.id),
+        tickets: taskPerformer.category.flatMap((category) => category.tickets),
       };
     }
 
     return taskPerformer;
   };
 
-  update = async ({ id, ...data }: TaskPerformer): Promise<TaskPerformer> => {
-    const { bush_id, category_id } = data;
-    if (!bush_id || !category_id) {
+  update = async ({ id, ...data }: TaskPerformer & { category: string[] }) => {
+    const { bush_id, category } = data;
+    if (!bush_id || !category) {
       throw new Error("bush_id and category_id are required");
     }
+
+    const categoriesObject = category.map((categoryId) => ({
+      id: categoryId,
+    }));
+
+    await this.client.taskPerformer.update({
+      where: {
+        id,
+      },
+      data: {
+        category: {
+          set: [],
+        },
+      },
+    });
 
     const updateTaskPerformer = await this.client.taskPerformer.update({
       data: {
@@ -56,9 +73,7 @@ class TaskPerformerRepository extends Repository {
           },
         },
         category: {
-          connect: {
-            id: category_id,
-          },
+          connect: categoriesObject,
         },
       },
       where: { id },
