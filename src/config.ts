@@ -17,6 +17,7 @@ const configSchema = z.object({
   S3_ACCESS_KEY: z.string(),
   S3_SECRET_KEY: z.string(),
   S3_ENDPOINT: z.string(),
+  TELEGRAM_BOT_TOKEN: z.string(),
 });
 
 const parseConfig = (environment: NodeJS.ProcessEnv) => {

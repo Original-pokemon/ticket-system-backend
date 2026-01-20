@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    image: ${DOCKER_USERNAME}/backend:latest
+    image: ${DOCKER_USERNAME}/ticket-system_backend:latest
     ports:
       - "3000:8000"
     environment:
