@@ -16,18 +16,23 @@ export function verifyTelegramAuth(
   const { hash, ...dataToCheck } = data;
 
   // Create data-check-string
-  const checkString = Object.keys(dataToCheck)
-    .sort()
-    .map((key) => `${key}=${dataToCheck[key as keyof typeof dataToCheck]}`)
-    .join("\n");
+  const keys = (
+    Object.keys(dataToCheck) as (keyof typeof dataToCheck)[]
+  ).sort();
+  const dataArray = keys.map((key) => `${key}=${dataToCheck[key]}`);
+  const checkString = dataArray.join("\n");
 
+  // ДЛЯ ОТЛАДКИ: раскомментируй, чтобы увидеть реальную структуру
+  // console.log("--- DEBUG CHECK STRING ---");
+  // console.log(checkString);
+  // console.log("--------------------------");
   // Create secret key
-  const secretKey = crypto.createHash("sha256").update(botToken).digest("hex");
+  const secretKey = crypto.createHash("sha256").update(botToken).digest();
 
   // Calculate HMAC-SHA256
   const calculatedHash = crypto
-    .createHmac("sha256", secretKey)
-    .update(checkString, "utf8")
+    .createHmac("sha256", new Uint8Array(secretKey))
+    .update(checkString)
     .digest("hex");
 
   return calculatedHash === hash;
